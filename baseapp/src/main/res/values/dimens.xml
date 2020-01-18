@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="bottomNavigation_minWidth">80dp</dimen>
+    <dimen name="bottomNavigation_maxWidth">168dp</dimen>
+
+    <!-- region elevation-->
+    <dimen name="dialog">24dp</dimen>
+    <dimen name="modalBottomSheet">16dp</dimen>
+    <dimen name="modalSideSheet">16dp</dimen>
+    <dimen name="navigationDrawer">16dp</dimen>
+    <dimen name="fabPressed">12dp</dimen>
+    <dimen name="standardBottomSheet">8dp</dimen>
+    <dimen name="standardSideSheet">8dp</dimen>
+    <dimen name="bottomNavigationBar">8dp</dimen>
+    <dimen name="bottomAppAar">8dp</dimen>
+    <dimen name="menus">8dp</dimen>
+    <dimen name="cardPickedUp">8dp</dimen>
+    <dimen name="containedButtonPressed">8dp</dimen>
+    <dimen name="fabResting">6dp</dimen>
+    <dimen name="snackbar">6dp</dimen>
+    <dimen name="topAppBar">4dp</dimen>
+    <dimen name="refreshIndicator">3dp</dimen>
+    <dimen name="searchBarScrolled">3dp</dimen>
+    <dimen name="containedButtonResting">2dp</dimen>
+    <dimen name="searchBarResting">1dp</dimen>
+    <dimen name="cardResting">1dp</dimen>
+    <dimen name="switchButton">1dp</dimen>
+    <dimen name="textButton">0dp</dimen>
+    <dimen name="edittextSize">292dp</dimen>
+
+
+    <dimen name="tenDp">10dp</dimen>
+    <dimen name="fiftyTwoDp">52dp</dimen>
+    <dimen name="stroke">1.2dp</dimen>
+    <dimen name="fourteenDp">14dp</dimen>
+    <dimen name="fourDp">4dp</dimen>
+    <dimen name="sixteenSp">16sp</dimen>
+    <dimen name="sixteenDp">16dp</dimen>
+    <dimen name="packItem">40dp</dimen>
+    <dimen name="defaultRadius">14dp</dimen>
+    <!--endregion-->
+    <dimen name="mtrl_textinput_box_stroke_width_default" tools:override="true">1dp</dimen>
+    <dimen name="mtrl_textinput_box_stroke_width_focused" tools:override="true">1.5dp</dimen>
+    <dimen name="dialogChooseRealPersonImageDim">20dp</dimen>
+    <dimen name="dialogChooseRealPersonStartEndMargin">8dp</dimen>
+    <dimen name="spinnerHeight">52dp</dimen>
+    <dimen name="defaultMargin">32dp</dimen>
+    <dimen name="strokeCard">2dp</dimen>
+</resources>

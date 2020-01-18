@@ -1,0 +1,81 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation project(':basedevice')
+    implementation project(':basedata')
+    implementation project(':basedomain')
+
+    implementation "com.fatboyindustrial.gson-jodatime-serialisers:gson-jodatime-serialisers:1.8.0"
+    implementation "com.github.kouroshmsv.baseandroid:baseapp:${baseAndroid}"
+    implementation "com.github.kouroshmsv.baseandroid:accountmanager:${baseAndroid}"
+    implementation "com.github.kouroshmsv.baseandroid:basedomain:${baseAndroid}"
+
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0'
+    implementation 'com.github.kouroshmsv:metamorphosis:0.0.4'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.13'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'com.fede987:status-bar-alert:1.0.2'
+    implementation "joda-time:joda-time:2.10.1"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}"
+    implementation "androidx.appcompat:appcompat:${appcompat}"
+    implementation "androidx.core:core-ktx:${appcompat}"
+    implementation "androidx.constraintlayout:constraintlayout:${constraintLayout}"
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    implementation "androidx.lifecycle:lifecycle-extensions:${liveData}"
+    implementation "androidx.lifecycle:lifecycle-livedata-core:${liveData}"
+    implementation "androidx.lifecycle:lifecycle-common-java8:${liveData}"
+
+    implementation "android.arch.navigation:navigation-fragment-ktx:${nav_version}"
+    implementation "android.arch.navigation:navigation-ui-ktx:${nav_version}"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutines}"
+
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    kapt 'com.android.databinding:compiler:3.1.4'
+    implementation 'me.dm7.barcodescanner:zbar:1.9.13'
+    implementation 'io.github.inflationx:calligraphy3:3.1.1'
+    implementation 'io.github.inflationx:viewpump:2.0.3'
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    implementation 'org.koin:koin-android:2.0.1'
+
+}

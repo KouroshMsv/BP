@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="colorPrimary">#22a599</color>
+    <color name="colorPrimaryDark">#00897b</color>
+    <color name="colorAccent">#536dfe</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#ffffff</color>
+    <color name="white_two">#F6f6f6</color>
+    <color name="white_three">#ebebeb</color>
+    <color name="white_four">#d7d7d7</color>
+    <color name="hint">#909090</color>
+    <color name="gray">#80ffffff</color>
+    <color name="black_20">#33000000</color>
+    <color name="black_50">#80000000</color>
+    <color name="black_80">#cc000000</color>
+    <color name="black">#000000</color>
+    <color name="marigold">#ffc107</color>
+    <color name="orange_yellow">#ffa000</color>
+    <color name="azure">#03a9f4</color>
+    <color name="bright_sky_blue">#00b0ff</color>
+    <color name="bermuda">#91d1cb</color>
+    <color name="turquoise">#00bba8</color>
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true" >#22a599</color>
+    <color name="tealish">#26a69a</color>
+    <color name="mtrl_textinput_hovered_box_stroke_color" tools:override="true" >#00897b</color>
+    <color name="mtrl_textinput_focused_box_stroke_color" tools:override="true" >#00897b</color>
+    <color name="lightish_blue">#536dfe</color>
+    <color name="purplish_brown">#60404a</color>
+    <color name="tomato">#f44336</color>
+    <color name="tint_gray">#7e7e7f</color>
+    <color name="warm_grey_two">#a0a0a0</color>
+    <color name="heliotrope">#e040fb</color>
+    <color name="light_gold">#ffd54f</color>
+    <color name="shamrock_green">#00c853</color>
+</resources>

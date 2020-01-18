@@ -12,11 +12,12 @@ import dev.kourosh.baseapp.parseOnMain
 import dev.kourosh.baseapp.start
 import dev.kourosh.basedomain.launchIO
 
-abstract class LoginActivityVM(private val uc: UseCaseFactory) : BaseActivityViewModel() {
+abstract class LoginActivityVM : BaseActivityViewModel() {
     var userName = ObservableField<String>()
     var password = ObservableField<String>()
     var isLoading = ObservableBoolean()
     var successLogin = SingleLiveEvent<Nothing>()
+    abstract val uc: UseCaseFactory
     fun login() {
         hideKeyboard()
         when {

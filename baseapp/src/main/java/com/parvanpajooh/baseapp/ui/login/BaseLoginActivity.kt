@@ -11,11 +11,11 @@ import com.parvanpajooh.baseapp.ui.CheckTimeDialog
 import com.parvanpajooh.baseapp.ui.main.BaseMainActivity
 import dev.kourosh.baseapp.Helpers
 
-abstract class BaseLoginActivity<B : ViewDataBinding,MA:BaseMainActivity<B>>(
+abstract class BaseLoginActivity<B : ViewDataBinding>(
     @LayoutRes private val layoutId: Int,
     @IdRes private val variable: Int,
     viewModelInstance: LoginActivityVM,
-    private val mainActivityClass: Class<MA>
+    private val mainActivityClass: Class<Any>
 ) : BaseActivity<B, LoginActivityVM>(
     layoutId, variable, viewModelInstance
 ) {

@@ -19,7 +19,6 @@ import dev.kourosh.baseapp.Helpers
 import dev.kourosh.baseapp.hideKeyboard
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.koin.core.KoinComponent
 
 
 abstract class BaseMainActivity<B : ViewDataBinding>(
@@ -34,7 +33,7 @@ abstract class BaseMainActivity<B : ViewDataBinding>(
     layoutId,
     variable,
     viewModelInstance, neededPermissions
-), KoinComponent {
+) {
     private lateinit var navController: NavController
     private var destId = 0
     private lateinit var toolbar: Toolbar

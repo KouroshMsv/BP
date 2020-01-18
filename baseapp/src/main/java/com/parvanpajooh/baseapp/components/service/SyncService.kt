@@ -4,9 +4,8 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.parvanpajooh.basedata.sync.BaseSyncAdapter
-import org.koin.core.KoinComponent
 
-abstract class SyncService : Service(), KoinComponent {
+abstract class SyncService : Service(){
 
     private val sSyncAdapterLock = Any()
     private var syncAdapter: BaseSyncAdapter? = null

@@ -14,8 +14,6 @@ import dev.kourosh.basedomain.classOf
 import dev.kourosh.basedomain.launchIO
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.InetSocketAddress
@@ -116,8 +114,7 @@ fun isOnline2(): Deferred<Boolean> {
     return response
 }
 
-fun KoinComponent.startSync() {
-    val accountHelper: AuthenticationCRUD by inject()
+fun startSync(accountHelper: AuthenticationCRUD) {
     val settingsBundle = Bundle()
     settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
     settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)

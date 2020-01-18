@@ -3,6 +3,7 @@ package com.parvanpajooh.baseapp.ui.login
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import com.parvanpajooh.baseapp.infrastructure.mvvm.activity.BaseActivityViewModel
+import com.parvanpajooh.basedomain.interactor.factory.UseCaseFactory
 import com.parvanpajooh.basedomain.models.request.LoginReq
 import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
@@ -11,7 +12,7 @@ import dev.kourosh.baseapp.parseOnMain
 import dev.kourosh.baseapp.start
 import dev.kourosh.basedomain.launchIO
 
-abstract class LoginActivityVM : BaseActivityViewModel() {
+abstract class LoginActivityVM(private val uc: UseCaseFactory) : BaseActivityViewModel() {
     var userName = ObservableField<String>()
     var password = ObservableField<String>()
     var isLoading = ObservableBoolean()

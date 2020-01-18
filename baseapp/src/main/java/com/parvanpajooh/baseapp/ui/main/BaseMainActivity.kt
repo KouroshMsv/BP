@@ -43,7 +43,6 @@ abstract class BaseMainActivity<B : ViewDataBinding>(
         super.onCreate(savedInstanceState)
         toolbar = findViewById(toolbarId)
         drawerLayout = findViewById(drawerLayoutId)
-        startSync()
         initNavController()
     }
 

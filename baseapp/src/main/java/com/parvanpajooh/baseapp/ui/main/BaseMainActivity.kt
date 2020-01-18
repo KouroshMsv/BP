@@ -14,7 +14,7 @@ import androidx.navigation.ui.NavigationUI
 import com.parvanpajooh.baseapp.infrastructure.mvvm.activity.BaseActivity
 import com.parvanpajooh.baseapp.ui.CheckTimeDialog
 import com.parvanpajooh.baseapp.utils.startSync
-import com.parvanpajooh.ecourier.models.eventbus.TitleEvent
+import com.parvanpajooh.baseapp.models.eventbus.TitleEvent
 import dev.kourosh.baseapp.Helpers
 import dev.kourosh.baseapp.hideKeyboard
 import org.greenrobot.eventbus.Subscribe

@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Binder
 import com.parvanpajooh.baseapp.enums.NetworkStatus
 import com.parvanpajooh.baseapp.utils.isOnline
-import com.parvanpajooh.ecourier.models.eventbus.NetworkEvent
+import com.parvanpajooh.baseapp.models.eventbus.NetworkEvent
 import dev.kourosh.baseapp.onMain
 import dev.kourosh.basedomain.launchIO
 import io.reactivex.Observable

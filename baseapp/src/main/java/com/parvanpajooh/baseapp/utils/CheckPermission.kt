@@ -1,4 +1,4 @@
-package com.parvanpajooh.ecourier.utils
+package com.parvanpajooh.baseapp.utils
 
 import android.Manifest
 import android.app.Activity

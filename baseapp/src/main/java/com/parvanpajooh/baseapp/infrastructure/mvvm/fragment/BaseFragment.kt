@@ -1,11 +1,9 @@
 package com.parvanpajooh.baseapp.infrastructure.mvvm.fragment
 
-import android.os.Bundle
-import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
-import com.parvanpajooh.ecourier.models.eventbus.TitleEvent
+import com.parvanpajooh.baseapp.models.eventbus.TitleEvent
 import dev.kourosh.baseapp.infrastructure.mvvm.fragment.BaseFragment
 import org.greenrobot.eventbus.EventBus
 

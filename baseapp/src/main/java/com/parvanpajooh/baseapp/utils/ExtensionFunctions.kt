@@ -9,10 +9,6 @@ import com.parvanpajooh.baseapp.enums.NetworkStatus
 import com.parvanpajooh.baseapp.infrastructure.dialog.TwoStateMessageDialog
 import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
-import com.parvanpajooh.ecourier.utils.PermissionRequest
-import com.parvanpajooh.ecourier.utils.PermissionResponse
-import com.parvanpajooh.ecourier.utils.checkPermission
-import com.parvanpajooh.ecourier.utils.requestPermission
 import dev.kourosh.accountmanager.accountmanager.AuthenticationCRUD
 import dev.kourosh.basedomain.classOf
 import dev.kourosh.basedomain.launchIO

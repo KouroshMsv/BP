@@ -15,8 +15,8 @@ import com.parvanpajooh.baseapp.enums.NetworkStatus
 import com.parvanpajooh.baseapp.infrastructure.App
 import com.parvanpajooh.baseapp.utils.checkPermission
 import com.parvanpajooh.baseapp.utils.isOnline
-import com.parvanpajooh.ecourier.models.eventbus.NetworkEvent
-import com.parvanpajooh.ecourier.utils.PermissionRequest
+import com.parvanpajooh.baseapp.models.eventbus.NetworkEvent
+import com.parvanpajooh.baseapp.utils.PermissionRequest
 import dev.kourosh.baseapp.infrastructure.mvvm.activity.BaseActivity
 import dev.kourosh.baseapp.onMain
 import dev.kourosh.basedomain.launchIO

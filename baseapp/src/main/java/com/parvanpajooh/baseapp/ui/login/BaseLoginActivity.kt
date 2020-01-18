@@ -10,10 +10,10 @@ import com.parvanpajooh.baseapp.infrastructure.mvvm.activity.BaseActivity
 import com.parvanpajooh.baseapp.ui.CheckTimeDialog
 import dev.kourosh.baseapp.Helpers
 
-class BaseLoginActivity<B : ViewDataBinding>(
+abstract class BaseLoginActivity<B : ViewDataBinding>(
     @LayoutRes private val layoutId: Int,
     @IdRes private val variable: Int,
-    viewModelInstance: LoginActivityVM = LoginActivityVM(),
+    viewModelInstance: LoginActivityVM,
     private val mainActivityClass: Class<AppCompatActivity>
 ) : BaseActivity<B, LoginActivityVM>(
     layoutId, variable, viewModelInstance

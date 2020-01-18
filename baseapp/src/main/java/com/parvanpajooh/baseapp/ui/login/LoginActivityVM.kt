@@ -11,7 +11,7 @@ import dev.kourosh.baseapp.parseOnMain
 import dev.kourosh.baseapp.start
 import dev.kourosh.basedomain.launchIO
 
-class LoginActivityVM : BaseActivityViewModel() {
+abstract class LoginActivityVM : BaseActivityViewModel() {
     var userName = ObservableField<String>()
     var password = ObservableField<String>()
     var isLoading = ObservableBoolean()

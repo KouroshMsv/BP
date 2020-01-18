@@ -15,6 +15,7 @@ import com.parvanpajooh.baseapp.infrastructure.mvvm.activity.BaseActivity
 import com.parvanpajooh.baseapp.ui.CheckTimeDialog
 import com.parvanpajooh.baseapp.utils.startSync
 import com.parvanpajooh.baseapp.models.eventbus.TitleEvent
+import com.parvanpajooh.baseapp.ui.login.LoginActivityVM
 import dev.kourosh.baseapp.Helpers
 import dev.kourosh.baseapp.hideKeyboard
 import org.greenrobot.eventbus.Subscribe
@@ -27,11 +28,12 @@ abstract class BaseMainActivity<B : ViewDataBinding>(
     @IdRes private val variable: Int,
     @IdRes private val toolbarId: Int,
     @IdRes private val drawerLayoutId: Int,
-    @IdRes private val navHostId: Int
+    @IdRes private val navHostId: Int,
+    viewModelInstance: MainActivityVM
 ) : BaseActivity<B, MainActivityVM>(
     layoutId,
     variable,
-    MainActivityVM()
+    viewModelInstance
 ), KoinComponent {
     private lateinit var navController: NavController
     private var destId = 0

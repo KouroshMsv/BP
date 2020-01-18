@@ -1,6 +1,6 @@
 package com.parvanpajooh.basedomain.repository
 
-interface AppModuleRepository {
+open interface BaseAppModuleRepository {
     fun goToLogin()
 
 }

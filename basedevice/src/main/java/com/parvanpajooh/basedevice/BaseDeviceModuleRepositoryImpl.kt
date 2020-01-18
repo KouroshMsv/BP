@@ -3,16 +3,16 @@ package com.parvanpajooh.basedevice
 import android.app.Activity
 import com.parvanpajooh.basedomain.models.Location
 import com.parvanpajooh.basedomain.models.response.TokenRes
-import com.parvanpajooh.basedomain.repository.DeviceModuleRepository
+import com.parvanpajooh.basedomain.repository.BaseDeviceModuleRepository
 import dev.kourosh.accountmanager.UserDataKeys
 import dev.kourosh.accountmanager.accountmanager.AuthenticationCRUD
 import dev.kourosh.basedomain.Result
 import dev.kourosh.basedomain.map
 
-open class DeviceModuleRepositoryImpl(
+abstract class BaseDeviceModuleRepositoryImpl(
     private val authenticationCRUD: AuthenticationCRUD,
     private val locationManager: LocationManager
-) : DeviceModuleRepository {
+) : BaseDeviceModuleRepository {
     override fun isAccountValid(username: String) = authenticationCRUD.isAvailableAccount(username)
     override fun updateAccount(username: String, data: TokenRes) {
         authenticationCRUD.updateUserData(

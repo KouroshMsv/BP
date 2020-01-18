@@ -4,7 +4,7 @@ import android.app.Activity
 import com.parvanpajooh.basedomain.models.response.TokenRes
 import dev.kourosh.basedomain.Result
 
-open interface DeviceModuleRepository {
+open interface BaseDeviceModuleRepository {
 
     fun isAccountValid(username: String): Boolean
     fun updateAccount(username: String, data: TokenRes)

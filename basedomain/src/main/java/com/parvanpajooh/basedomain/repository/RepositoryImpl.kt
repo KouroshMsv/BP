@@ -5,11 +5,11 @@ import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
 import dev.kourosh.basedomain.*
 
-open class RepositoryImpl(
-    private val appContract: AppModuleRepository,
-    private val dataContract: DataModuleRepository,
-    private val deviceContract: DeviceModuleRepository
-) :  Repository {
+abstract class RepositoryImpl(
+    private val appContract: BaseAppModuleRepository,
+    private val dataContract: BaseDataModuleRepository,
+    private val deviceContract: BaseDeviceModuleRepository
+) :  BaseRepository {
 
     protected suspend fun getToken(): Result<String> {
         val userName: String = PrefHelper.get(BasePrefKey.USERNAME.name)

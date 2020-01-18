@@ -3,7 +3,7 @@ package com.parvanpajooh.basedata
 import com.parvanpajooh.basedata.net.RestApi
 import com.parvanpajooh.basedata.net.models.Token
 import com.parvanpajooh.basedomain.models.response.TokenRes
-import com.parvanpajooh.basedomain.repository.DataModuleRepository
+import com.parvanpajooh.basedomain.repository.BaseDataModuleRepository
 import dev.kourosh.basedomain.ErrorCode
 import dev.kourosh.basedomain.Result
 import dev.kourosh.basedomain.logW
@@ -11,9 +11,9 @@ import org.json.JSONObject
 import retrofit2.HttpException
 import java.net.HttpURLConnection
 
-abstract class DataModuleRepositoryImpl(
+abstract class BaseDataModuleRepositoryImpl(
     private val restApi: RestApi
-) : DataModuleRepository {
+) : BaseDataModuleRepository {
 
     override suspend fun getTokenWithAccount(username: String, password: String): Result<TokenRes> {
         return checkResponseError {

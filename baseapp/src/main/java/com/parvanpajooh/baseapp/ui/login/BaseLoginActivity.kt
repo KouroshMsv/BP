@@ -9,15 +9,17 @@ import androidx.lifecycle.Observer
 import com.parvanpajooh.baseapp.infrastructure.mvvm.activity.BaseActivity
 import com.parvanpajooh.baseapp.ui.CheckTimeDialog
 import com.parvanpajooh.baseapp.ui.main.BaseMainActivity
+import com.parvanpajooh.baseapp.utils.PermissionRequest
 import dev.kourosh.baseapp.Helpers
 
 abstract class BaseLoginActivity<B : ViewDataBinding,T:Any>(
     @LayoutRes private val layoutId: Int,
     @IdRes private val variable: Int,
     viewModelInstance: LoginActivityVM,
-    private val mainActivityClass: Class<T>
+    private val mainActivityClass: Class<T>,
+    neededPermissions: List<PermissionRequest>
 ) : BaseActivity<B, LoginActivityVM>(
-    layoutId, variable, viewModelInstance
+    layoutId, variable, viewModelInstance,neededPermissions
 ) {
 
     override fun observeVMVariable() {

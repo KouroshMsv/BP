@@ -12,10 +12,9 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.parvanpajooh.baseapp.infrastructure.mvvm.activity.BaseActivity
-import com.parvanpajooh.baseapp.ui.CheckTimeDialog
-import com.parvanpajooh.baseapp.utils.startSync
 import com.parvanpajooh.baseapp.models.eventbus.TitleEvent
-import com.parvanpajooh.baseapp.ui.login.LoginActivityVM
+import com.parvanpajooh.baseapp.ui.CheckTimeDialog
+import com.parvanpajooh.baseapp.utils.PermissionRequest
 import dev.kourosh.baseapp.Helpers
 import dev.kourosh.baseapp.hideKeyboard
 import org.greenrobot.eventbus.Subscribe
@@ -29,11 +28,12 @@ abstract class BaseMainActivity<B : ViewDataBinding>(
     @IdRes private val toolbarId: Int,
     @IdRes private val drawerLayoutId: Int,
     @IdRes private val navHostId: Int,
-    viewModelInstance: MainActivityVM
+    viewModelInstance: MainActivityVM,
+    neededPermissions: List<PermissionRequest>
 ) : BaseActivity<B, MainActivityVM>(
     layoutId,
     variable,
-    viewModelInstance
+    viewModelInstance, neededPermissions
 ), KoinComponent {
     private lateinit var navController: NavController
     private var destId = 0

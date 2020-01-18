@@ -32,7 +32,8 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseActivityViewModel>(
     @LayoutRes private val layoutId: Int,
     @IdRes private val variable: Int,
     viewModelInstance: VM,
-    private val checkPermission: Boolean = true
+    private val neededPermissions:List<PermissionRequest>
+
 ) : BaseActivity<B, VM>(layoutId, variable, viewModelInstance) {
     private lateinit var statusBarAlertView: StatusBarAlert.Builder
     private lateinit var notworkStatusIntent: Intent
@@ -109,8 +110,8 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseActivityViewModel>(
 
     override fun onResume() {
         super.onResume()
-        if (checkPermission)
-            checkPermission(true)
+        if (neededPermissions.isNotEmpty())
+            checkPermission(neededPermissions)
         (applicationContext as App).currentActivity=this
     }
 
@@ -120,8 +121,8 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseActivityViewModel>(
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (checkPermission && requestCode in PermissionRequest.values().map { it.requestCode })
-            checkPermission(true)
+        if (neededPermissions.isNotEmpty() && requestCode in PermissionRequest.values().map { it.requestCode })
+            checkPermission(neededPermissions)
     }
 
 

@@ -128,14 +128,8 @@ fun KoinComponent.startSync() {
     )
 }
 
-fun AppCompatActivity.checkPermission(checkNext: Boolean): Boolean {
-    val neededPermissions = listOf(
-        PermissionRequest.ACCESS_FINE_LOCATION,
-        PermissionRequest.CALL_PHONE,
-        PermissionRequest.CAMERA,
-        PermissionRequest.WRITE_EXTERNAL_STORAGE
-    )
-    var checkNext = checkNext
+fun AppCompatActivity.checkPermission(neededPermissions: List<PermissionRequest>): Boolean {
+    var checkNext = true
     neededPermissions.forEach { permissionRequest ->
         when (checkPermission(permissionRequest)) {
             PermissionResponse.GRANTED -> {

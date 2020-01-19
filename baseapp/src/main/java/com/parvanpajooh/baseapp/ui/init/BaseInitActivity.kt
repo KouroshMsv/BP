@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_init.*
 import java.io.File
 
 
-abstract class InitActivity<MAIN : Any, LOGIN : Any>(
+abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
     updateUrl: String,
     private val apkName: String,
     private val versionCode: Int,

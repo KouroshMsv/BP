@@ -82,7 +82,7 @@ abstract class BaseLoginActivity<T : Any>(
                 MessageType.WARNING
             )
             else -> {
-                progressView.visibility = View.VISIBLE
+                loading(true)
                 launchIO {
                     uc.login().execute(
                         LoginReq(
@@ -93,6 +93,7 @@ abstract class BaseLoginActivity<T : Any>(
                         .parseOnMain({
                             initialize()
                         }, { message, errorCode ->
+                            loading(false)
                             showSnackBar(message, MessageType.ERROR)
                         })
                 }
@@ -115,13 +116,13 @@ abstract class BaseLoginActivity<T : Any>(
 
     private fun initialize() {
         if (!PrefHelper.get(BasePrefKey.INITIALIZED.name, false)) {
-            progressView.visibility = View.VISIBLE
+            loading(true)
             launchIO {
                 uc.initialize().execute().parseOnMain({
-                    progressView.visibility = View.GONE
+                    loading(false)
                     startMainActivity()
                 }, { message, errorCode ->
-                    progressView.visibility = View.GONE
+                    loading(false)
                     showSnackBar(message, MessageType.WARNING)
 
                     showNetworkError()
@@ -131,6 +132,23 @@ abstract class BaseLoginActivity<T : Any>(
         } else {
             startMainActivity()
         }
+    }
+
+    private fun loading(loading: Boolean) {
+        if (loading) {
+            progressView.visibility = View.VISIBLE
+            loginButton.isEnabled=false
+            username.isEnabled=false
+            password.isEnabled=false
+        } else {
+            progressView.visibility = View.GONE
+            loginButton.isEnabled=true
+            username.isEnabled=true
+            password.isEnabled=true
+
+        }
+
+
     }
 
 

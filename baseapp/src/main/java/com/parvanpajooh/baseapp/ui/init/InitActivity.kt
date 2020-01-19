@@ -2,6 +2,7 @@ package com.parvanpajooh.baseapp.ui.init
 
 import android.app.DownloadManager
 import android.content.Intent
+import android.view.View
 import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import com.parvanpajooh.baseapp.BR
@@ -15,10 +16,11 @@ import dev.kourosh.metamorphosis.Builder
 import dev.kourosh.metamorphosis.Metamorphosis
 import dev.kourosh.metamorphosis.OnCheckVersionListener
 import dev.kourosh.metamorphosis.OnDownloadListener
+import kotlinx.android.synthetic.main.activity_init.*
 import java.io.File
 
 
-class InitActivity<MAIN : Any, LOGIN : Any>(
+abstract class InitActivity<MAIN : Any, LOGIN : Any>(
     updateUrl: String,
     private val apkName: String,
     private val versionCode: Int,
@@ -35,11 +37,13 @@ class InitActivity<MAIN : Any, LOGIN : Any>(
     override fun observeVMVariable() {
         metamorphosis.downloadListener = object : OnDownloadListener {
             override fun onFailed(message: String, code: Int?) {
+                lyrProgress.visibility = View.GONE
                 logD("message: $message ,code: $code")
                 vm.autoLogin()
             }
 
             override fun onFinished(file: File) {
+                lyrProgress.visibility = View.GONE
                 metamorphosis.installAPK(file)
             }
         }
@@ -98,7 +102,7 @@ class InitActivity<MAIN : Any, LOGIN : Any>(
             if (apk.exists()) {
                 metamorphosis.installAPK(apk)
             } else {
-                metamorphosis.startDownload(updaterRes.url)
+                startDownload(updaterRes.url)
             }
         } else {
             val dialog = TwoStateMessageDialog.newInstance(
@@ -113,17 +117,20 @@ class InitActivity<MAIN : Any, LOGIN : Any>(
                 if (apk.exists()) {
                     metamorphosis.installAPK(apk)
                 } else {
-                    metamorphosis.startDownload(updaterRes.url)
-
+                    startDownload(updaterRes.url)
                 }
             }
             dialog.show(supportFragmentManager)
         }
     }
 
+    private fun startDownload(url: String) {
+        lyrProgress.visibility = View.VISIBLE
+        metamorphosis.startDownload(url)
+    }
+
     override fun onResume() {
         super.onResume()
         checkVersion()
-
     }
 }

@@ -8,13 +8,14 @@ import dev.kourosh.baseapp.Helpers
 import dev.kourosh.baseapp.initApp
 
 
-open class App : Application() {
+abstract class BaseApp : Application() {
     var currentActivity: Activity? = null
-
+    abstract val authority: String
     override fun onCreate() {
         super.onCreate()
         initApp()
         PrefHelper.init(applicationContext)
+        PrefHelper.put(BasePrefKey.AUTHORITY.name,authority)
         PrefHelper.put(BasePrefKey.IS_AUTO_TIME_ZONE.name, Helpers.isTimeAutomatic(this))
     }
 

@@ -12,7 +12,7 @@ import dev.kourosh.basedomain.classOf
 import com.parvanpajooh.baseapp.R
 import com.parvanpajooh.baseapp.components.service.NetworkStatusService
 import com.parvanpajooh.baseapp.enums.NetworkStatus
-import com.parvanpajooh.baseapp.infrastructure.App
+import com.parvanpajooh.baseapp.infrastructure.BaseApp
 import com.parvanpajooh.baseapp.utils.checkPermission
 import com.parvanpajooh.baseapp.utils.isOnline
 import com.parvanpajooh.baseapp.models.eventbus.NetworkEvent
@@ -112,7 +112,7 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseActivityViewModel>(
         super.onResume()
         if (neededPermissions.isNotEmpty())
             checkPermission(neededPermissions)
-        (applicationContext as App).currentActivity=this
+        (applicationContext as BaseApp).currentActivity=this
     }
 
     override fun onRequestPermissionsResult(

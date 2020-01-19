@@ -10,7 +10,8 @@ import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
 import dev.kourosh.accountmanager.accountmanager.Authenticator
 import dev.kourosh.basedomain.classOf
 
-abstract class BaseAuthenticatorService (private val loginActivityClass: Class<AppCompatActivity>): Service() {
+abstract class BaseAuthenticatorService<T:Any> : Service() {
+    abstract val loginActivityClass: Class<T>
     private var authenticator: Authenticator? = null
     override fun onBind(intent: Intent?): IBinder {
         if (authenticator == null) {

@@ -125,6 +125,8 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
 
     override fun onResume() {
         super.onResume()
+
+
         checkVersion()
     }
 }

@@ -60,6 +60,7 @@ abstract class BaseActivity(
             }
         }
     }
+    abstract fun init()
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -110,7 +111,9 @@ abstract class BaseActivity(
     override fun onResume() {
         super.onResume()
         if (neededPermissions.isNotEmpty())
-            checkPermission(neededPermissions)
+            if (checkPermission(neededPermissions)){
+                init()
+            }
         (applicationContext as BaseApp).currentActivity = this
     }
 
@@ -121,7 +124,9 @@ abstract class BaseActivity(
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (neededPermissions.isNotEmpty() && requestCode in PermissionRequest.values().map { it.requestCode })
-            checkPermission(neededPermissions)
+            if (checkPermission(neededPermissions)){
+                init()
+            }
     }
 
     override fun attachBaseContext(newBase: Context) {

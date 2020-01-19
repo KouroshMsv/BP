@@ -5,7 +5,7 @@ import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
 import dev.kourosh.basedomain.*
 
-abstract class RepositoryImpl(
+abstract class BaseRepositoryImpl(
     private val appContract: BaseAppModuleRepository,
     private val dataContract: BaseDataModuleRepository,
     private val deviceContract: BaseDeviceModuleRepository

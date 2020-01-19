@@ -19,7 +19,7 @@ abstract class BaseAuthenticatorService<T:Any> : Service() {
                 Authenticator(
                     this,
                     loginActivityClass,
-                    getString(PrefHelper.get(BasePrefKey.AUTHORITY.name))
+                    PrefHelper.get(BasePrefKey.AUTHORITY.name)
                 )
         }
         return authenticator!!.iBinder

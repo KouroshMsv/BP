@@ -1,6 +1,6 @@
 package com.parvanpajooh.basedata
 
-import com.parvanpajooh.basedata.net.RestApi
+import com.parvanpajooh.basedata.net.BaseRestApi
 import com.parvanpajooh.basedata.net.models.Token
 import com.parvanpajooh.basedomain.models.response.TokenRes
 import com.parvanpajooh.basedomain.repository.BaseDataModuleRepository
@@ -12,7 +12,7 @@ import retrofit2.HttpException
 import java.net.HttpURLConnection
 
 abstract class BaseDataModuleRepositoryImpl(
-    private val restApi: RestApi
+    private val restApi: BaseRestApi
 ) : BaseDataModuleRepository {
 
     override suspend fun getTokenWithAccount(username: String, password: String): Result<TokenRes> {

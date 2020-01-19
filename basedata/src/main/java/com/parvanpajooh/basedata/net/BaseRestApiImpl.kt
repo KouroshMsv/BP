@@ -5,8 +5,8 @@ import com.parvanpajooh.basedata.net.models.Token
 import kotlinx.coroutines.Deferred
 
 
-open class RestApiImpl(tokenUrl: String) : RestApi {
-    protected val AUTHORIZATION = "Authorization"
+open class BaseRestApiImpl(tokenUrl: String) : BaseRestApi {
+    val AUTHORIZATION = "Authorization"
     private val tokenApi = BaseApiService(tokenUrl, true, 20).create<TokenApi>()
 
     override suspend fun getTokenWithAccountAsync(

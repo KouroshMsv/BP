@@ -4,7 +4,7 @@ import com.parvanpajooh.basedata.net.models.Token
 import kotlinx.coroutines.Deferred
 
 
-open interface RestApi {
+open interface BaseRestApi {
     suspend fun getTokenWithAccountAsync(username: String, password: String): Deferred<Token>
     suspend fun getTokenWithRefreshTokenAsync(refreshToken: String): Deferred<Token>
 }

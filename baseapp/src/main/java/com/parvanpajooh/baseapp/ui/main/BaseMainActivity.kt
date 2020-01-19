@@ -6,12 +6,11 @@ import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
-import androidx.databinding.ViewDataBinding
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
-import com.parvanpajooh.baseapp.infrastructure.mvvm.activity.BaseActivity
+import com.parvanpajooh.baseapp.infrastructure.BaseActivity
 import com.parvanpajooh.baseapp.models.eventbus.TitleEvent
 import com.parvanpajooh.baseapp.ui.CheckTimeDialog
 import com.parvanpajooh.baseapp.utils.PermissionRequest
@@ -21,19 +20,13 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 
-abstract class BaseMainActivity<B : ViewDataBinding>(
+abstract class BaseMainActivity(
     @LayoutRes private val layoutId: Int,
-    @IdRes private val variable: Int,
     @IdRes private val toolbarId: Int,
     @IdRes private val drawerLayoutId: Int,
     @IdRes private val navHostId: Int,
-    viewModelInstance: MainActivityVM,
     neededPermissions: List<PermissionRequest>
-) : BaseActivity<B, MainActivityVM>(
-    layoutId,
-    variable,
-    viewModelInstance, neededPermissions
-) {
+) : BaseActivity(layoutId, neededPermissions) {
     private lateinit var navController: NavController
     private var destId = 0
     private lateinit var toolbar: Toolbar
@@ -81,16 +74,6 @@ abstract class BaseMainActivity<B : ViewDataBinding>(
         toolbar.title = event.title
     }
 
-    override fun observeVMVariable() {
-    }
-
-    override fun onNetworkErrorCancel() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onNetworkErrorTryAgain() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     private fun closeDrawerLayout() {
         drawerLayout.closeDrawer(GravityCompat.START, true)

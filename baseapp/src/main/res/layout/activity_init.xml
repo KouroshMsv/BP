@@ -1,68 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:layoutDirection="ltr">
 
-    <data>
-
-        <variable
-            name="initA"
-            type="com.parvanpajooh.baseapp.ui.init.InitActivityVM" />
-
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.facebook.shimmer.ShimmerFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
-        android:layoutDirection="ltr">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shimmer_direction="left_to_right"
+        app:shimmer_duration="1500"
+        app:shimmer_repeat_mode="reverse">
 
-        <com.facebook.shimmer.ShimmerFrameLayout
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shimmer_direction="left_to_right"
-            app:shimmer_duration="1500"
-            app:shimmer_repeat_mode="reverse">
+            android:gravity="center"
+            android:paddingBottom="96dp"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="64sp"
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:paddingBottom="96dp"
-                android:text="@string/app_name"
-                android:textColor="@color/white"
-                android:textSize="64sp"
+            app:fontPath="@string/isMedium" />
 
-                app:fontPath="@string/isMedium" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
-        </com.facebook.shimmer.ShimmerFrameLayout>
+    <LinearLayout
+        android:id="@+id/lyrProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <LinearLayout
-            android:id="@+id/lyrProgress"
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="48dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_marginEnd="8dp"
+            android:text="@string/downloadingUpdate"
+            android:textColor="@color/white" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="@string/downloadingUpdate"
-                android:textColor="@color/white"
-                />
-
-            <ProgressBar
-                android:layout_width="48dp"
-                android:layout_height="48dp" />
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+        <ProgressBar
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

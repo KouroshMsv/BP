@@ -1,4 +1,4 @@
-package com.parvanpajooh.baseapp.infrastructure.dialog
+package com.parvanpajooh.baseapp.infrastructure
 
 import androidx.annotation.LayoutRes
 import dev.kourosh.baseapp.infrastructure.dialog.BaseDialog

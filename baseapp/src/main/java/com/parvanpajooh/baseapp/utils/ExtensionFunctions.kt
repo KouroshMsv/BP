@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.parvanpajooh.baseapp.enums.NetworkStatus
-import com.parvanpajooh.baseapp.infrastructure.dialog.TwoStateMessageDialog
+import com.parvanpajooh.baseapp.ui.TwoStateMessageDialog
 import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
 import dev.kourosh.accountmanager.accountmanager.AuthenticationCRUD

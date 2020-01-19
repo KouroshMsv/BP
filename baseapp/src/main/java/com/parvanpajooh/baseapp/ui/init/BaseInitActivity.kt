@@ -3,14 +3,13 @@ package com.parvanpajooh.baseapp.ui.init
 import android.app.DownloadManager
 import android.content.Intent
 import android.view.View
-import androidx.lifecycle.Observer
 import com.google.gson.Gson
-import com.parvanpajooh.baseapp.BR
 import com.parvanpajooh.baseapp.R
-import com.parvanpajooh.baseapp.databinding.ActivityInitBinding
-import com.parvanpajooh.baseapp.infrastructure.dialog.TwoStateMessageDialog
-import com.parvanpajooh.baseapp.infrastructure.mvvm.activity.BaseActivity
+import com.parvanpajooh.baseapp.ui.TwoStateMessageDialog
+import com.parvanpajooh.baseapp.infrastructure.BaseActivity
 import com.parvanpajooh.baseapp.models.UpdateModel
+import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
+import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
 import dev.kourosh.basedomain.logD
 import dev.kourosh.metamorphosis.Builder
 import dev.kourosh.metamorphosis.Metamorphosis
@@ -26,20 +25,23 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
     private val versionCode: Int,
     private val mainActivityClass: Class<MAIN>,
     private val loginActivityClass: Class<LOGIN>
-) : BaseActivity<ActivityInitBinding, InitActivityVM>(
-    R.layout.activity_init,
-    BR.initA,
-    InitActivityVM(), listOf()
-), OnCheckVersionListener {
-    var loggedIn = false
+) : BaseActivity(R.layout.activity_init, listOf()), OnCheckVersionListener {
+    private val loggedIn: Boolean by lazy {
+        PrefHelper.get(
+            BasePrefKey.INITIALIZED.name,
+            false
+        ) && PrefHelper.get<String?>(BasePrefKey.USERNAME.name) != null
+    }
     private val gson = Gson()
     private val metamorphosis = Metamorphosis(Builder(this, updateUrl))
-    override fun observeVMVariable() {
+
+    init {
+
         metamorphosis.downloadListener = object : OnDownloadListener {
             override fun onFailed(message: String, code: Int?) {
                 lyrProgress.visibility = View.GONE
                 logD("message: $message ,code: $code")
-                vm.autoLogin()
+                nextActivity()
             }
 
             override fun onFinished(file: File) {
@@ -48,11 +50,6 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
             }
         }
 
-
-        vm.loggedIn.observe(this, Observer { loggedIn ->
-            this.loggedIn = loggedIn
-            nextActivity()
-        })
     }
 
     private fun nextActivity() {
@@ -64,18 +61,13 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
         finish()
     }
 
-    override fun onNetworkErrorCancel() {}
-
-    override fun onNetworkErrorTryAgain() {}
-
     private fun checkVersion() {
         metamorphosis.checkVersion(this)
     }
 
-
     override fun onFailed(message: String, code: Int?) {
         logD("message: $message ,code: $code")
-        vm.autoLogin()
+        nextActivity()
     }
 
 
@@ -93,7 +85,7 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
             if (updaterRes.latestVersionCode > versionCode)
                 updateNewVersion(updaterRes, lastApk)
             else
-                vm.autoLogin()
+                nextActivity()
         }
     }
 
@@ -110,7 +102,7 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
                 if (apk.exists()) "نصب" else "دریافت", "فعلا نه", false
             )
             dialog.negativeButtonClickListener {
-                vm.autoLogin()
+                nextActivity()
             }
             dialog.positiveButtonClickListener {
                 dialog.dismiss()

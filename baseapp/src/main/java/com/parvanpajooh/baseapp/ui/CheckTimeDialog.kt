@@ -6,7 +6,7 @@ import android.provider.Settings
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import com.parvanpajooh.baseapp.R
-import com.parvanpajooh.baseapp.infrastructure.dialog.BaseDialog
+import com.parvanpajooh.baseapp.infrastructure.BaseDialog
 import kotlinx.android.synthetic.main.dialog_check_time.*
 
 class CheckTimeDialog : BaseDialog(R.layout.dialog_check_time) {

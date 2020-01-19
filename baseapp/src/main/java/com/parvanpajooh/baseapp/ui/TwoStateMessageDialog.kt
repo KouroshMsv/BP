@@ -1,8 +1,9 @@
-package com.parvanpajooh.baseapp.infrastructure.dialog
+package com.parvanpajooh.baseapp.ui
 
 import android.view.View
 import androidx.core.os.bundleOf
 import com.parvanpajooh.baseapp.R
+import com.parvanpajooh.baseapp.infrastructure.BaseDialog
 import kotlinx.android.synthetic.main.dialog_two_state_message.*
 
 
@@ -36,7 +37,8 @@ class TwoStateMessageDialog private constructor() : BaseDialog(R.layout.dialog_t
             cancellable: Boolean = true
         ): TwoStateMessageDialog {
             if (instance == null) {
-                instance = TwoStateMessageDialog()
+                instance =
+                    TwoStateMessageDialog()
             } else {
                 instance!!.dismiss()
             }

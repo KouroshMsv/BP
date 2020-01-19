@@ -1,45 +1,45 @@
-package com.parvanpajooh.baseapp.infrastructure.mvvm.activity
+package com.parvanpajooh.baseapp.infrastructure
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
-import androidx.databinding.ViewDataBinding
+import androidx.appcompat.app.AppCompatActivity
 import com.fede987.statusbaralert.StatusBarAlert
 import com.fede987.statusbaralert.StatusBarAlertView
-import dev.kourosh.basedomain.classOf
 import com.parvanpajooh.baseapp.R
 import com.parvanpajooh.baseapp.components.service.NetworkStatusService
 import com.parvanpajooh.baseapp.enums.NetworkStatus
-import com.parvanpajooh.baseapp.infrastructure.BaseApp
-import com.parvanpajooh.baseapp.utils.checkPermission
-import com.parvanpajooh.baseapp.utils.isOnline
 import com.parvanpajooh.baseapp.models.eventbus.NetworkEvent
 import com.parvanpajooh.baseapp.utils.PermissionRequest
-import dev.kourosh.baseapp.infrastructure.mvvm.activity.BaseActivity
+import com.parvanpajooh.baseapp.utils.checkPermission
+import com.parvanpajooh.baseapp.utils.isOnline
 import dev.kourosh.baseapp.onMain
+import dev.kourosh.basedomain.classOf
 import dev.kourosh.basedomain.launchIO
 import dev.kourosh.basedomain.logE
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.coroutines.delay
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.lang.Exception
 
 
-abstract class BaseActivity<B : ViewDataBinding, VM : BaseActivityViewModel>(
+abstract class BaseActivity(
     @LayoutRes private val layoutId: Int,
-    @IdRes private val variable: Int,
-    viewModelInstance: VM,
-    private val neededPermissions:List<PermissionRequest>
+    private val neededPermissions: List<PermissionRequest>
 
-) : BaseActivity<B, VM>(layoutId, variable, viewModelInstance) {
+) : AppCompatActivity() {
+
+
     private lateinit var statusBarAlertView: StatusBarAlert.Builder
     private lateinit var notworkStatusIntent: Intent
+    lateinit var statusBarAlert: StatusBarAlertView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(layoutId)
         if (!NetworkStatusService.running) {
             notworkStatusIntent = Intent(applicationContext, classOf<NetworkStatusService>())
             startService(notworkStatusIntent)
@@ -72,7 +72,6 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseActivityViewModel>(
         }
     }
 
-    lateinit var statusBarAlert: StatusBarAlertView
     private fun showConnecting(message: String) {
         try {
 
@@ -83,7 +82,7 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseActivityViewModel>(
             statusBarAlert = statusBarAlertView.withText(message).build()!!
             statusBarAlert.layoutDirection = View.LAYOUT_DIRECTION_RTL
             statusBarAlert.showIndeterminateProgress()
-        }catch (e:Exception){
+        } catch (e: Exception) {
             logE(e)
         }
     }
@@ -112,7 +111,7 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseActivityViewModel>(
         super.onResume()
         if (neededPermissions.isNotEmpty())
             checkPermission(neededPermissions)
-        (applicationContext as BaseApp).currentActivity=this
+        (applicationContext as BaseApp).currentActivity = this
     }
 
     override fun onRequestPermissionsResult(
@@ -123,6 +122,10 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseActivityViewModel>(
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (neededPermissions.isNotEmpty() && requestCode in PermissionRequest.values().map { it.requestCode })
             checkPermission(neededPermissions)
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
     }
 
 

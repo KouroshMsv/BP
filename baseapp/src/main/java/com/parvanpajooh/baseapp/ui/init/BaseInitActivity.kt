@@ -5,9 +5,9 @@ import android.content.Intent
 import android.view.View
 import com.google.gson.Gson
 import com.parvanpajooh.baseapp.R
-import com.parvanpajooh.baseapp.ui.TwoStateMessageDialog
 import com.parvanpajooh.baseapp.infrastructure.BaseActivity
 import com.parvanpajooh.baseapp.models.UpdateModel
+import com.parvanpajooh.baseapp.ui.TwoStateMessageDialog
 import com.parvanpajooh.baseapp.utils.PermissionRequest
 import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
@@ -17,6 +17,9 @@ import dev.kourosh.metamorphosis.Metamorphosis
 import dev.kourosh.metamorphosis.OnCheckVersionListener
 import dev.kourosh.metamorphosis.OnDownloadListener
 import kotlinx.android.synthetic.main.activity_init.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.File
 
 
@@ -41,26 +44,35 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
 
         metamorphosis.downloadListener = object : OnDownloadListener {
             override fun onFailed(message: String, code: Int?) {
-                lyrProgress.visibility = View.GONE
+                changeProgressVisibility(false)
                 logD("message: $message ,code: $code")
                 nextActivity()
             }
 
             override fun onFinished(file: File) {
-                lyrProgress.visibility = View.GONE
+                changeProgressVisibility(false)
                 metamorphosis.installAPK(file)
             }
         }
 
     }
 
-    private fun nextActivity() {
-        if (loggedIn) {
-            startActivity(Intent(this, mainActivityClass))
-        } else {
-            startActivity(Intent(this, loginActivityClass))
+    private fun changeProgressVisibility(visible: Boolean) {
+        GlobalScope.launch(Dispatchers.Main) {
+            lyrProgress.visibility = if (visible) View.VISIBLE else View.GONE
         }
-        finish()
+    }
+
+    private fun nextActivity() {
+        GlobalScope.launch(Dispatchers.Main) {
+
+            if (loggedIn) {
+                startActivity(Intent(this@BaseInitActivity, mainActivityClass))
+            } else {
+                startActivity(Intent(this@BaseInitActivity, loginActivityClass))
+            }
+            finish()
+        }
     }
 
     private fun checkVersion() {
@@ -119,7 +131,7 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
     }
 
     private fun startDownload(url: String) {
-        lyrProgress.visibility = View.VISIBLE
+        changeProgressVisibility(true)
         metamorphosis.startDownload(url)
     }
 

@@ -9,7 +9,7 @@ abstract class BaseRepositoryImpl(
     private val appContract: BaseAppModuleRepository,
     private val dataContract: BaseDataModuleRepository,
     private val deviceContract: BaseDeviceModuleRepository
-) :  BaseRepository {
+) : BaseRepository {
 
     protected suspend fun getToken(): Result<String> {
         val userName: String = PrefHelper.get(BasePrefKey.USERNAME.name)
@@ -65,6 +65,7 @@ abstract class BaseRepositoryImpl(
         deviceContract.invalidateToken(userName)
         PrefHelper.delete(BasePrefKey.USERNAME.name)
     }
+
     private suspend fun getTokenWithAccount(model: LoginReq): Result<String> {
         return dataContract.getTokenWithAccount(model.username, model.password).whenSucceed {
             deviceContract.createAccount(model.username, it)
@@ -102,6 +103,7 @@ abstract class BaseRepositoryImpl(
 
     override suspend fun logout() {
         invalidateToken()
+        appContract.goToLogin()
 
 
     }

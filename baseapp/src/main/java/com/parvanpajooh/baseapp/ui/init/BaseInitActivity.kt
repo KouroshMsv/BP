@@ -8,6 +8,7 @@ import com.parvanpajooh.baseapp.R
 import com.parvanpajooh.baseapp.ui.TwoStateMessageDialog
 import com.parvanpajooh.baseapp.infrastructure.BaseActivity
 import com.parvanpajooh.baseapp.models.UpdateModel
+import com.parvanpajooh.baseapp.utils.PermissionRequest
 import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
 import dev.kourosh.basedomain.logD
@@ -24,8 +25,9 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
     private val apkName: String,
     private val versionCode: Int,
     private val mainActivityClass: Class<MAIN>,
-    private val loginActivityClass: Class<LOGIN>
-) : BaseActivity(R.layout.activity_init, listOf()), OnCheckVersionListener {
+    private val loginActivityClass: Class<LOGIN>,
+    neededPermissions: List<PermissionRequest>
+) : BaseActivity(R.layout.activity_init, neededPermissions), OnCheckVersionListener {
     private val loggedIn: Boolean by lazy {
         PrefHelper.get(
             BasePrefKey.INITIALIZED.name,

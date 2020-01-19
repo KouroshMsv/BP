@@ -63,6 +63,7 @@ abstract class RepositoryImpl(
     protected fun invalidateToken() {
         val userName: String = PrefHelper.get(BasePrefKey.USERNAME.name)
         deviceContract.invalidateToken(userName)
+        PrefHelper.delete(BasePrefKey.USERNAME.name)
     }
     private suspend fun getTokenWithAccount(model: LoginReq): Result<String> {
         return dataContract.getTokenWithAccount(model.username, model.password).whenSucceed {

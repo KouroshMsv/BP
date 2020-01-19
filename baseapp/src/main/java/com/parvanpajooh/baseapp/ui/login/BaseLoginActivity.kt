@@ -151,6 +151,9 @@ abstract class BaseLoginActivity<T : Any>(
 
     }
 
+    override fun permissionChecked() {
+
+    }
 
     private fun forgetPassword() {
         hideKeyboard(this)

@@ -135,10 +135,7 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
         metamorphosis.startDownload(url)
     }
 
-    override fun onResume() {
-        super.onResume()
-
-
+    override fun permissionChecked() {
         checkVersion()
     }
 }

@@ -9,7 +9,7 @@ open interface BaseDeviceModuleRepository {
     fun isAccountValid(username: String): Boolean
     fun updateAccount(username: String, data: TokenRes)
     fun getRefreshToken(username: String): String
-    suspend fun createAccount(username: String, data: TokenRes)
+    fun createAccount(username: String, data: TokenRes)
     suspend fun getToken(username: String): Result<String>
     fun invalidateToken(username: String)
 

@@ -30,7 +30,7 @@ abstract class BaseDeviceModuleRepositoryImpl(
     override fun getRefreshToken(username: String) =
         authenticationCRUD.getUserData(username, UserDataKeys.REFRESH_TOKEN)!!
 
-    override suspend fun createAccount(username: String, data: TokenRes) {
+    override fun createAccount(username: String, data: TokenRes) {
         authenticationCRUD.createOrUpdateAccount(
             username,
             null,
@@ -42,7 +42,6 @@ abstract class BaseDeviceModuleRepositoryImpl(
                 UserDataKeys.TOKEN_TYPE to data.tokenType
             )
         )
-        delay(500)
     }
 
     override suspend fun getToken(username: String): Result<String> {

@@ -4,6 +4,8 @@ import com.parvanpajooh.basedata.net.BaseRestApi
 import com.parvanpajooh.basedata.net.models.Token
 import com.parvanpajooh.basedomain.models.response.TokenRes
 import com.parvanpajooh.basedomain.repository.BaseDataModuleRepository
+import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
+import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
 import dev.kourosh.basedomain.ErrorCode
 import dev.kourosh.basedomain.Result
 import dev.kourosh.basedomain.logW
@@ -18,6 +20,7 @@ abstract class BaseDataModuleRepositoryImpl(
     override suspend fun getTokenWithAccount(username: String, password: String): Result<TokenRes> {
         return checkResponseError {
             val result = restApi.getTokenWithAccountAsync(username, password).await()
+            PrefHelper.put(BasePrefKey.USERNAME.name, username)
             Result.Success(result.toDomain())
         }
     }

@@ -12,7 +12,8 @@ abstract class BaseRepositoryImpl(
 ) : BaseRepository {
 
     protected suspend fun getToken(): Result<String> {
-        return when (val userName: String? = PrefHelper.get(BasePrefKey.USERNAME.name)) {
+        val userName: String? = PrefHelper.get(BasePrefKey.USERNAME.name)
+        return when (userName) {
             null -> Result.Error("unavailable account ", ErrorCode.UNAVAILABLE_ACCOUNT)
             else -> {
                 deviceContract.getToken(userName).substitute({ token ->
@@ -100,8 +101,6 @@ abstract class BaseRepositoryImpl(
     override suspend fun initialize(): Result<Unit> {
         return getToken().whenSucceed {
             dataContract.initialize(it)
-        }.checkAuthenticationAndRetry {
-            initialize()
         }
     }
 

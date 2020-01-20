@@ -112,11 +112,11 @@ abstract class BaseActivity(
 
     override fun onResume() {
         super.onResume()
+        (applicationContext as BaseApp).currentActivity = this
         if (neededPermissions.isNotEmpty())
             if (checkPermission(neededPermissions)) {
                 permissionChecked()
             }
-        (applicationContext as BaseApp).currentActivity = this
     }
 
     override fun onRequestPermissionsResult(

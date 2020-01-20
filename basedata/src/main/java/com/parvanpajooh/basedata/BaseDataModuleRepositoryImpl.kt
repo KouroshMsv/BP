@@ -46,6 +46,9 @@ abstract class BaseDataModuleRepositoryImpl(
                     Result.Error(e.code().toString(), ErrorCode.SERVER_ERROR)
                 }
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Result.Error("خطا در ارتباط با سرور", ErrorCode.NETWORK_ERROR)
         }
     }
 

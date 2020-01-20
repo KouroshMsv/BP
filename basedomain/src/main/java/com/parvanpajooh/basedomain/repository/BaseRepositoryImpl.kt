@@ -96,13 +96,15 @@ abstract class BaseRepositoryImpl(
 
     override suspend fun login(parameter: LoginReq): Result<Unit> {
         return getTokenWithAccount(parameter).whenSucceed {
-            PrefHelper.put(BasePrefKey.USERNAME.name, it)
+            PrefHelper.put(BasePrefKey.USERNAME.name, parameter.username)
             Result.Success(Unit)
         }
     }
 
-    override suspend fun logout() {
-        invalidateToken()
+    override fun logout() {
+        launchIO {
+            invalidateToken()
+        }
         appContract.goToLogin()
 
 

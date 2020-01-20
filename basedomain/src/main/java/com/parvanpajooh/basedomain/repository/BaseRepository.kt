@@ -8,6 +8,6 @@ open interface BaseRepository {
     suspend fun initialize(): Result<Unit>
     suspend fun login(parameter: LoginReq): Result<Unit>
     suspend fun autoLogin(username: String): Result<Unit>
-    suspend fun logout()
+    fun logout()
 
 }

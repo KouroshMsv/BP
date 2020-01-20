@@ -8,6 +8,7 @@ import dev.kourosh.accountmanager.UserDataKeys
 import dev.kourosh.accountmanager.accountmanager.AuthenticationCRUD
 import dev.kourosh.basedomain.Result
 import dev.kourosh.basedomain.map
+import kotlinx.coroutines.delay
 
 abstract class BaseDeviceModuleRepositoryImpl(
     private val authenticationCRUD: AuthenticationCRUD,
@@ -29,7 +30,7 @@ abstract class BaseDeviceModuleRepositoryImpl(
     override fun getRefreshToken(username: String) =
         authenticationCRUD.getUserData(username, UserDataKeys.REFRESH_TOKEN)!!
 
-    override fun createAccount(username: String, data: TokenRes) {
+    override suspend fun createAccount(username: String, data: TokenRes) {
         authenticationCRUD.createOrUpdateAccount(
             username,
             null,
@@ -41,6 +42,7 @@ abstract class BaseDeviceModuleRepositoryImpl(
                 UserDataKeys.TOKEN_TYPE to data.tokenType
             )
         )
+        delay(500)
     }
 
     override suspend fun getToken(username: String): Result<String> {

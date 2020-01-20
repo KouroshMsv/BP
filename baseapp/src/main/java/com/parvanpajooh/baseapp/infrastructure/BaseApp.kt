@@ -9,7 +9,7 @@ import dev.kourosh.baseapp.initApp
 
 
 abstract class BaseApp : Application() {
-    var currentActivity: Activity? = null
+    lateinit var currentActivity: Activity
     abstract val authority: String
     override fun onCreate() {
         super.onCreate()

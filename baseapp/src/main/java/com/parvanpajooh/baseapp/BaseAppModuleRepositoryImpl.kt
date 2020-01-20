@@ -6,11 +6,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.parvanpajooh.baseapp.infrastructure.BaseApp
 import com.parvanpajooh.basedomain.repository.BaseAppModuleRepository
 
-abstract class BaseAppModuleRepositoryImpl<T:AppCompatActivity>(private val context: Context,
-                                  private val baseLoginActivityClass: Class<T>
+abstract class BaseAppModuleRepositoryImpl<T : AppCompatActivity>(
+    private val context: Context,
+    private val baseLoginActivityClass: Class<T>
 ) : BaseAppModuleRepository {
     override fun goToLogin() {
-        context.startActivity(Intent(context, baseLoginActivityClass))
-        (context as BaseApp).currentActivity?.finish()
+        val baseApp = context as BaseApp
+        if (baseApp.currentActivity::class.java != baseLoginActivityClass) {
+            baseApp.startActivity(Intent(baseApp, baseLoginActivityClass))
+            baseApp.currentActivity.finish()
+        }
     }
 }

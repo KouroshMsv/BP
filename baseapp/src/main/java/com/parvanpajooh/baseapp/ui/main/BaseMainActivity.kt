@@ -80,7 +80,8 @@ abstract class BaseMainActivity(
     }
 
     override fun onBackPressed() {
-        when (destId) {
+        when (supportFragmentManager.backStackEntryCount) {
+            1 -> super.onBackPressed()
             else -> {
                 navController.navigateUp()
             }

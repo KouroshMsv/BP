@@ -74,7 +74,6 @@ abstract class BaseRepositoryImpl(
         val userName: String? = PrefHelper.get(BasePrefKey.USERNAME.name)
         if (userName != null) {
             deviceContract.invalidateToken(userName)
-            PrefHelper.delete(BasePrefKey.USERNAME.name)
         }
     }
 
@@ -114,6 +113,7 @@ abstract class BaseRepositoryImpl(
         launchIO {
             invalidateToken()
         }
+        PrefHelper.delete(BasePrefKey.USERNAME.name)
         appContract.goToLogin()
 
 

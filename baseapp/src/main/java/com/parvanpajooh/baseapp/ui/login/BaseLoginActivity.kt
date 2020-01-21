@@ -21,6 +21,7 @@ import dev.kourosh.baseapp.hideKeyboard
 import dev.kourosh.baseapp.numP2E
 import dev.kourosh.basedomain.launchIO
 import dev.kourosh.basedomain.parseOnMain
+import kotlinx.coroutines.delay
 
 abstract class BaseLoginActivity<T : Any>(
     @LayoutRes private val layoutId: Int,
@@ -118,6 +119,7 @@ abstract class BaseLoginActivity<T : Any>(
         if (!PrefHelper.get(BasePrefKey.INITIALIZED.name, false)) {
             loading(true)
             launchIO {
+                delay(2000)
                 uc.initialize().execute().parseOnMain({
                     loading(false)
                     startMainActivity()

@@ -124,8 +124,11 @@ abstract class BaseRepositoryImpl(
             func(it)
        }.whenUnAuthorized {
            updateTokenWithRefreshToken().substitute({ token ->
-               func(token)
-               it
+               func(token).whenUnAuthorized {
+                   PrefHelper.delete(BasePrefKey.USERNAME.name)
+                   appContract.goToLogin()
+                   it
+               }
            }, { _, _ ->
                PrefHelper.delete(BasePrefKey.USERNAME.name)
                appContract.goToLogin()

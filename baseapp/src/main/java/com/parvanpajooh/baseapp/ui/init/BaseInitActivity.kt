@@ -29,8 +29,8 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
     private val versionCode: Int,
     private val mainActivityClass: Class<MAIN>,
     private val loginActivityClass: Class<LOGIN>,
-    neededPermissions: List<PermissionRequest>
-) : BaseActivity(R.layout.activity_init, neededPermissions), OnCheckVersionListener {
+    requiredPermissions: List<PermissionRequest>
+) : BaseActivity(R.layout.activity_init, requiredPermissions), OnCheckVersionListener {
     private val loggedIn: Boolean by lazy {
         PrefHelper.get(
             BasePrefKey.INITIALIZED.name,

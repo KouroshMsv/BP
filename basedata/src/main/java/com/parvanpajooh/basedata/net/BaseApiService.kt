@@ -14,13 +14,13 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
-internal open class BaseApiService(
+open class BaseApiService(
     private val url: String,
     isHttps: Boolean,
     private val connectTimeout: Long = 10, private val readWriteTimeout: Long = 60
 ) {
 
-    private val retrofit: Retrofit
+    val retrofit: Retrofit
         get() = Retrofit.Builder()
             .baseUrl(url)
             .client(client)

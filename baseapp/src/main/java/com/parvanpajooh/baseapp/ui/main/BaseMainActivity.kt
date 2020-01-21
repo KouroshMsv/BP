@@ -25,8 +25,8 @@ abstract class BaseMainActivity(
     @IdRes private val toolbarId: Int,
     @IdRes private val drawerLayoutId: Int,
     @IdRes private val navHostId: Int,
-    neededPermissions: List<PermissionRequest>
-) : BaseActivity(layoutId, neededPermissions) {
+    requiredPermissions: List<PermissionRequest>
+) : BaseActivity(layoutId, requiredPermissions) {
     private lateinit var navController: NavController
     private var destId = 0
     private lateinit var toolbar: Toolbar
@@ -75,7 +75,7 @@ abstract class BaseMainActivity(
     }
 
 
-    private fun closeDrawerLayout() {
+    fun closeDrawerLayout() {
         drawerLayout.closeDrawer(GravityCompat.START, true)
     }
 

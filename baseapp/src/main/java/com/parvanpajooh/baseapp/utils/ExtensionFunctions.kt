@@ -125,9 +125,9 @@ fun startSync(accountHelper: AuthenticationCRUD) {
     )
 }
 
-fun AppCompatActivity.checkPermission(neededPermissions: List<PermissionRequest>): Boolean {
+fun AppCompatActivity.checkPermission(requiredPermissions: List<PermissionRequest>): Boolean {
     var checkNext = true
-    neededPermissions.forEach { permissionRequest ->
+    requiredPermissions.forEach { permissionRequest ->
         when (checkPermission(permissionRequest)) {
             PermissionResponse.GRANTED -> {
                 checkNext = true

@@ -28,7 +28,7 @@ import org.greenrobot.eventbus.ThreadMode
 
 abstract class BaseActivity(
     @LayoutRes private val layoutId: Int,
-    private val neededPermissions: List<PermissionRequest>
+    private val requiredPermissions: List<PermissionRequest>
 
 ) : AppCompatActivity() {
 
@@ -113,8 +113,8 @@ abstract class BaseActivity(
     override fun onResume() {
         super.onResume()
         (applicationContext as BaseApp).currentActivity = this
-        if (neededPermissions.isNotEmpty())
-            if (checkPermission(neededPermissions)) {
+        if (requiredPermissions.isNotEmpty())
+            if (checkPermission(requiredPermissions)) {
                 permissionChecked()
             }
     }
@@ -125,8 +125,8 @@ abstract class BaseActivity(
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (neededPermissions.isNotEmpty() && requestCode in PermissionRequest.values().map { it.requestCode })
-            if (checkPermission(neededPermissions)) {
+        if (requiredPermissions.isNotEmpty() && requestCode in PermissionRequest.values().map { it.requestCode })
+            if (checkPermission(requiredPermissions)) {
                 permissionChecked()
             }
     }

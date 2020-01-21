@@ -22,7 +22,6 @@ import dev.kourosh.baseapp.launchMain
 import dev.kourosh.baseapp.numP2E
 import dev.kourosh.basedomain.launchIO
 import dev.kourosh.basedomain.parseOnMain
-import kotlinx.coroutines.delay
 
 abstract class BaseLoginActivity<T : Any>(
     @LayoutRes private val layoutId: Int,
@@ -31,9 +30,9 @@ abstract class BaseLoginActivity<T : Any>(
     @IdRes private val usernameId: Int,
     @IdRes private val passwordId: Int,
     private val mainActivityClass: Class<T>,
-    neededPermissions: List<PermissionRequest>
+    requiredPermissions: List<PermissionRequest>
 ) : BaseActivity(
-    layoutId, neededPermissions
+    layoutId, requiredPermissions
 ) {
     private lateinit var progressView: View
     private lateinit var loginButton: AppCompatButton

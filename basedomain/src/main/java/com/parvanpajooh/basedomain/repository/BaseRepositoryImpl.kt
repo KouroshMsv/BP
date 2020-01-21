@@ -11,7 +11,7 @@ abstract class BaseRepositoryImpl(
     private val deviceContract: BaseDeviceModuleRepository
 ) : BaseRepository {
 
-    protected suspend fun getToken(): Result<String> {
+    private suspend fun getToken(): Result<String> {
         val userName: String? = PrefHelper.get(BasePrefKey.USERNAME.name)
         return when (userName) {
             null -> Result.Error("unavailable account ", ErrorCode.UNAVAILABLE_ACCOUNT)
@@ -119,17 +119,19 @@ abstract class BaseRepositoryImpl(
 
     }
 
-    protected suspend fun <T : Any> Result<T>.checkAuthenticationAndRetry(retry: suspend () -> Result<T>): Result<T> {
-        return whenUnAuthorized {
-            updateTokenWithRefreshToken().substitute({ _ ->
-                retry()
-                it
-            }, { _, _ ->
-                PrefHelper.delete(BasePrefKey.USERNAME.name)
-                appContract.goToLogin()
-                it
-            })
-        }
+    protected suspend fun <T : Any> getTokenAndWhenUnauthorizeRetry(func: suspend (token:String) -> Result<T>): Result<T> {
+        return getToken().whenSucceed {
+            func(it)
+       }.whenUnAuthorized {
+           updateTokenWithRefreshToken().substitute({ token ->
+               func(token)
+               it
+           }, { _, _ ->
+               PrefHelper.delete(BasePrefKey.USERNAME.name)
+               appContract.goToLogin()
+               it
+           })
+       }
     }
 
 }

@@ -18,6 +18,7 @@ import dev.kourosh.baseapp.Helpers
 import dev.kourosh.baseapp.dialogs.NetworkErrorDialog
 import dev.kourosh.baseapp.enums.MessageType
 import dev.kourosh.baseapp.hideKeyboard
+import dev.kourosh.baseapp.launchMain
 import dev.kourosh.baseapp.numP2E
 import dev.kourosh.basedomain.launchIO
 import dev.kourosh.basedomain.parseOnMain
@@ -116,37 +117,36 @@ abstract class BaseLoginActivity<T : Any>(
     }
 
     private fun initialize() {
-        if (!PrefHelper.get(BasePrefKey.INITIALIZED.name, false)) {
-            loading(true)
-            launchIO {
-                delay(2000)
-                uc.initialize().execute().parseOnMain({
-                    loading(false)
-                    startMainActivity()
-                }, { message, errorCode ->
-                    loading(false)
-                    showSnackBar(message, MessageType.WARNING)
+        launchMain {
+            if (!PrefHelper.get(BasePrefKey.INITIALIZED.name, false)) {
+                loading(true)
+                launchIO {
+                    uc.initialize().execute().parseOnMain({
+                        loading(false)
+                        startMainActivity()
+                    }, { message, errorCode ->
+                        loading(false)
+                        showNetworkError()
+                    })
 
-                    showNetworkError()
-                })
-
+                }
+            } else {
+                startMainActivity()
             }
-        } else {
-            startMainActivity()
         }
     }
 
     private fun loading(loading: Boolean) {
         if (loading) {
             progressView.visibility = View.VISIBLE
-            loginButton.isEnabled=false
-            username.isEnabled=false
-            password.isEnabled=false
+            loginButton.isEnabled = false
+            username.isEnabled = false
+            password.isEnabled = false
         } else {
             progressView.visibility = View.GONE
-            loginButton.isEnabled=true
-            username.isEnabled=true
-            password.isEnabled=true
+            loginButton.isEnabled = true
+            username.isEnabled = true
+            password.isEnabled = true
 
         }
 

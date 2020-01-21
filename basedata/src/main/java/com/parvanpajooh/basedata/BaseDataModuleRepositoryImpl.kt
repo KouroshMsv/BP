@@ -20,7 +20,6 @@ abstract class BaseDataModuleRepositoryImpl(
     override suspend fun getTokenWithAccount(username: String, password: String): Result<TokenRes> {
         return checkResponseError {
             val result = restApi.getTokenWithAccountAsync(username, password).await()
-            PrefHelper.put(BasePrefKey.USERNAME.name, username)
             Result.Success(result.toDomain())
         }
     }

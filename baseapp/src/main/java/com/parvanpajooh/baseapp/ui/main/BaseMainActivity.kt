@@ -27,7 +27,7 @@ abstract class BaseMainActivity(
     @IdRes private val navHostId: Int,
     requiredPermissions: List<PermissionRequest>
 ) : BaseActivity(layoutId, requiredPermissions) {
-    private lateinit var navController: NavController
+    lateinit var navController: NavController
     private var destId = 0
     private lateinit var toolbar: Toolbar
     lateinit var drawerLayout: DrawerLayout

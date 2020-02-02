@@ -28,8 +28,8 @@ abstract class BaseMainActivity(
     requiredPermissions: List<PermissionRequest>
 ) : BaseActivity(layoutId, requiredPermissions) {
     lateinit var navController: NavController
-    private var destId = 0
-    private lateinit var toolbar: Toolbar
+    var destId = 0
+    lateinit var toolbar: Toolbar
     lateinit var drawerLayout: DrawerLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -15,7 +15,6 @@ abstract class BaseAppModuleRepositoryImpl<T : AppCompatActivity>(
         if (baseApp.currentActivity::class.java != baseLoginActivityClass) {
             val intent=Intent(baseApp, baseLoginActivityClass)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             baseApp.startActivity(intent)
             baseApp.currentActivity.finish()
         }

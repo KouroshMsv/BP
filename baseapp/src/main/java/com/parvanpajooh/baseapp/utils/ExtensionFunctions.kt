@@ -48,9 +48,8 @@ fun isOnline(parvanUrl: URL = URL("http://ecourier.mahex.com/generate_204")): De
         response.complete(
             try {
                 connection = parvanUrl.openConnection() as HttpURLConnection
-                connection!!.connect()
-                val connected = connection!!.responseCode == 200
-                connection!!.disconnect()
+                connection?.connect()
+                val connected = connection?.responseCode == 200
                 if (connected)
                     NetworkStatus.Connected
                 else
@@ -59,9 +58,7 @@ fun isOnline(parvanUrl: URL = URL("http://ecourier.mahex.com/generate_204")): De
             } catch (e: Exception) {
                 checkGoogleServer().await()
             } finally {
-                if (connection != null) {
-                    connection!!.disconnect()
-                }
+                connection?.disconnect()
             }
         )
     }
@@ -74,9 +71,8 @@ fun checkGoogleServer(): Deferred<NetworkStatus> {
         response.complete(
             try {
                 connection = googleUrl.openConnection() as HttpURLConnection
-                connection!!.connect()
-                val connected = connection!!.responseCode == 204
-                connection!!.disconnect()
+                connection?.connect()
+                val connected = connection?.responseCode == 204
                 if (connected)
                     NetworkStatus.ServerIsDisconnected
                 else
@@ -84,9 +80,7 @@ fun checkGoogleServer(): Deferred<NetworkStatus> {
             } catch (e: Exception) {
                 NetworkStatus.InternetIsDisconnected
             } finally {
-                if (connection != null) {
-                    connection!!.disconnect()
-                }
+                connection?.disconnect()
             }
         )
     }

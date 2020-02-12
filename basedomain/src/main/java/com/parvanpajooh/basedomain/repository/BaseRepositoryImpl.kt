@@ -80,6 +80,7 @@ abstract class BaseRepositoryImpl(
     private suspend fun getTokenWithAccount(model: LoginReq): Result<String> {
         return dataContract.getTokenWithAccount(model.username, model.password).whenSucceed {
             PrefHelper.put(BasePrefKey.USERNAME.name, model.username)
+            PrefHelper.put(BasePrefKey.LATEST_USERNAME.name, model.username)
             deviceContract.createAccount(model.username, it)
             Result.Success(model.username)
         }

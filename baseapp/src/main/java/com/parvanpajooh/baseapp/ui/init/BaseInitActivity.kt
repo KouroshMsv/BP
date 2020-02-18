@@ -2,7 +2,10 @@ package com.parvanpajooh.baseapp.ui.init
 
 import android.app.DownloadManager
 import android.content.Intent
+import android.os.Bundle
 import android.view.View
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import com.parvanpajooh.baseapp.R
 import com.parvanpajooh.baseapp.infrastructure.BaseActivity
@@ -29,7 +32,9 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
     private val versionCode: Int,
     private val mainActivityClass: Class<MAIN>,
     private val loginActivityClass: Class<LOGIN>,
-    requiredPermissions: List<PermissionRequest>
+    requiredPermissions: List<PermissionRequest>,
+    private val backgroundColorId: Int = R.color.colorPrimaryDark,
+    @ColorRes private val textColorId: Int = R.color.white
 ) : BaseActivity(R.layout.activity_init, requiredPermissions), OnCheckVersionListener {
     private val loggedIn: Boolean by lazy {
         PrefHelper.get(
@@ -55,6 +60,13 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
             }
         }
 
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initActivityTxtUpdating.setTextColor(ContextCompat.getColor(this, textColorId))
+        initActivityTxtAppName.setTextColor(ContextCompat.getColor(this, textColorId))
+        initActivityRoot.setBackgroundColor(ContextCompat.getColor(this, backgroundColorId))
     }
 
     private fun changeProgressVisibility(visible: Boolean) {

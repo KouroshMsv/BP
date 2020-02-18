@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/initActivityRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    android:layoutDirection="ltr">
+    android:layoutDirection="ltr"
+    tools:background="@color/colorPrimaryDark">
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:layout_width="match_parent"
@@ -19,15 +21,15 @@
         app:shimmer_repeat_mode="reverse">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/initActivityTxtAppName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:paddingBottom="96dp"
             android:text="@string/app_name"
-            android:textColor="@color/white"
             android:textSize="64sp"
-
-            app:fontPath="@string/isMedium" />
+            app:fontPath="@string/isMedium"
+            tools:textColor="@color/white" />
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
@@ -44,11 +46,12 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/initActivityTxtUpdating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="@string/downloadingUpdate"
-            android:textColor="@color/white" />
+            tools:textColor="@color/white" />
 
         <ProgressBar
             android:layout_width="48dp"

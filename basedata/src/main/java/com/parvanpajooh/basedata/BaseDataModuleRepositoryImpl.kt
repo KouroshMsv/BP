@@ -40,7 +40,7 @@ abstract class BaseDataModuleRepositoryImpl(
             logW(e.toString())
             when (e.code()) {
                 HttpURLConnection.HTTP_UNAUTHORIZED -> Result.Error(
-                    e.code().toString(),
+                    "اطلاعات وارد شده نامعتبر است.",
                     ErrorCode.UNAUTHORIZED
                 )
                 418 -> e.getErrorMessage()

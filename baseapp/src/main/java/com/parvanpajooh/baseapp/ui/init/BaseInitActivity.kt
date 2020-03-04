@@ -2,6 +2,7 @@ package com.parvanpajooh.baseapp.ui.init
 
 import android.app.DownloadManager
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.ColorRes
@@ -35,7 +36,7 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
     requiredPermissions: List<PermissionRequest>,
     private val backgroundColorId: Int = R.color.colorPrimaryDark,
     @ColorRes private val textColorId: Int = R.color.white
-) : BaseActivity(R.layout.activity_init, requiredPermissions), OnCheckVersionListener {
+) : BaseActivity(R.layout.activity_init, requiredPermissions) {
     private val loggedIn: Boolean by lazy {
         PrefHelper.get(
             BasePrefKey.INITIALIZED.name,
@@ -57,6 +58,13 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
             override fun onFinished(file: File) {
                 changeProgressVisibility(false)
                 metamorphosis.installAPK(file)
+            }
+        }
+        metamorphosis.setOnDownloadingListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                progress.setProgress(it, true)
+            } else {
+                progress.progress = it
             }
         }
 
@@ -87,33 +95,35 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
         }
     }
 
-    private fun checkVersion() {
-        metamorphosis.checkVersion(this)
-    }
+    private val onCheckVersionListener = object : OnCheckVersionListener {
+        override fun onFailed(message: String, code: Int?) {
+            logD("message: $message ,code: $code")
+            nextActivity()
+        }
 
-    override fun onFailed(message: String, code: Int?) {
-        logD("message: $message ,code: $code")
-        nextActivity()
-    }
-
-
-    override fun onSucceed(data: String) {
-        val updaterRes = gson.fromJson(data, UpdateModel::class.java)
-        metamorphosis.builder.apkName = "${apkName}_${updaterRes.latestVersion}.apk"
-        metamorphosis.builder.notificationConfig.title =
-            "${apkName}_${updaterRes.latestVersion}.apk"
-        metamorphosis.builder.notificationConfig.notificationVisibility =
-            DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
-        val lastApk = File("${metamorphosis.builder.dir}/${metamorphosis.builder.apkName}")
-        if (lastApk.exists() && updaterRes.latestVersionCode > versionCode) {
-            updateNewVersion(updaterRes, lastApk)
-        } else {
-            if (updaterRes.latestVersionCode > versionCode)
+        override fun onSucceed(data: String) {
+            val updaterRes = gson.fromJson(data, UpdateModel::class.java)
+            metamorphosis.builder.apkName = "${apkName}_${updaterRes.latestVersion}.apk"
+            metamorphosis.builder.notificationConfig.title =
+                "${apkName}_${updaterRes.latestVersion}.apk"
+            metamorphosis.builder.notificationConfig.notificationVisibility =
+                DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
+            val lastApk = File("${metamorphosis.builder.dir}/${metamorphosis.builder.apkName}")
+            if (lastApk.exists() && updaterRes.latestVersionCode > versionCode) {
                 updateNewVersion(updaterRes, lastApk)
-            else
-                nextActivity()
+            } else {
+                if (updaterRes.latestVersionCode > versionCode)
+                    updateNewVersion(updaterRes, lastApk)
+                else
+                    nextActivity()
+            }
         }
     }
+
+    private fun checkVersion() {
+        metamorphosis.checkVersion(onCheckVersionListener)
+    }
+
 
     private fun updateNewVersion(updaterRes: UpdateModel, apk: File) {
         if (updaterRes.required) {

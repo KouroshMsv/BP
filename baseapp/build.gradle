@@ -62,8 +62,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-core:${liveData}"
     implementation "androidx.lifecycle:lifecycle-common-java8:${liveData}"
 
-    implementation "android.arch.navigation:navigation-fragment-ktx:${nav_version}"
-    implementation "android.arch.navigation:navigation-ui-ktx:${nav_version}"
+    implementation "androidx.navigation:navigation-fragment-ktx:${nav_version}"
+    implementation "androidx.navigation:navigation-ui-ktx:${nav_version}"
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines}"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutines}"

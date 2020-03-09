@@ -28,7 +28,7 @@ class NetworkStatusService : Service() {
             withContext(Dispatchers.IO) {
                 while (running) {
                     send(isOnline().await())
-                    delay(1000)
+                    delay(5000)
                 }
             }
         }.distinctUntilChanged { old, new -> new.ordinal == old.ordinal }

@@ -4,14 +4,19 @@ import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import com.parvanpajooh.baseapp.enums.NetworkStatus
-import com.parvanpajooh.baseapp.utils.isOnline
 import com.parvanpajooh.baseapp.models.eventbus.NetworkEvent
+import com.parvanpajooh.baseapp.utils.isOnline
 import dev.kourosh.baseapp.onMain
 import dev.kourosh.basedomain.launchIO
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flow
 import org.greenrobot.eventbus.EventBus
 import java.util.concurrent.TimeUnit
 
@@ -20,34 +25,26 @@ class NetworkStatusService : Service() {
     companion object {
         var running = false
     }
-
-    var disposable: Disposable? = null
     override fun onCreate() {
         super.onCreate()
         running = true
-        disposable = Observable.create<NetworkStatus> { st ->
-            Observable.interval(0, 5, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.single())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    launchIO {
-                        val status = isOnline().await()
-                        onMain {
-                            st.onNext(status)
-                        }
+        flow {
+            launchIO {
+                while (running) {
+                    delay(4000)
+                    onMain {
+                        emit(isOnline().await())
                     }
-
-                }, {
-                    st.onNext(NetworkStatus.InternetIsDisconnected)
-                })
-        }.distinctUntilChanged().subscribe { status ->
-            if (status != null)
-                EventBus.getDefault().post(
-                    NetworkEvent(
-                        status == NetworkStatus.Connected,
-                        status.message
-                    )
+                }
+            }
+        }.distinctUntilChanged { old, new ->
+            EventBus.getDefault().post(
+                NetworkEvent(
+                    new == NetworkStatus.Connected,
+                    new.message
                 )
+            )
+            old != new
         }
     }
 
@@ -56,7 +53,6 @@ class NetworkStatusService : Service() {
 
     override fun onDestroy() {
         running = false
-
         super.onDestroy()
     }
 }

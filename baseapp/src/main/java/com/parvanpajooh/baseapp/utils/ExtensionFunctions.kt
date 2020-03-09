@@ -14,40 +14,31 @@ import dev.kourosh.basedomain.classOf
 import dev.kourosh.basedomain.launchIO
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
-import java.io.IOException
 import java.net.HttpURLConnection
-import java.net.InetSocketAddress
-import java.net.Socket
 import java.net.URL
 
+private var connection: HttpURLConnection? = null
 
-fun isOnline3(): Deferred<Boolean> {
-    val response = CompletableDeferred<Boolean>()
-    launchIO {
-        val runtime = Runtime.getRuntime()
-        response.complete(
-            try {
-                val ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8")
-                val exitValue = ipProcess.waitFor()
-                exitValue == 0
-            } catch (e: Exception) {
-                false
-            }
+private val serverUrl by lazy {
+    URL(PrefHelper.get(BasePrefKey.SERVER_CHECK_URL.name, "http://ecourier.mahex.com/generate_204"))
+}
+private val internetUrl by lazy {
+    URL(
+        PrefHelper.get(
+            BasePrefKey.INTERNET_CHECK_URL.name,
+            "http://clients3.google.com/generate_204"
         )
-    }
-    return response
+    )
 }
 
-private val googleUrl = URL("http://clients3.google.com/generate_204")
-private val parvanUrl = URL("http://ecourier.mahex.com/generate_204")
-private var connection: HttpURLConnection? = null
-fun isOnline(parvanUrl: URL = URL("http://ecourier.mahex.com/generate_204")): Deferred<NetworkStatus> {
+fun isOnline(parvanUrl: URL = serverUrl): Deferred<NetworkStatus> {
 
     val response = CompletableDeferred<NetworkStatus>()
     launchIO {
         response.complete(
             try {
                 connection = parvanUrl.openConnection() as HttpURLConnection
+                connection?.connectTimeout = 2000
                 connection?.connect()
                 val connected = connection?.responseCode == 200
                 if (connected)
@@ -65,12 +56,13 @@ fun isOnline(parvanUrl: URL = URL("http://ecourier.mahex.com/generate_204")): De
     return response
 }
 
-fun checkGoogleServer(): Deferred<NetworkStatus> {
+fun checkGoogleServer(googleUrl: URL = internetUrl): Deferred<NetworkStatus> {
     val response = CompletableDeferred<NetworkStatus>()
     launchIO {
         response.complete(
             try {
                 connection = googleUrl.openConnection() as HttpURLConnection
+                connection?.connectTimeout = 2000
                 connection?.connect()
                 val connected = connection?.responseCode == 204
                 if (connected)
@@ -86,26 +78,6 @@ fun checkGoogleServer(): Deferred<NetworkStatus> {
     }
     return response
 
-}
-
-fun isOnline2(): Deferred<Boolean> {
-    val response = CompletableDeferred<Boolean>()
-    launchIO {
-        response.complete(
-            try {
-                val timeoutMs = 1500
-                val sock = Socket()
-                val sockaddr = InetSocketAddress("8.8.8.8", 53)
-                sock.connect(sockaddr, timeoutMs)
-                sock.close()
-                true
-            } catch (e: IOException) {
-                false
-            }
-        )
-
-    }
-    return response
 }
 
 fun startSync(accountHelper: AuthenticationCRUD) {

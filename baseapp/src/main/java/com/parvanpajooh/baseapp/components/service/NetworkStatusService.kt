@@ -6,45 +6,41 @@ import android.os.Binder
 import com.parvanpajooh.baseapp.enums.NetworkStatus
 import com.parvanpajooh.baseapp.models.eventbus.NetworkEvent
 import com.parvanpajooh.baseapp.utils.isOnline
-import dev.kourosh.baseapp.onMain
-import dev.kourosh.basedomain.launchIO
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flow
 import org.greenrobot.eventbus.EventBus
-import java.util.concurrent.TimeUnit
 
 
 class NetworkStatusService : Service() {
     companion object {
         var running = false
     }
+
+    @InternalCoroutinesApi
+    @FlowPreview
+    @ExperimentalCoroutinesApi
     override fun onCreate() {
         super.onCreate()
         running = true
-        flow {
-            launchIO {
+        val flow = channelFlow {
+            withContext(Dispatchers.IO) {
                 while (running) {
-                    delay(4000)
-                    onMain {
-                        emit(isOnline().await())
-                    }
+                    send(isOnline().await())
+                    delay(1000)
                 }
             }
-        }.distinctUntilChanged { old, new ->
-            EventBus.getDefault().post(
-                NetworkEvent(
-                    new == NetworkStatus.Connected,
-                    new.message
-                )
-            )
-            old != new
+        }.distinctUntilChanged { old, new -> new.ordinal == old.ordinal }
+        GlobalScope.launch(Dispatchers.Main) {
+            flow.collect(object : FlowCollector<NetworkStatus> {
+                    override suspend fun emit(value: NetworkStatus) {
+                        EventBus.getDefault()
+                            .post(
+                                NetworkEvent(value == NetworkStatus.Connected, value.message)
+                            )
+                    }
+                })
         }
     }
 

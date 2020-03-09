@@ -7,6 +7,8 @@ enum class BasePrefKey {
     LATEST_USERNAME ,
     AUTHORITY ,
     ACCOUNT_TYPE ,
+    INTERNET_CHECK_URL ,
+    SERVER_CHECK_URL ,
 
 
 

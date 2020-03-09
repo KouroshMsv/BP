@@ -42,20 +42,15 @@ abstract class BaseMainActivity(
     private fun initNavController() {
         setSupportActionBar(toolbar)
         navController = findNavController(navHostId)
+
         NavigationUI.setupWithNavController(
             toolbar,
             navController,
             drawerLayout
         )
         navController.addOnDestinationChangedListener { _, destination, _ ->
-
             this.destId = destination.id
             hideKeyboard(this)
-
-            /*toolbar.setNavigationOnClickListener {
-
-            }*/
-
         }
     }
 

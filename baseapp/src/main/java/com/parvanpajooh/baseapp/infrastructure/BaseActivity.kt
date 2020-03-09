@@ -55,7 +55,7 @@ abstract class BaseActivity(
                 when (status) {
                     NetworkStatus.InternetIsDisconnected -> showConnecting(status.message)
                     NetworkStatus.ServerIsDisconnected -> showConnecting(status.message)
-                    NetworkStatus.Connected -> showConnected(status.message)
+                    NetworkStatus.Connected -> showConnected()
                 }
             }
         }
@@ -68,7 +68,7 @@ abstract class BaseActivity(
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onNetworkChange(event: NetworkEvent) {
         if (event.connected) {
-            showConnected(event.message)
+            showConnected()
         } else {
             showConnecting(event.message)
 
@@ -90,7 +90,7 @@ abstract class BaseActivity(
         }
     }
 
-    private fun showConnected(message: String) {
+    private fun showConnected() {
         StatusBarAlert.hide(this, Runnable { })
     }
 

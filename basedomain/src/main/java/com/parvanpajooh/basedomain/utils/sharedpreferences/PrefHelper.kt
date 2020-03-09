@@ -12,7 +12,7 @@ object PrefHelper {
 
     fun <T> get(key: String): T = Hawk.get(key)
 
-    fun <T> get(key: String, defaultValue: T) = Hawk.get(key, defaultValue)!!
+    fun <T> get(key: String, defaultValue: T) = Hawk.get(key, defaultValue)
 
     fun delete(key: String) = Hawk.delete(key)
 

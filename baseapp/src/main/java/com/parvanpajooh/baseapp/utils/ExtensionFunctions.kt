@@ -112,7 +112,7 @@ fun AppCompatActivity.checkPermission(
             }
             dialog.show(supportFragmentManager)
         }
-        permission.isNotEmpty()
+        permission.isEmpty()
     } else {
         var checkNext = true
         requiredPermissions.forEach { permissionRequest ->

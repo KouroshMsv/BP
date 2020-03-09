@@ -13,6 +13,7 @@ import com.parvanpajooh.baseapp.components.service.NetworkStatusService
 import com.parvanpajooh.baseapp.enums.NetworkStatus
 import com.parvanpajooh.baseapp.models.eventbus.NetworkEvent
 import com.parvanpajooh.baseapp.utils.PermissionRequest
+import com.parvanpajooh.baseapp.utils.batchPermissionCode
 import com.parvanpajooh.baseapp.utils.checkPermission
 import com.parvanpajooh.baseapp.utils.isOnline
 import dev.kourosh.baseapp.onMain
@@ -50,7 +51,7 @@ abstract class BaseActivity(
             .withAlertColor(R.color.colorPrimaryDark)
         launchIO {
             delay(200)
-            val status = isOnline().await()
+            val status = isOnline()
             onMain {
                 when (status) {
                     NetworkStatus.InternetIsDisconnected -> showConnecting(status.message)
@@ -114,7 +115,7 @@ abstract class BaseActivity(
         super.onResume()
         (applicationContext as BaseApp).currentActivity = this
         if (requiredPermissions.isNotEmpty())
-            if (checkPermission(requiredPermissions)) {
+            if (checkPermission(requiredPermissions,true)) {
                 permissionChecked()
             }
     }
@@ -125,10 +126,15 @@ abstract class BaseActivity(
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requiredPermissions.isNotEmpty() && requestCode in PermissionRequest.values().map { it.requestCode })
-            if (checkPermission(requiredPermissions)) {
+        if (requestCode == batchPermissionCode) {
+            if (checkPermission(requiredPermissions,true)) {
                 permissionChecked()
             }
+        } else if (requiredPermissions.isNotEmpty() && requestCode in PermissionRequest.values().map { it.requestCode }) {
+            if (checkPermission(requiredPermissions,false)) {
+                permissionChecked()
+            }
+        }
     }
 
     override fun attachBaseContext(newBase: Context) {

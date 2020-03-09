@@ -2,29 +2,31 @@ package com.parvanpajooh.basedata.net
 
 import android.annotation.SuppressLint
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.parvanpajooh.basedata.BuildConfig
 import dev.kourosh.basedomain.classOf
+import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
+import okhttp3.MediaType.Companion.toMediaType
 
 open class BaseApiService(
     private val url: String,
     isHttps: Boolean,
-    private val connectTimeout: Long = 10, private val readWriteTimeout: Long = 60
+    private val connectTimeout: Long = 5, private val readWriteTimeout: Long = 60
 ) {
-
+    val contentType = "application/json".toMediaType()
     val retrofit: Retrofit
         get() = Retrofit.Builder()
             .baseUrl(url)
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(Json.asConverterFactory( "application/json".toMediaType()))
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
 

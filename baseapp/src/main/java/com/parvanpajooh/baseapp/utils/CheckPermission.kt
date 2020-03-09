@@ -32,6 +32,9 @@ fun Activity.checkPermission(request: PermissionRequest): PermissionResponse {
 fun Activity.requestPermission(request: PermissionRequest) {
     ActivityCompat.requestPermissions(this, arrayOf(request.permission), request.requestCode)
 }
+fun Activity.requestPermission(request: List<PermissionRequest>,requestCode:Int) {
+    ActivityCompat.requestPermissions(this, request.map { it.permission }.toTypedArray(), requestCode)
+}
 
 enum class PermissionRequest(val permission: String, val requestCode: Int, val message:String) {
     ACCESS_FINE_LOCATION(Manifest.permission.ACCESS_FINE_LOCATION, 101,"برای ثبت منطقه، برنامه نیاز به دسترسی به لوکیشن دارد."),

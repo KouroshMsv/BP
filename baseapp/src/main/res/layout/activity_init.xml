@@ -28,7 +28,6 @@
             android:paddingBottom="96dp"
             android:text="@string/app_name"
             android:textSize="64sp"
-            app:fontPath="@string/isMedium"
             tools:textColor="@color/white" />
 
     </com.facebook.shimmer.ShimmerFrameLayout>

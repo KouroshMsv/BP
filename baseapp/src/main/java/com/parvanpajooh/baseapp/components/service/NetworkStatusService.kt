@@ -27,7 +27,7 @@ class NetworkStatusService : Service() {
         val flow = channelFlow {
             withContext(Dispatchers.IO) {
                 while (running) {
-                    send(isOnline().await())
+                    send(isOnline())
                     delay(5000)
                 }
             }

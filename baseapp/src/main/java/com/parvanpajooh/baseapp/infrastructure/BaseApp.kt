@@ -11,9 +11,10 @@ import dev.kourosh.baseapp.initApp
 abstract class BaseApp : Application() {
     var currentActivity: Activity?=null
     abstract val authority: String
+    abstract val defaultFontPath:String
     override fun onCreate() {
         super.onCreate()
-        initApp()
+        initApp(defaultFontPath)
         PrefHelper.init(applicationContext)
         PrefHelper.put(BasePrefKey.AUTHORITY.name,authority)
         PrefHelper.put(BasePrefKey.IS_AUTO_TIME_ZONE.name, Helpers.isTimeAutomatic(this))

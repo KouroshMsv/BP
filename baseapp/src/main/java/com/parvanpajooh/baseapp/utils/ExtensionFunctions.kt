@@ -13,7 +13,6 @@ import dev.kourosh.accountmanager.accountmanager.AuthenticationCRUD
 import dev.kourosh.basedomain.classOf
 import dev.kourosh.basedomain.launchIO
 import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.Deferred
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -31,32 +30,30 @@ private val internetUrl by lazy {
     )
 }
 
-fun isOnline(parvanUrl: URL = serverUrl): Deferred<NetworkStatus> {
+suspend fun isOnline(parvanUrl: URL = serverUrl): NetworkStatus {
 
     val response = CompletableDeferred<NetworkStatus>()
-    launchIO {
-        response.complete(
-            try {
-                connection = parvanUrl.openConnection() as HttpURLConnection
-                connection?.connectTimeout = 2000
-                connection?.connect()
-                val connected = connection?.responseCode == 200
-                if (connected)
-                    NetworkStatus.Connected
-                else
-                    checkGoogleServer().await()
+    response.complete(
+        try {
+            connection = parvanUrl.openConnection() as HttpURLConnection
+            connection?.connectTimeout = 2000
+            connection?.connect()
+            val connected = connection?.responseCode == 200
+            connection?.disconnect()
+            if (connected)
+                NetworkStatus.Connected
+            else
+                checkGoogleServer()
 
-            } catch (e: Exception) {
-                checkGoogleServer().await()
-            } finally {
-                connection?.disconnect()
-            }
-        )
-    }
-    return response
+        } catch (e: Exception) {
+            connection?.disconnect()
+            checkGoogleServer()
+        }
+    )
+    return response.await()
 }
 
-fun checkGoogleServer(googleUrl: URL = internetUrl): Deferred<NetworkStatus> {
+suspend fun checkGoogleServer(googleUrl: URL = internetUrl): NetworkStatus {
     val response = CompletableDeferred<NetworkStatus>()
     launchIO {
         response.complete(
@@ -65,18 +62,19 @@ fun checkGoogleServer(googleUrl: URL = internetUrl): Deferred<NetworkStatus> {
                 connection?.connectTimeout = 2000
                 connection?.connect()
                 val connected = connection?.responseCode == 204
+                connection?.disconnect()
                 if (connected)
                     NetworkStatus.ServerIsDisconnected
                 else
                     NetworkStatus.InternetIsDisconnected
+
             } catch (e: Exception) {
-                NetworkStatus.InternetIsDisconnected
-            } finally {
                 connection?.disconnect()
+                NetworkStatus.InternetIsDisconnected
             }
         )
     }
-    return response
+    return response.await()
 
 }
 
@@ -91,36 +89,61 @@ fun startSync(accountHelper: AuthenticationCRUD) {
     )
 }
 
-fun AppCompatActivity.checkPermission(requiredPermissions: List<PermissionRequest>): Boolean {
-    var checkNext = true
-    requiredPermissions.forEach { permissionRequest ->
-        when (checkPermission(permissionRequest)) {
-            PermissionResponse.GRANTED -> {
-                checkNext = true
+internal val batchPermissionCode = 999
+fun AppCompatActivity.checkPermission(
+    requiredPermissions: List<PermissionRequest>,
+    batchCheck: Boolean
+): Boolean {
+    return if (batchCheck) {
+        val permission = requiredPermissions.filter {
+            checkPermission(it) != PermissionResponse.GRANTED
+        }
+        if (permission.isNotEmpty()) {
+            val dialog = TwoStateMessageDialog.newInstance(
+                "برای استفاده از تمامی امکانات اپلیکیشن اجازه دسترسی به مجوز های مورد نیاز را بدهید.",
+                "اجازه میدهم",
+                "بستن برنامه", false
+            )
+            dialog.negativeButtonClickListener {
+                finish()
             }
-            PermissionResponse.FIRST_DENIED, PermissionResponse.DENIED -> {
-                if (checkNext) {
-                    checkNext = false
+            dialog.positiveButtonClickListener {
+                requestPermission(permission, batchPermissionCode)
+            }
+            dialog.show(supportFragmentManager)
+        }
+        permission.isNotEmpty()
+    } else {
+        var checkNext = true
+        requiredPermissions.forEach { permissionRequest ->
+            when (checkPermission(permissionRequest)) {
+                PermissionResponse.GRANTED -> {
+                    checkNext = true
+                }
+                PermissionResponse.FIRST_DENIED, PermissionResponse.DENIED -> {
+                    if (checkNext) {
+                        checkNext = false
 //                    requestPermission(permissionRequest)
-                    val dialog = TwoStateMessageDialog.newInstance(
-                        permissionRequest.message,
-                        "اجازه میدهم",
-                        "بستن برنامه", false
-                    )
-                    dialog.negativeButtonClickListener {
-                        finish()
-                    }
-                    dialog.positiveButtonClickListener {
-                        requestPermission(permissionRequest)
+                        val dialog = TwoStateMessageDialog.newInstance(
+                            permissionRequest.message,
+                            "اجازه میدهم",
+                            "بستن برنامه", false
+                        )
+                        dialog.negativeButtonClickListener {
+                            finish()
+                        }
+                        dialog.positiveButtonClickListener {
+                            requestPermission(permissionRequest)
 
+                        }
+                        dialog.show(supportFragmentManager)
+                        return checkNext
                     }
-                    dialog.show(supportFragmentManager)
-                    return checkNext
                 }
             }
         }
+        checkNext
     }
-    return checkNext
 }
 
 inline fun <reified T> Activity.startActivity(finished: Boolean = true) {

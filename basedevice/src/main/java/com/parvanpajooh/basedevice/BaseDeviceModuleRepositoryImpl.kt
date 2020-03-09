@@ -27,8 +27,7 @@ abstract class BaseDeviceModuleRepositoryImpl(
         )
     }
 
-    override fun getRefreshToken(username: String) =
-        authenticationCRUD.getUserData(username, UserDataKeys.REFRESH_TOKEN)!!
+    override fun getRefreshToken(username: String) =authenticationCRUD.getUserData(username, UserDataKeys.REFRESH_TOKEN)?:""
 
     override fun createAccount(username: String, data: TokenRes) {
         authenticationCRUD.createOrUpdateAccount(

@@ -64,10 +64,10 @@ abstract class BaseDataModuleRepositoryImpl(
 
 
     private fun Token.toDomain() = TokenRes(
-        access_token,
-        token_type.capitalize(),
-        refresh_token,
-        (expires_in * 1000) + System.currentTimeMillis()
+        accessToken,
+        tokenType.capitalize(),
+        refreshToken,
+        (expiresIn * 1000) + System.currentTimeMillis()
     )
 
 

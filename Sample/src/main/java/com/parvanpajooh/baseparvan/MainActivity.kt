@@ -3,6 +3,8 @@ package com.parvanpajooh.baseparvan
 import com.parvanpajooh.baseapp.infrastructure.BaseActivity
 import com.parvanpajooh.baseapp.utils.PermissionRequest
 import dev.kourosh.basedomain.launchIO
+import dev.kourosh.basedomain.logE
+import dev.kourosh.basedomain.parseOnMain
 
 
 class MainActivity : BaseActivity(
@@ -14,7 +16,9 @@ class MainActivity : BaseActivity(
 ) {
     override fun permissionChecked() {
         launchIO {
-            val res = Api().getTokenWithAccount("logistic.mehrasa", "1005254")
+            Api().getTokenWithAccount("logistic.mehrasa", "1005254").parseOnMain({
+                logE(it)
+            },{ message, errorCode ->  })
 
         }
     }

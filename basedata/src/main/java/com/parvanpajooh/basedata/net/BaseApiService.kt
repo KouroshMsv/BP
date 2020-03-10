@@ -6,6 +6,8 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.parvanpajooh.basedata.BuildConfig
 import dev.kourosh.basedomain.classOf
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,19 +16,19 @@ import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
-import okhttp3.MediaType.Companion.toMediaType
 
 open class BaseApiService(
     private val url: String,
     isHttps: Boolean,
     private val connectTimeout: Long = 5, private val readWriteTimeout: Long = 60
 ) {
-    val contentType = "application/json".toMediaType()
+    private val contentType = "application/json".toMediaType()
     val retrofit: Retrofit
         get() = Retrofit.Builder()
             .baseUrl(url)
             .client(client)
-            .addConverterFactory(Json.asConverterFactory( "application/json".toMediaType()))
+            .addConverterFactory(Json(JsonConfiguration(ignoreUnknownKeys = true))
+                .asConverterFactory(contentType))
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
 

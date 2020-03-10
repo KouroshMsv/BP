@@ -42,8 +42,10 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines}"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutines}"
     implementation 'com.google.android.material:material:1.0.0'
-
-
+    implementation project(path: ':basedomain')
+    implementation "com.github.kouroshmsv.baseandroid:basedomain:${baseAndroid}"
+    implementation project(path: ':basedata')
+    implementation project(path: ':basedevice')
 
 
 }

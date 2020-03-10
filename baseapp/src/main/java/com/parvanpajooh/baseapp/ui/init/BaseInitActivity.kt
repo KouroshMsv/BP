@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import com.google.gson.Gson
 import com.parvanpajooh.baseapp.R
 import com.parvanpajooh.baseapp.infrastructure.BaseActivity
 import com.parvanpajooh.baseapp.models.UpdateModel
@@ -24,6 +23,8 @@ import kotlinx.android.synthetic.main.activity_init.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.serializer
 import java.io.File
 
 
@@ -43,7 +44,6 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
             false
         ) && PrefHelper.get<String?>(BasePrefKey.USERNAME.name) != null
     }
-    private val gson = Gson()
     private val metamorphosis = Metamorphosis(Builder(this, updateUrl))
 
     init {
@@ -102,7 +102,7 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
         }
 
         override fun onSucceed(data: String) {
-            val updaterRes = gson.fromJson(data, UpdateModel::class.java)
+            val updaterRes = Json.parse(UpdateModel.serializer(),data)
             metamorphosis.builder.apkName = "${apkName}_${updaterRes.latestVersion}.apk"
             metamorphosis.builder.notificationConfig.title =
                 "${apkName}_${updaterRes.latestVersion}.apk"

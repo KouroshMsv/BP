@@ -1,16 +1,18 @@
 package com.parvanpajooh.baseapp.models
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class UpdateModel (
-        @SerializedName("latestVersion")
+        @SerialName("latestVersion")
         val latestVersion: String,
-        @SerializedName("latestVersionCode")
+        @SerialName("latestVersionCode")
         val latestVersionCode: Int,
-        @SerializedName("url")
+        @SerialName("url")
         val url: String,
-        @SerializedName("required")
+        @SerialName("required")
         val required: Boolean,
-        @SerializedName("releaseNotes")
+        @SerialName("releaseNotes")
         val releaseNotes: List<String>
     )

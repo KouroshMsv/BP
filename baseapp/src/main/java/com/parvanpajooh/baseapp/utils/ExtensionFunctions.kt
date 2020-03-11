@@ -36,7 +36,7 @@ suspend fun isOnline(parvanUrl: URL = serverUrl): NetworkStatus {
     response.complete(
         try {
             connection = parvanUrl.openConnection() as HttpURLConnection
-            connection?.connectTimeout = 2000
+            connection?.connectTimeout = 15000
             connection?.connect()
             val connected = connection?.responseCode == 200
             connection?.disconnect()

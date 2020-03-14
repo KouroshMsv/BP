@@ -78,14 +78,13 @@ suspend fun checkGoogleServer(googleUrl: URL = internetUrl): NetworkStatus {
 
 }
 
-fun startSync(accountHelper: AuthenticationCRUD) {
-    val settingsBundle = Bundle()
-    settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
-    settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
+fun startSync(accountHelper: AuthenticationCRUD,bundle:Bundle=Bundle()) {
+    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
+    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
     ContentResolver.requestSync(
         accountHelper.getAccount(PrefHelper.get(BasePrefKey.USERNAME.name)),
         PrefHelper.get(BasePrefKey.AUTHORITY.name),
-        settingsBundle
+        bundle
     )
 }
 

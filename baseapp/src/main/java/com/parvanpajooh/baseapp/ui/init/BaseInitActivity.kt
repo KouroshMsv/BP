@@ -24,7 +24,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.serializer
 import java.io.File
 
 
@@ -102,7 +101,7 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
         }
 
         override fun onSucceed(data: String) {
-            val updaterRes = Json.parse(UpdateModel.serializer(),data)
+            val updaterRes = Json.parse(UpdateModel.serializer(), data)
             metamorphosis.builder.apkName = "${apkName}_${updaterRes.latestVersion}.apk"
             metamorphosis.builder.notificationConfig.title =
                 "${apkName}_${updaterRes.latestVersion}.apk"

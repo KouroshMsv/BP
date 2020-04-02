@@ -12,10 +12,10 @@ abstract class BaseAppModuleRepositoryImpl<T : AppCompatActivity>(
 ) : BaseAppModuleRepository {
     override fun goToLogin() {
         val baseApp = context as BaseApp
-        if (baseApp.currentActivity!=null) {
-            val currentActivity=baseApp.currentActivity!!::class.java
+        if (baseApp.currentActivity != null) {
+            val currentActivity = baseApp.currentActivity!!::class.java
             if (currentActivity != baseLoginActivityClass) {
-                val intent=Intent(baseApp, baseLoginActivityClass)
+                val intent = Intent(baseApp, baseLoginActivityClass)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 baseApp.startActivity(intent)
                 baseApp.currentActivity?.finish()

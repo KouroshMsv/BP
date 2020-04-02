@@ -21,10 +21,10 @@
     <color name="bright_sky_blue">#00b0ff</color>
     <color name="bermuda">#91d1cb</color>
     <color name="turquoise">#00bba8</color>
-    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true" >#22a599</color>
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#22a599</color>
     <color name="tealish">#26a69a</color>
-    <color name="mtrl_textinput_hovered_box_stroke_color" tools:override="true" >#00897b</color>
-    <color name="mtrl_textinput_focused_box_stroke_color" tools:override="true" >#00897b</color>
+    <color name="mtrl_textinput_hovered_box_stroke_color" tools:override="true">#00897b</color>
+    <color name="mtrl_textinput_focused_box_stroke_color" tools:override="true">#00897b</color>
     <color name="lightish_blue">#536dfe</color>
     <color name="purplish_brown">#60404a</color>
     <color name="tomato">#f44336</color>

@@ -7,7 +7,6 @@ import com.parvanpajooh.basedomain.repository.BaseDeviceModuleRepository
 import dev.kourosh.accountmanager.UserDataKeys
 import dev.kourosh.accountmanager.accountmanager.AuthenticationCRUD
 import dev.kourosh.basedomain.Result
-import dev.kourosh.basedomain.map
 import kotlinx.coroutines.delay
 
 abstract class BaseDeviceModuleRepositoryImpl(

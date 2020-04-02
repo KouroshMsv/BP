@@ -34,13 +34,13 @@ class NetworkStatusService : Service() {
         }.distinctUntilChanged { old, new -> new.ordinal == old.ordinal }
         GlobalScope.launch(Dispatchers.Main) {
             flow.collect(object : FlowCollector<NetworkStatus> {
-                    override suspend fun emit(value: NetworkStatus) {
-                        EventBus.getDefault()
-                            .post(
-                                NetworkEvent(value == NetworkStatus.Connected, value.message)
-                            )
-                    }
-                })
+                override suspend fun emit(value: NetworkStatus) {
+                    EventBus.getDefault()
+                        .post(
+                            NetworkEvent(value == NetworkStatus.Connected, value.message)
+                        )
+                }
+            })
         }
     }
 

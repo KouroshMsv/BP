@@ -15,7 +15,11 @@ class SyncProvider : ContentProvider() {
 
     @Nullable
     override fun query(
-        @NonNull uri: Uri, @Nullable projection: Array<String>?, @Nullable selection: String?, @Nullable selectionArgs: Array<String>?, @Nullable sortOrder: String?
+        @NonNull uri: Uri,
+        @Nullable projection: Array<String>?,
+        @Nullable selection: String?,
+        @Nullable selectionArgs: Array<String>?,
+        @Nullable sortOrder: String?
     ): Cursor? {
         return null
     }
@@ -30,12 +34,19 @@ class SyncProvider : ContentProvider() {
         return null
     }
 
-    override fun delete(@NonNull uri: Uri, @Nullable selection: String?, @Nullable selectionArgs: Array<String>?): Int {
+    override fun delete(
+        @NonNull uri: Uri,
+        @Nullable selection: String?,
+        @Nullable selectionArgs: Array<String>?
+    ): Int {
         return 0
     }
 
     override fun update(
-        @NonNull uri: Uri, @Nullable values: ContentValues?, @Nullable selection: String?, @Nullable selectionArgs: Array<String>?
+        @NonNull uri: Uri,
+        @Nullable values: ContentValues?,
+        @Nullable selection: String?,
+        @Nullable selectionArgs: Array<String>?
     ): Int {
         return 0
     }

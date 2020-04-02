@@ -4,8 +4,6 @@ import com.parvanpajooh.baseapp.infrastructure.BaseActivity
 import com.parvanpajooh.baseapp.utils.PermissionRequest
 import dev.kourosh.basedomain.launchIO
 import dev.kourosh.basedomain.logE
-import dev.kourosh.basedomain.parseOnMain
-
 
 class MainActivity : BaseActivity(
     R.layout.activity_main, listOf(

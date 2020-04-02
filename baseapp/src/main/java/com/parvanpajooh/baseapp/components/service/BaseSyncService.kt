@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.IBinder
 import com.parvanpajooh.basedata.sync.BaseSyncAdapter
 
-abstract class BaseSyncService : Service(){
+abstract class BaseSyncService : Service() {
 
     private val sSyncAdapterLock = Any()
     private var syncAdapter: BaseSyncAdapter? = null
@@ -17,7 +17,8 @@ abstract class BaseSyncService : Service(){
             }
         }
     }
-    abstract val syncAdapterInstance:BaseSyncAdapter
+
+    abstract val syncAdapterInstance: BaseSyncAdapter
 
 
     override fun onBind(intent: Intent): IBinder? {

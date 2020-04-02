@@ -19,6 +19,7 @@ fun Context.callFromDialer(number: String) {
         Toast.makeText(this, "No SIM Found", Toast.LENGTH_LONG).show()
     }
 }
+
 @RequiresPermission(Manifest.permission.CALL_PHONE)
 fun Context.callDirect(number: String) {
     try {

@@ -1,16 +1,16 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layoutDirection="ltr"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
+    android:layoutDirection="ltr"
     app:cardCornerRadius="@dimen/defaultRadius">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layoutDirection="ltr"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:layoutDirection="ltr">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtMessage"

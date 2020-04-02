@@ -21,7 +21,6 @@ import dev.kourosh.baseapp.hideKeyboard
 import dev.kourosh.baseapp.launchMain
 import dev.kourosh.baseapp.numP2E
 import dev.kourosh.basedomain.launchIO
-import dev.kourosh.basedomain.parseOnMain
 
 abstract class BaseLoginActivity<T : Any>(
     @LayoutRes private val layoutId: Int,

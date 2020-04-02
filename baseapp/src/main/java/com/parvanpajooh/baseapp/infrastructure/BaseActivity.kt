@@ -17,7 +17,6 @@ import com.parvanpajooh.baseapp.utils.batchPermissionCode
 import com.parvanpajooh.baseapp.utils.checkPermission
 import com.parvanpajooh.baseapp.utils.isOnline
 import dev.kourosh.baseapp.onMain
-import dev.kourosh.basedomain.classOf
 import dev.kourosh.basedomain.launchIO
 import dev.kourosh.basedomain.logE
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
@@ -42,7 +41,7 @@ abstract class BaseActivity(
         super.onCreate(savedInstanceState)
         setContentView(layoutId)
         if (!NetworkStatusService.running) {
-            notworkStatusIntent = Intent(applicationContext, classOf<NetworkStatusService>())
+            notworkStatusIntent = Intent(applicationContext, NetworkStatusService::class.java)
             startService(notworkStatusIntent)
         }
         statusBarAlertView = StatusBarAlert.Builder(this)
@@ -115,7 +114,7 @@ abstract class BaseActivity(
         super.onResume()
         (applicationContext as BaseApp).currentActivity = this
         if (requiredPermissions.isNotEmpty())
-            if (checkPermission(requiredPermissions,true)) {
+            if (checkPermission(requiredPermissions, true)) {
                 permissionChecked()
             }
     }
@@ -127,11 +126,13 @@ abstract class BaseActivity(
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == batchPermissionCode) {
-            if (checkPermission(requiredPermissions,true)) {
+            if (checkPermission(requiredPermissions, true)) {
                 permissionChecked()
             }
-        } else if (requiredPermissions.isNotEmpty() && requestCode in PermissionRequest.values().map { it.requestCode }) {
-            if (checkPermission(requiredPermissions,false)) {
+        } else if (requiredPermissions.isNotEmpty() && requestCode in PermissionRequest.values()
+                .map { it.requestCode }
+        ) {
+            if (checkPermission(requiredPermissions, false)) {
                 permissionChecked()
             }
         }

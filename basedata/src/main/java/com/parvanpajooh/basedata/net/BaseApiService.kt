@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.parvanpajooh.basedata.BuildConfig
-import dev.kourosh.basedomain.classOf
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.MediaType.Companion.toMediaType
@@ -27,8 +26,10 @@ open class BaseApiService(
         get() = Retrofit.Builder()
             .baseUrl(url)
             .client(client)
-            .addConverterFactory(Json(JsonConfiguration(ignoreUnknownKeys = true))
-                .asConverterFactory(contentType))
+            .addConverterFactory(
+                Json(JsonConfiguration(ignoreUnknownKeys = true))
+                    .asConverterFactory(contentType)
+            )
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
 
@@ -88,7 +89,7 @@ open class BaseApiService(
         }
 
     inline fun <reified T> create(): T {
-        return retrofit.create(classOf<T>())
+        return retrofit.create(T::class.java)
     }
 
 }

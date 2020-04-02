@@ -3,7 +3,10 @@ package com.parvanpajooh.basedomain.repository
 import com.parvanpajooh.basedomain.models.request.LoginReq
 import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
-import dev.kourosh.basedomain.*
+import dev.kourosh.basedomain.ErrorCode
+import dev.kourosh.basedomain.Result
+import dev.kourosh.basedomain.launchIO
+import dev.kourosh.basedomain.whenUnAuthorized
 
 abstract class BaseRepositoryImpl(
     private val appContract: BaseAppModuleRepository,
@@ -78,37 +81,35 @@ abstract class BaseRepositoryImpl(
     }
 
     private suspend fun getTokenWithAccount(model: LoginReq): Result<String> {
-        return dataContract.getTokenWithAccount(model.username, model.password).whenSucceed {
+        return dataContract.getTokenWithAccount(model.username, model.password).map {
             PrefHelper.put(BasePrefKey.USERNAME.name, model.username)
             PrefHelper.put(BasePrefKey.LATEST_USERNAME.name, model.username)
             deviceContract.createAccount(model.username, it)
-            Result.Success(model.username)
+            model.username
         }
     }
 
     private suspend fun getTokenWithRefreshToken(username: String): Result<String> {
         return dataContract.getTokenWithRefreshToken(deviceContract.getRefreshToken(username))
-            .whenSucceed {
+            .map {
                 deviceContract.updateAccount(username, it)
-                Result.Success("${it.tokenType} ${it.accessToken}")
+                "${it.tokenType} ${it.accessToken}"
             }
     }
 
     override suspend fun autoLogin(username: String): Result<Unit> {
         return getToken().whenUnAuthorized { getTokenWithRefreshToken(username) }
-            .whenSucceed { Result.Success(Unit) }
+            .map { Unit }
     }
 
     override suspend fun initialize(): Result<Unit> {
-        return getToken().whenSucceed {
+        return getToken().bind {
             dataContract.initialize(it)
         }
     }
 
     override suspend fun login(parameter: LoginReq): Result<Unit> {
-        return getTokenWithAccount(parameter).whenSucceed {
-            Result.Success(Unit)
-        }
+        return getTokenWithAccount(parameter).map { Unit }
     }
 
     override fun logout() {
@@ -121,22 +122,22 @@ abstract class BaseRepositoryImpl(
 
     }
 
-    protected suspend fun <T : Any> getTokenAndWhenUnauthorizeRetry(func: suspend (token:String) -> Result<T>): Result<T> {
-        return getToken().whenSucceed {
+    protected suspend fun <T : Any> getTokenAndWhenUnauthorizeRetry(func: suspend (token: String) -> Result<T>): Result<T> {
+        return getToken().bind {
             func(it)
-       }.whenUnAuthorized {
-           updateTokenWithRefreshToken().substitute({ token ->
-               func(token).whenUnAuthorized {
-                   PrefHelper.delete(BasePrefKey.USERNAME.name)
-                   appContract.goToLogin()
-                   it
-               }
-           }, { _, _ ->
-               PrefHelper.delete(BasePrefKey.USERNAME.name)
-               appContract.goToLogin()
-               it
-           })
-       }
+        }.whenUnAuthorized {
+            updateTokenWithRefreshToken().substitute({ token ->
+                func(token).whenUnAuthorized {
+                    PrefHelper.delete(BasePrefKey.USERNAME.name)
+                    appContract.goToLogin()
+                    it
+                }
+            }, { _, _ ->
+                PrefHelper.delete(BasePrefKey.USERNAME.name)
+                appContract.goToLogin()
+                it
+            })
+        }
     }
 
 }

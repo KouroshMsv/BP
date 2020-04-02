@@ -10,7 +10,6 @@ import com.parvanpajooh.baseapp.ui.TwoStateMessageDialog
 import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
 import dev.kourosh.accountmanager.accountmanager.AuthenticationCRUD
-import dev.kourosh.basedomain.classOf
 import dev.kourosh.basedomain.launchIO
 import kotlinx.coroutines.CompletableDeferred
 import java.net.HttpURLConnection
@@ -78,7 +77,7 @@ suspend fun checkGoogleServer(googleUrl: URL = internetUrl): NetworkStatus {
 
 }
 
-fun startSync(accountHelper: AuthenticationCRUD,bundle:Bundle=Bundle()) {
+fun startSync(accountHelper: AuthenticationCRUD, bundle: Bundle = Bundle()) {
     bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
     bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
     ContentResolver.requestSync(
@@ -146,7 +145,7 @@ fun AppCompatActivity.checkPermission(
 }
 
 inline fun <reified T> Activity.startActivity(finished: Boolean = true) {
-    startActivity(Intent(this, classOf<T>()))
+    startActivity(Intent(this, T::class.java))
     if (finished)
         finish()
 }

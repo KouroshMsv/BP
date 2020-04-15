@@ -30,22 +30,12 @@ private val internetUrl by lazy {
 }
 
 suspend fun isOnline(parvanUrl: URL = serverUrl): NetworkStatus {
-
     val response = CompletableDeferred<NetworkStatus>()
     response.complete(
         try {
-            connection = parvanUrl.openConnection() as HttpURLConnection
-            connection?.connectTimeout = 15000
-            connection?.connect()
-            val connected = connection?.responseCode == 200
-            connection?.disconnect()
-            if (connected)
-                NetworkStatus.Connected
-            else
-                checkGoogleServer()
-
+            parvanUrl.readText()
+            NetworkStatus.Connected
         } catch (e: Exception) {
-            connection?.disconnect()
             checkGoogleServer()
         }
     )
@@ -57,18 +47,9 @@ suspend fun checkGoogleServer(googleUrl: URL = internetUrl): NetworkStatus {
     launchIO {
         response.complete(
             try {
-                connection = googleUrl.openConnection() as HttpURLConnection
-                connection?.connectTimeout = 2000
-                connection?.connect()
-                val connected = connection?.responseCode == 204
-                connection?.disconnect()
-                if (connected)
-                    NetworkStatus.ServerIsDisconnected
-                else
-                    NetworkStatus.InternetIsDisconnected
-
+                googleUrl.readText()
+                NetworkStatus.ServerIsDisconnected
             } catch (e: Exception) {
-                connection?.disconnect()
                 NetworkStatus.InternetIsDisconnected
             }
         )

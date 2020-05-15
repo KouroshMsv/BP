@@ -9,9 +9,9 @@ import dev.kourosh.basedomain.launchIO
 import dev.kourosh.basedomain.whenUnAuthorized
 
 abstract class BaseRepositoryImpl(
-    private val appContract: BaseAppModuleRepository,
-    private val dataContract: BaseDataModuleRepository,
-    private val deviceContract: BaseDeviceModuleRepository
+        private val appContract: BaseAppModuleRepository,
+        private val dataContract: BaseDataModuleRepository,
+        private val deviceContract: BaseDeviceModuleRepository
 ) : BaseRepository {
 
     private suspend fun getToken(): Result<String> {
@@ -25,21 +25,21 @@ abstract class BaseRepositoryImpl(
                     when (code) {
                         ErrorCode.TOKEN_EXPIRED -> {
                             dataContract.getTokenWithRefreshToken(
-                                deviceContract.getRefreshToken(userName)
+                                    deviceContract.getRefreshToken(userName)
                             ).substitute({ data ->
                                 deviceContract.updateAccount(userName, data)
                                 Result.Success("${data.tokenType} ${data.accessToken}")
                             }, { message1, code1 ->
                                 when (code1) {
                                     ErrorCode.NETWORK_ERROR -> {
-
+                                        Result.Success("NetworkError")
                                     }
                                     else -> {
                                         invalidateToken()
+                                        Result.Error(message1, code1)
                                     }
 
                                 }
-                                Result.Error(message1, code1)
                             })
 
                         }
@@ -63,10 +63,10 @@ abstract class BaseRepositoryImpl(
             null -> Result.Error("unavailable account ", ErrorCode.UNAVAILABLE_ACCOUNT)
             else -> {
                 dataContract.getTokenWithRefreshToken(deviceContract.getRefreshToken(userName))
-                    .map { data ->
-                        deviceContract.updateAccount(userName, data)
-                        "${data.tokenType} ${data.accessToken}"
-                    }
+                        .map { data ->
+                            deviceContract.updateAccount(userName, data)
+                            "${data.tokenType} ${data.accessToken}"
+                        }
             }
         }
 
@@ -91,15 +91,15 @@ abstract class BaseRepositoryImpl(
 
     private suspend fun getTokenWithRefreshToken(username: String): Result<String> {
         return dataContract.getTokenWithRefreshToken(deviceContract.getRefreshToken(username))
-            .map {
-                deviceContract.updateAccount(username, it)
-                "${it.tokenType} ${it.accessToken}"
-            }
+                .map {
+                    deviceContract.updateAccount(username, it)
+                    "${it.tokenType} ${it.accessToken}"
+                }
     }
 
     override suspend fun autoLogin(username: String): Result<Unit> {
         return getToken().whenUnAuthorized { getTokenWithRefreshToken(username) }
-            .map { Unit }
+                .map { Unit }
     }
 
     override suspend fun initialize(): Result<Unit> {

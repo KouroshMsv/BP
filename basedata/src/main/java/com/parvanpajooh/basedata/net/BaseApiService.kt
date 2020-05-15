@@ -3,7 +3,6 @@ package com.parvanpajooh.basedata.net
 import android.annotation.SuppressLint
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.parvanpajooh.basedata.BuildConfig
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.MediaType.Companion.toMediaType
@@ -18,6 +17,8 @@ import javax.net.ssl.X509TrustManager
 
 open class BaseApiService(
     private val url: String,
+
+    private val debuggable: Boolean,
     isHttps: Boolean,
     private val connectTimeout: Long = 5, private val readWriteTimeout: Long = 60
 ) {
@@ -36,7 +37,7 @@ open class BaseApiService(
     protected val okHttpClientBuilder: OkHttpClient.Builder
         get() {
             val builder = OkHttpClient.Builder()
-            if (BuildConfig.DEBUG) {
+            if (debuggable) {
                 val httpLoggingInterceptor = HttpLoggingInterceptor()
                 builder.addInterceptor(httpLoggingInterceptor.apply {
                     httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY

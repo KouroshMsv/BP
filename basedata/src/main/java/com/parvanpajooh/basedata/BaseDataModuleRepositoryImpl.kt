@@ -18,49 +18,14 @@ abstract class BaseDataModuleRepositoryImpl(
 ) : BaseDataModuleRepository {
 
     override suspend fun getTokenWithAccount(username: String, password: String): Result<TokenRes> {
-        return checkResponseError {
-            val result = restApi.getTokenWithAccountAsync(username, password).await()
-            Result.Success(result.toDomain())
-        }
+        return  restApi.getTokenWithAccountAsync(username, password).map { it.toDomain() }
     }
 
     override suspend fun getTokenWithRefreshToken(refreshToken: String): Result<TokenRes> {
-        return checkResponseError {
-            val result = restApi.getTokenWithRefreshTokenAsync(refreshToken).await()
-            Result.Success(result.toDomain())
-        }
+        return  restApi.getTokenWithRefreshTokenAsync(refreshToken).map { it.toDomain() }
 
     }
 
-
-    protected suspend fun <T : Any> checkResponseError(service: suspend () -> Result<T>): Result<T> {
-        return try {
-            service()
-        } catch (e: HttpException) {
-            logW(e.toString())
-            when (e.code()) {
-                HttpURLConnection.HTTP_UNAUTHORIZED -> Result.Error(
-                    "اطلاعات وارد شده نامعتبر است.",
-                    ErrorCode.UNAUTHORIZED
-                )
-                418 -> e.getErrorMessage()
-                else -> {
-                    Result.Error(e.code().toString(), ErrorCode.SERVER_ERROR)
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Result.Error("خطا در ارتباط با سرور", ErrorCode.NETWORK_ERROR)
-        }
-    }
-
-    protected fun HttpException.getErrorMessage(): Result.Error {
-        return Result.Error(
-            JSONObject(
-                response()?.errorBody()?.string() ?: "{\"message\":\"پیامی وجود ندارد.\"}"
-            ).getString("message"), ErrorCode.SERVER_ERROR
-        )
-    }
 
 
     private fun Token.toDomain() = TokenRes(

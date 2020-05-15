@@ -11,28 +11,29 @@ import retrofit2.HttpException
 import java.net.HttpURLConnection
 
 
-open class BaseRestApiImpl(tokenUrl: String,debuggable:Boolean) : BaseRestApi {
+open class BaseRestApiImpl(tokenUrl: String, debuggable: Boolean) : BaseRestApi {
     val AUTHORIZATION = "Authorization"
-    private val tokenApi = BaseApiService(tokenUrl, debuggable,true, 20).create<TokenApi>()
+    private val tokenApi = BaseApiService(tokenUrl, debuggable, true, 20).create<TokenApi>()
 
     override suspend fun getTokenWithAccountAsync(
         username: String,
         password: String
     ): Result<Token> {
-        return  checkResponseError {
-            Result.Success(tokenApi.getTokenWithAccountAsync(username, password).await())
+        return checkResponseError {
+            tokenApi.getTokenWithAccountAsync(username, password)
         }
     }
 
     override suspend fun getTokenWithRefreshTokenAsync(refreshToken: String): Result<Token> {
-        return  checkResponseError {
-            Result.Success(tokenApi.getTokenWithRefreshTokenAsync(refreshToken).await())
+        return checkResponseError {
+            tokenApi.getTokenWithRefreshTokenAsync(refreshToken)
         }
     }
 
-    protected suspend fun <T : Any> checkResponseError(service: suspend () -> Result<T>): Result<T> {
+
+    protected suspend fun <T : Any> checkResponseError(service: suspend () -> Deferred<T>): Result<T> {
         return try {
-            service()
+            Result.Success(service().await())
         } catch (e: HttpException) {
             logW(e.toString())
             when (e.code()) {

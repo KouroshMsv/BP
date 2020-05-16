@@ -20,7 +20,8 @@ open class BaseApiService(
 
     private val debuggable: Boolean,
     isHttps: Boolean,
-    private val connectTimeout: Long = 5, private val readWriteTimeout: Long = 60
+    private val connectTimeout: Long = 5, private val readWriteTimeout: Long = 60,
+    private val jsonConfiguration: JsonConfiguration = JsonConfiguration(ignoreUnknownKeys = true)
 ) {
     private val contentType = "application/json".toMediaType()
     val retrofit: Retrofit
@@ -28,7 +29,7 @@ open class BaseApiService(
             .baseUrl(url)
             .client(client)
             .addConverterFactory(
-                Json(JsonConfiguration(ignoreUnknownKeys = true))
+                Json(jsonConfiguration)
                     .asConverterFactory(contentType)
             )
             .addCallAdapterFactory(CoroutineCallAdapterFactory())

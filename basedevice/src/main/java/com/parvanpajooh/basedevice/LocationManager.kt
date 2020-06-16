@@ -1,5 +1,6 @@
 package com.parvanpajooh.basedevice
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.IntentSender
@@ -74,7 +75,8 @@ class LocationManager(context:  Context) {
         return mLocationRequest
     }
 
-    private fun getLocation(activity: Activity,onLocationCallback: LocationCallback) {
+    @SuppressLint("MissingPermission")
+    private fun getLocation(activity: Activity, onLocationCallback: LocationCallback) {
         val providerClient = LocationServices.getFusedLocationProviderClient(activity)
         providerClient.requestLocationUpdates(
             createLocationRequest(),
@@ -88,7 +90,8 @@ class LocationManager(context:  Context) {
             null
         )
     }
-    private fun getLocation(activity: Activity,deferred:CompletableDeferred<Result<Location>>) {
+    @SuppressLint("MissingPermission")
+    private fun getLocation(activity: Activity, deferred:CompletableDeferred<Result<Location>>) {
         val providerClient = LocationServices.getFusedLocationProviderClient(activity)
         providerClient.requestLocationUpdates(
             createLocationRequest(),
@@ -96,7 +99,20 @@ class LocationManager(context:  Context) {
                 override fun onLocationResult(result: LocationResult?) {
                     if (result != null) {
                         providerClient.removeLocationUpdates(this)
-                        deferred.complete(Result.Success(Location(result.lastLocation.latitude, result.lastLocation.longitude)))
+                        if (result.lastLocation.isFromMockProvider){
+                            deferred.complete(Result.Error("نقطه مکانی شما غیر واقعی است.",ErrorCode.UNKNOWN))
+                        }else{
+                        deferred.complete(
+                            Result.Success(
+                                Location(
+                                    result.lastLocation.latitude,
+                                    result.lastLocation.longitude
+                                )
+                            )
+                        )}
+                    }
+                    else{
+                        deferred.complete(Result.Error("پاسخی از GPS دریافت نشد.\nدوباره تلاش کنید.",ErrorCode.UNKNOWN))
                     }
                 }
             }, Looper.myLooper())

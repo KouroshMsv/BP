@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.fede987.statusbaralert.StatusBarAlert
 import com.fede987.statusbaralert.StatusBarAlertView
 import com.parvanpajooh.baseapp.R
@@ -17,10 +18,12 @@ import com.parvanpajooh.baseapp.utils.batchPermissionCode
 import com.parvanpajooh.baseapp.utils.checkPermission
 import com.parvanpajooh.baseapp.utils.isOnline
 import dev.kourosh.baseapp.onMain
-import dev.kourosh.basedomain.launchIO
 import dev.kourosh.basedomain.logE
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -48,7 +51,7 @@ abstract class BaseActivity(
             .autoHide(false)
             .showProgress(true)
             .withAlertColor(R.color.colorPrimaryDark)
-        launchIO {
+        lifecycleScope.launch(Dispatchers.IO) {
             delay(200)
             val status = isOnline()
             onMain {
@@ -142,5 +145,10 @@ abstract class BaseActivity(
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
     }
 
+    fun launchIO(block: suspend CoroutineScope.() -> Unit) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            block(this)
+        }
+    }
 
 }

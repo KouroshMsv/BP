@@ -7,6 +7,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.lifecycle.lifecycleScope
 import com.parvanpajooh.baseapp.infrastructure.BaseActivity
 import com.parvanpajooh.baseapp.ui.CheckTimeDialog
 import com.parvanpajooh.baseapp.utils.PermissionRequest
@@ -18,9 +19,9 @@ import dev.kourosh.baseapp.Helpers
 import dev.kourosh.baseapp.dialogs.NetworkErrorDialog
 import dev.kourosh.baseapp.enums.MessageType
 import dev.kourosh.baseapp.hideKeyboard
-import dev.kourosh.baseapp.launchMain
 import dev.kourosh.baseapp.numP2E
-import dev.kourosh.basedomain.launchIO
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 abstract class BaseLoginActivity<T : Any>(
     @LayoutRes private val layoutId: Int,
@@ -37,6 +38,23 @@ abstract class BaseLoginActivity<T : Any>(
     private lateinit var loginButton: AppCompatButton
     private lateinit var username: AppCompatEditText
     private lateinit var password: AppCompatEditText
+    private var loading: Boolean = false
+        set(value) {
+            field = value
+            if (field) {
+                progressView.visibility = View.VISIBLE
+                loginButton.isEnabled = false
+                username.isEnabled = false
+                password.isEnabled = false
+            } else {
+                progressView.visibility = View.GONE
+                loginButton.isEnabled = true
+                username.isEnabled = true
+                password.isEnabled = true
+
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         progressView = findViewById(progressViewId)
@@ -83,7 +101,7 @@ abstract class BaseLoginActivity<T : Any>(
                 MessageType.WARNING
             )
             else -> {
-                loading(true)
+                loading = true
                 launchIO {
                     uc.login().execute(
                         LoginReq(
@@ -94,7 +112,7 @@ abstract class BaseLoginActivity<T : Any>(
                         .parseOnMain({
                             initialize()
                         }, { message, errorCode ->
-                            loading(false)
+                            loading = false
                             showSnackBar(message, MessageType.ERROR)
                         })
                 }
@@ -116,15 +134,15 @@ abstract class BaseLoginActivity<T : Any>(
     }
 
     private fun initialize() {
-        launchMain {
+        lifecycleScope.launch(Dispatchers.Main) {
             if (!PrefHelper.get(BasePrefKey.INITIALIZED.name, false)) {
-                loading(true)
+                loading = true
                 launchIO {
                     uc.initialize().execute().parseOnMain({
-                        loading(false)
+                        loading = false
                         startMainActivity()
                     }, { message, errorCode ->
-                        loading(false)
+                        loading = false
                         showNetworkError()
                     })
 
@@ -135,22 +153,6 @@ abstract class BaseLoginActivity<T : Any>(
         }
     }
 
-    private fun loading(loading: Boolean) {
-        if (loading) {
-            progressView.visibility = View.VISIBLE
-            loginButton.isEnabled = false
-            username.isEnabled = false
-            password.isEnabled = false
-        } else {
-            progressView.visibility = View.GONE
-            loginButton.isEnabled = true
-            username.isEnabled = true
-            password.isEnabled = true
-
-        }
-
-
-    }
 
     override fun permissionChecked() {
 

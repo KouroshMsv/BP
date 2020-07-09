@@ -24,6 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
 import java.io.File
 
 
@@ -44,6 +45,7 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
         ) && PrefHelper.get<String?>(BasePrefKey.USERNAME.name) != null
     }
     private val metamorphosis = Metamorphosis(Builder(this, updateUrl))
+    private val json = Json(JsonConfiguration.Stable)
 
     init {
 
@@ -101,7 +103,7 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
         }
 
         override fun onSucceed(data: String) {
-            val updaterRes = Json.parse(UpdateModel.serializer(), data)
+            val updaterRes = json.parse(UpdateModel.serializer(), data)
             metamorphosis.builder.apkName = "${apkName}_${updaterRes.latestVersion}.apk"
             metamorphosis.builder.notificationConfig.title =
                 "${apkName}_${updaterRes.latestVersion}.apk"

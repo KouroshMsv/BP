@@ -54,9 +54,9 @@ abstract class BaseMainActivity(
         }
     }
 
-
+    val navHostFragment by lazy { supportFragmentManager.findFragmentById(navHostId)!! }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        supportFragmentManager.findFragmentById(navHostId)!!.onActivityResult(
+        navHostFragment.onActivityResult(
             requestCode,
             resultCode,
             data
@@ -75,7 +75,7 @@ abstract class BaseMainActivity(
     }
 
     override fun onBackPressed() {
-        when (supportFragmentManager.findFragmentById(navHostId)!!.childFragmentManager.backStackEntryCount) {
+        when (navHostFragment.childFragmentManager.backStackEntryCount) {
             0 -> super.onBackPressed()
             else -> {
                 navController.navigateUp()

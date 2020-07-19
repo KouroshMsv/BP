@@ -15,6 +15,7 @@ import com.parvanpajooh.baseapp.utils.PermissionRequest
 import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
 import dev.kourosh.basedomain.logD
+import dev.kourosh.basedomain.logE
 import dev.kourosh.metamorphosis.Builder
 import dev.kourosh.metamorphosis.Metamorphosis
 import dev.kourosh.metamorphosis.OnCheckVersionListener
@@ -103,22 +104,36 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
         }
 
         override fun onSucceed(data: String) {
-            val updaterRes = json.parse(UpdateModel.serializer(), data)
-            metamorphosis.builder.apkName = "${apkName}_${updaterRes.latestVersion}.apk"
-            metamorphosis.builder.notificationConfig.title =
-                "${apkName}_${updaterRes.latestVersion}.apk"
-            metamorphosis.builder.notificationConfig.notificationVisibility =
-                DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
-            val lastApk = File("${metamorphosis.builder.dir}/${metamorphosis.builder.apkName}")
-            if (lastApk.exists() && updaterRes.latestVersionCode > versionCode) {
-                updateNewVersion(updaterRes, lastApk)
-            } else {
-                if (updaterRes.latestVersionCode > versionCode)
+            val updaterRes = parseJson(data)
+            if (updaterRes != null) {
+                metamorphosis.builder.apkName = "${apkName}_${updaterRes.latestVersion}.apk"
+                metamorphosis.builder.notificationConfig.title =
+                    "${apkName}_${updaterRes.latestVersion}.apk"
+                metamorphosis.builder.notificationConfig.notificationVisibility =
+                    DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
+                val lastApk = File("${metamorphosis.builder.dir}/${metamorphosis.builder.apkName}")
+                if (lastApk.exists() && updaterRes.latestVersionCode > versionCode) {
                     updateNewVersion(updaterRes, lastApk)
-                else
-                    nextActivity()
+                } else {
+                    if (updaterRes.latestVersionCode > versionCode)
+                        updateNewVersion(updaterRes, lastApk)
+                    else
+                        nextActivity()
+                }
+            } else {
+                nextActivity()
             }
         }
+    }
+
+    private fun parseJson(data: String): UpdateModel? {
+        return try {
+            json.parse(UpdateModel.serializer(), data)
+        } catch (e: Exception) {
+            onParseJsonError(data, e)
+            null
+        }
+
     }
 
     private fun checkVersion() {
@@ -161,4 +176,9 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
     override fun permissionChecked() {
         checkVersion()
     }
+
+    open fun onParseJsonError(json: String, e: Exception) {
+        logE("json: $json\nexception: $e")
+    }
+
 }

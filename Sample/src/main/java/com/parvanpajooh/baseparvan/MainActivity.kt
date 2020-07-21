@@ -16,7 +16,6 @@ class MainActivity : BaseActivity(
             Api().getTokenWithAccount("logistic.mehrasa", "1005254").parseOnMain({
                 logE(it)
             },{ message, errorCode ->  })
-
         }
     }
 

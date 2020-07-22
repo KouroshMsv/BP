@@ -7,10 +7,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.parvanpajooh.baseapp.enums.NetworkStatus
 import com.parvanpajooh.baseapp.ui.TwoStateMessageDialog
+import com.parvanpajooh.basedomain.utils.findUsername
 import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
 import dev.kourosh.accountmanager.accountmanager.AuthenticationCRUD
 import dev.kourosh.basedomain.launchIO
+import dev.kourosh.basedomain.logW
 import kotlinx.coroutines.CompletableDeferred
 import java.net.HttpURLConnection
 import java.net.URL
@@ -59,13 +61,15 @@ suspend fun checkGoogleServer(googleUrl: URL = internetUrl): NetworkStatus {
 }
 
 fun startSync(accountHelper: AuthenticationCRUD, bundle: Bundle = Bundle()) {
-    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
-    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
-    ContentResolver.requestSync(
-        accountHelper.getAccount(PrefHelper.get(BasePrefKey.USERNAME.name)),
-        PrefHelper.get(BasePrefKey.AUTHORITY.name),
-        bundle
-    )
+    findUsername {
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
+        ContentResolver.requestSync(
+            accountHelper.getAccount(PrefHelper.get(BasePrefKey.USERNAME.name)),
+            PrefHelper.get(BasePrefKey.AUTHORITY.name),
+            bundle
+        )
+    }
 }
 
 internal val batchPermissionCode = 999

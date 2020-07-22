@@ -1,8 +1,10 @@
 package com.parvanpajooh.basedomain.repository
 
 import com.parvanpajooh.basedomain.models.request.LoginReq
+import com.parvanpajooh.basedomain.utils.findUsername
 import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
+import com.parvanpajooh.basedomain.utils.username
 import dev.kourosh.basedomain.ErrorCode
 import dev.kourosh.basedomain.Result
 import dev.kourosh.basedomain.launchIO
@@ -15,19 +17,18 @@ abstract class BaseRepositoryImpl(
 ) : BaseRepository {
 
     private suspend fun getToken(): Result<String> {
-        val userName: String? = PrefHelper.get(BasePrefKey.USERNAME.name)
-        return when (userName) {
+        return when (val username=username) {
             null -> Result.Error("unavailable account ", ErrorCode.UNAVAILABLE_ACCOUNT)
             else -> {
-                deviceContract.getToken(userName).substitute({ token ->
+                deviceContract.getToken(username).substitute({ token ->
                     Result.Success(token)
                 }, { message, code ->
                     when (code) {
                         ErrorCode.TOKEN_EXPIRED -> {
                             dataContract.getTokenWithRefreshToken(
-                                    deviceContract.getRefreshToken(userName)
+                                    deviceContract.getRefreshToken(username)
                             ).substitute({ data ->
-                                deviceContract.updateAccount(userName, data)
+                                deviceContract.updateAccount(username, data)
                                 Result.Success("${data.tokenType} ${data.accessToken}")
                             }, { message1, code1 ->
                                 when (code1) {
@@ -59,7 +60,7 @@ abstract class BaseRepositoryImpl(
     }
 
     protected suspend fun updateTokenWithRefreshToken(): Result<String> {
-        return when (val userName: String? = PrefHelper.get(BasePrefKey.USERNAME.name)) {
+        return when (val userName: String? = username) {
             null -> Result.Error("unavailable account ", ErrorCode.UNAVAILABLE_ACCOUNT)
             else -> {
                 dataContract.getTokenWithRefreshToken(deviceContract.getRefreshToken(userName))
@@ -74,7 +75,7 @@ abstract class BaseRepositoryImpl(
 
 
     protected fun invalidateToken() {
-        val userName: String? = PrefHelper.get(BasePrefKey.USERNAME.name)
+        val userName: String? = username
         if (userName != null) {
             deviceContract.invalidateToken(userName)
         }

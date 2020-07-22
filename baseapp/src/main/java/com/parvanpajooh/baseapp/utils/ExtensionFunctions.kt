@@ -12,7 +12,6 @@ import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
 import dev.kourosh.accountmanager.accountmanager.AuthenticationCRUD
 import dev.kourosh.basedomain.launchIO
-import dev.kourosh.basedomain.logW
 import kotlinx.coroutines.CompletableDeferred
 import java.net.HttpURLConnection
 import java.net.URL
@@ -61,7 +60,7 @@ suspend fun checkGoogleServer(googleUrl: URL = internetUrl): NetworkStatus {
 }
 
 fun startSync(accountHelper: AuthenticationCRUD, bundle: Bundle = Bundle()) {
-    findUsername {
+    findUsername({
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
         ContentResolver.requestSync(
@@ -69,7 +68,7 @@ fun startSync(accountHelper: AuthenticationCRUD, bundle: Bundle = Bundle()) {
             PrefHelper.get(BasePrefKey.AUTHORITY.name),
             bundle
         )
-    }
+    }) {}
 }
 
 internal val batchPermissionCode = 999

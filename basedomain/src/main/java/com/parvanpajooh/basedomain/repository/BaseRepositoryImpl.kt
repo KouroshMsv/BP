@@ -2,31 +2,28 @@ package com.parvanpajooh.basedomain.repository
 
 import com.parvanpajooh.basedomain.models.request.LoginReq
 import com.parvanpajooh.basedomain.utils.findUsername
+import com.parvanpajooh.basedomain.utils.findUsernameSuspend
+import com.parvanpajooh.basedomain.utils.logUsernameIsNull
 import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
-import com.parvanpajooh.basedomain.utils.username
-import dev.kourosh.basedomain.ErrorCode
-import dev.kourosh.basedomain.Result
-import dev.kourosh.basedomain.launchIO
-import dev.kourosh.basedomain.whenUnAuthorized
+import dev.kourosh.basedomain.*
 
 abstract class BaseRepositoryImpl(
-        private val appContract: BaseAppModuleRepository,
-        private val dataContract: BaseDataModuleRepository,
-        private val deviceContract: BaseDeviceModuleRepository
+    private val appContract: BaseAppModuleRepository,
+    private val dataContract: BaseDataModuleRepository,
+    private val deviceContract: BaseDeviceModuleRepository
 ) : BaseRepository {
 
     private suspend fun getToken(): Result<String> {
-        return when (val username=username) {
-            null -> Result.Error("unavailable account ", ErrorCode.UNAVAILABLE_ACCOUNT)
-            else -> {
-                deviceContract.getToken(username).substitute({ token ->
+        return findUsernameSuspend({ username ->
+            deviceContract.getToken(username)
+                .substitute({ token ->
                     Result.Success(token)
                 }, { message, code ->
                     when (code) {
                         ErrorCode.TOKEN_EXPIRED -> {
                             dataContract.getTokenWithRefreshToken(
-                                    deviceContract.getRefreshToken(username)
+                                deviceContract.getRefreshToken(username)
                             ).substitute({ data ->
                                 deviceContract.updateAccount(username, data)
                                 Result.Success("${data.tokenType} ${data.accessToken}")
@@ -53,32 +50,30 @@ abstract class BaseRepositoryImpl(
                             Result.Error(message, code)
                         }
                     }
-
                 })
-            }
-        }
+        }, {
+            logW("getToken")
+            Result.Error("unavailable account ", ErrorCode.UNAVAILABLE_ACCOUNT)
+        })
     }
 
     protected suspend fun updateTokenWithRefreshToken(): Result<String> {
-        return when (val userName: String? = username) {
-            null -> Result.Error("unavailable account ", ErrorCode.UNAVAILABLE_ACCOUNT)
-            else -> {
-                dataContract.getTokenWithRefreshToken(deviceContract.getRefreshToken(userName))
-                        .map { data ->
-                            deviceContract.updateAccount(userName, data)
-                            "${data.tokenType} ${data.accessToken}"
-                        }
-            }
-        }
-
+        return findUsernameSuspend({ username ->
+            dataContract.getTokenWithRefreshToken(deviceContract.getRefreshToken(username))
+                .map { data ->
+                    deviceContract.updateAccount(username, data)
+                    "${data.tokenType} ${data.accessToken}"
+                }
+        }, {
+            logUsernameIsNull("updateTokenWithRefreshToken")
+            Result.Error("unavailable account ", ErrorCode.UNAVAILABLE_ACCOUNT) })
     }
 
 
     protected fun invalidateToken() {
-        val userName: String? = username
-        if (userName != null) {
-            deviceContract.invalidateToken(userName)
-        }
+        findUsername({username -> deviceContract.invalidateToken(username) },{
+            logUsernameIsNull("invalidateToken")
+        })
     }
 
     private suspend fun getTokenWithAccount(model: LoginReq): Result<String> {
@@ -92,15 +87,15 @@ abstract class BaseRepositoryImpl(
 
     private suspend fun getTokenWithRefreshToken(username: String): Result<String> {
         return dataContract.getTokenWithRefreshToken(deviceContract.getRefreshToken(username))
-                .map {
-                    deviceContract.updateAccount(username, it)
-                    "${it.tokenType} ${it.accessToken}"
-                }
+            .map {
+                deviceContract.updateAccount(username, it)
+                "${it.tokenType} ${it.accessToken}"
+            }
     }
 
     override suspend fun autoLogin(username: String): Result<Unit> {
         return getToken().whenUnAuthorized { getTokenWithRefreshToken(username) }
-                .map { Unit }
+            .map { Unit }
     }
 
     override suspend fun initialize(): Result<Unit> {

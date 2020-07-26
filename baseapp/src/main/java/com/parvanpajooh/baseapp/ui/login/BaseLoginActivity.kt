@@ -61,7 +61,7 @@ abstract class BaseLoginActivity<T : Any>(
         loginButton = findViewById(loginButtonId)
         username = findViewById(usernameId)
         password = findViewById(passwordId)
-        username.setText(PrefHelper.get(BasePrefKey.LATEST_USERNAME.name, ""))
+        username.setText(PrefHelper.get(BasePrefKey.USERNAME.name, ""))
         loginButton.setOnClickListener {
             login()
         }

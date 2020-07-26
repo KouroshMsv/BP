@@ -6,6 +6,6 @@ import dev.kourosh.basedomain.logW
 import java.lang.NullPointerException
 
 val username: String
-    get() = PrefHelper.get(BasePrefKey.USERNAME.name, null)?:throw NullPointerException("username is null")
+    get() = PrefHelper.get<String?>(BasePrefKey.USERNAME.name, null)?:throw NullPointerException("username is null")
 
 fun String?.space() = if (this == null) "" else " "

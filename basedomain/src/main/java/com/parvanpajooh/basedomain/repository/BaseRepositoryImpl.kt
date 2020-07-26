@@ -69,7 +69,6 @@ abstract class BaseRepositoryImpl(
 
     private suspend fun getTokenWithAccount(model: LoginReq): Result<String> {
         return dataContract.getTokenWithAccount(model.username, model.password).map {
-            PrefHelper.put(BasePrefKey.USERNAME.name, model.username)
             deviceContract.createAccount(model.username, it)
             model.username
         }
@@ -96,6 +95,7 @@ abstract class BaseRepositoryImpl(
 
     override suspend fun login(parameter: LoginReq): Result<Unit> {
         return getTokenWithAccount(parameter).map {
+            PrefHelper.put(BasePrefKey.USERNAME.name, parameter.username)
             PrefHelper.put(BasePrefKey.LOGGED_IN.name, true)
             Unit
         }

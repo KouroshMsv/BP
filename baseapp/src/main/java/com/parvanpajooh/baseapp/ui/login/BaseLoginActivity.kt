@@ -24,15 +24,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 abstract class BaseLoginActivity<T : Any>(
-    @LayoutRes private val layoutId: Int,
-    @IdRes private val progressViewId: Int,
-    @IdRes private val loginButtonId: Int,
-    @IdRes private val usernameId: Int,
-    @IdRes private val passwordId: Int,
-    private val mainActivityClass: Class<T>,
-    requiredPermissions: List<PermissionRequest>
+        @LayoutRes private val layoutId: Int,
+        @IdRes private val progressViewId: Int,
+        @IdRes private val loginButtonId: Int,
+        @IdRes private val usernameId: Int,
+        @IdRes private val passwordId: Int,
+        private val mainActivityClass: Class<T>,
+        requiredPermissions: List<PermissionRequest>
 ) : BaseActivity(
-    layoutId, requiredPermissions
+        layoutId, requiredPermissions
 ) {
     private lateinit var progressView: View
     private lateinit var loginButton: AppCompatButton
@@ -61,7 +61,7 @@ abstract class BaseLoginActivity<T : Any>(
         loginButton = findViewById(loginButtonId)
         username = findViewById(usernameId)
         password = findViewById(passwordId)
-        username.setText(PrefHelper.get(BasePrefKey.USERNAME.name, ""))
+        username.setText(com.parvanpajooh.basedomain.utils.username)
         loginButton.setOnClickListener {
             login()
         }
@@ -93,28 +93,28 @@ abstract class BaseLoginActivity<T : Any>(
         hideKeyboard(this)
         when {
             username.text.isNullOrEmpty() -> showSnackBar(
-                "نام کاربری وارد نشده است",
-                MessageType.WARNING
+                    "نام کاربری وارد نشده است",
+                    MessageType.WARNING
             )
             password.text.isNullOrEmpty() -> showSnackBar(
-                "رمز عبور وارد نشده است",
-                MessageType.WARNING
+                    "رمز عبور وارد نشده است",
+                    MessageType.WARNING
             )
             else -> {
                 loading = true
                 launchIO {
                     uc.login().execute(
-                        LoginReq(
-                            username.text!!.toString().numP2E(),
-                            password.text!!.toString().numP2E()
-                        )
+                            LoginReq(
+                                    username.text!!.toString().numP2E(),
+                                    password.text!!.toString().numP2E()
+                            )
                     )
-                        .parseOnMain({
-                            initialize()
-                        }, { message, errorCode ->
-                            loading = false
-                            showSnackBar(message, MessageType.ERROR)
-                        })
+                            .parseOnMain({
+                                initialize()
+                            }, { message, errorCode ->
+                                loading = false
+                                showSnackBar(message, MessageType.ERROR)
+                            })
                 }
             }
 
@@ -166,10 +166,10 @@ abstract class BaseLoginActivity<T : Any>(
 
     private fun showSnackBar(message: String, messageType: MessageType) {
         dev.kourosh.baseapp.showSnackBar(
-            loginButton,
-            applicationContext,
-            message,
-            messageType
+                loginButton,
+                applicationContext,
+                message,
+                messageType
         )
     }
 }

@@ -1,6 +1,7 @@
 package com.parvanpajooh.basedata
 
 import com.parvanpajooh.basedata.net.BaseRestApi
+import com.parvanpajooh.basedomain.models.response.TokenRes
 import com.parvanpajooh.basedomain.repository.BaseDataModuleRepository
 import dev.kourosh.basedomain.Result
 

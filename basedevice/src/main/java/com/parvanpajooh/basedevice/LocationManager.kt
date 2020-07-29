@@ -8,7 +8,7 @@ import android.os.Looper
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import com.parvanpajooh.basedomain.models.Location
+import com.parvanpajooh.basedomain.models.response.LocationRes
 import dev.kourosh.basedomain.ErrorCode
 import dev.kourosh.basedomain.Result
 import kotlinx.coroutines.CompletableDeferred
@@ -23,8 +23,8 @@ class LocationManager(context:  Context) {
     }
 
 
-    fun requestGPSSettings(activity: Activity) :Deferred<Result<Location>>{
-        val deferred= CompletableDeferred<Result<Location>>()
+    fun requestGPSSettings(activity: Activity) :Deferred<Result<LocationRes>>{
+        val deferred= CompletableDeferred<Result<LocationRes>>()
         val locationRequest = createLocationRequest()
         val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
         val client = LocationServices.getSettingsClient(activity)
@@ -91,7 +91,7 @@ class LocationManager(context:  Context) {
         )
     }
     @SuppressLint("MissingPermission")
-    private fun getLocation(activity: Activity, deferred:CompletableDeferred<Result<Location>>) {
+    private fun getLocation(activity: Activity, deferred:CompletableDeferred<Result<LocationRes>>) {
         val providerClient = LocationServices.getFusedLocationProviderClient(activity)
         providerClient.requestLocationUpdates(
             createLocationRequest(),
@@ -104,10 +104,10 @@ class LocationManager(context:  Context) {
                         }else{
                         deferred.complete(
                             Result.Success(
-                                Location(
-                                    result.lastLocation.latitude,
-                                    result.lastLocation.longitude
-                                )
+                                    LocationRes(
+                                            result.lastLocation.latitude,
+                                            result.lastLocation.longitude
+                                    )
                             )
                         )}
                     }

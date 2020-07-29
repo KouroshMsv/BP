@@ -7,12 +7,11 @@ import android.content.Context
 import android.content.SyncResult
 import android.os.Bundle
 import com.parvanpajooh.basedomain.interactor.factory.BaseUseCaseFactory
-import dev.kourosh.basedomain.logE
+import dev.kourosh.basedomain.logI
 
 open class BaseSyncAdapter(context: Context, autoInitialize: Boolean, private val uc: BaseUseCaseFactory) : AbstractThreadedSyncAdapter(context, autoInitialize) {
     override fun onPerformSync(account: Account, extras: Bundle, authority: String, provider: ContentProviderClient, syncResult: SyncResult) {
-        logE("onPerformSync for account[${account.name}]")
-
+        logI("onPerformSync for account[${account.name}] ,\nextras: [$extras],\nauthority: [$authority],\nprovider: [$provider]\n syncResult: [$syncResult]")
     }
 
 }

@@ -1,11 +1,10 @@
 package com.parvanpajooh.basedata.net
 
-import com.parvanpajooh.basedata.net.models.Token
+import com.parvanpajooh.basedata.net.models.TokenRes
 import dev.kourosh.basedomain.Result
-import kotlinx.coroutines.Deferred
 
 
 open interface BaseRestApi {
-    suspend fun getTokenWithAccountAsync(username: String, password: String): Result<Token>
-    suspend fun getTokenWithRefreshTokenAsync(refreshToken: String): Result<Token>
+    suspend fun getTokenWithAccountAsync(username: String, password: String): Result<TokenRes>
+    suspend fun getTokenWithRefreshTokenAsync(refreshToken: String): Result<TokenRes>
 }

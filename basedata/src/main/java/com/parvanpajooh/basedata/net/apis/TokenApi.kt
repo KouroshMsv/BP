@@ -1,7 +1,7 @@
 package com.parvanpajooh.basedata.net.apis
 
 import android.util.Base64
-import com.parvanpajooh.basedata.net.models.Token
+import com.parvanpajooh.basedata.net.models.TokenRes
 import kotlinx.coroutines.Deferred
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -16,12 +16,12 @@ open interface TokenApi {
 	@POST("/uaa/oauth/token")
 	@Headers("Authorization: Basic YW5kcm9pZDphbmRyb2lkY2xpZW50c2VjcmV0")
 	fun getTokenWithAccountAsync(
-			@Field("username") username: String, @Field("password") password: String, @Field("grant_type") grantType: String = "password"): Deferred<Token>
+			@Field("username") username: String, @Field("password") password: String, @Field("grant_type") grantType: String = "password"): Deferred<TokenRes>
 
 	@FormUrlEncoded
 	@POST("/uaa/oauth/token")
 	@Headers("Authorization: Basic YW5kcm9pZDphbmRyb2lkY2xpZW50c2VjcmV0")
 	fun getTokenWithRefreshTokenAsync(
-			@Field("refresh_token") refreshToken: String, @Field("grant_type") grantType: String = "refresh_token"): Deferred<Token>
+			@Field("refresh_token") refreshToken: String, @Field("grant_type") grantType: String = "refresh_token"): Deferred<TokenRes>
 
 }

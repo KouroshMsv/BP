@@ -1,6 +1,7 @@
 package com.parvanpajooh.basedomain.repository
 
 import android.app.Activity
+import com.parvanpajooh.basedomain.models.response.LocationRes
 import com.parvanpajooh.basedomain.models.response.TokenRes
 import dev.kourosh.basedomain.Result
 
@@ -12,8 +13,7 @@ open interface BaseDeviceModuleRepository {
     fun createAccount(username: String, data: TokenRes)
     suspend fun getToken(username: String): Result<String>
     fun invalidateToken(username: String)
-
-    suspend fun getCurrentLocation(activity: Activity):Result<com.parvanpajooh.basedomain.models.Location>
+    suspend fun getCurrentLocation(activity: Activity):Result<LocationRes>
 
 
 }

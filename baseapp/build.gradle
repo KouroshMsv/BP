@@ -79,5 +79,6 @@ dependencies {
     implementation "com.github.kouroshmsv.baseandroid:basedomain:${baseAndroid}"
     implementation "com.github.kouroshmsv:metamorphosis:1.0.0"
 
+    implementation 'androidx.biometric:biometric:1.0.1'
 
 }

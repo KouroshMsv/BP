@@ -1,3 +1,3 @@
 package com.parvanpajooh.basedomain.models.eventbus
 
-class SyncEB
+data class SyncEB(val synced: Boolean)

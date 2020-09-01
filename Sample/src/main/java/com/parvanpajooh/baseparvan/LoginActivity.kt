@@ -1,11 +1,15 @@
 package com.parvanpajooh.baseparvan
 
+import android.os.Bundle
 import com.parvanpajooh.baseapp.BaseAppModuleRepositoryImpl
 import com.parvanpajooh.baseapp.ui.login.BaseLoginActivity
 import com.parvanpajooh.basedevice.BaseDeviceModuleRepositoryImpl
 import com.parvanpajooh.basedevice.LocationManager
 import com.parvanpajooh.basedomain.interactor.factory.BaseUseCaseFactory
 import com.parvanpajooh.basedomain.repository.BaseRepositoryImpl
+import dev.kourosh.basedomain.logE
+import saman.zamani.persiandate.PersianDate
+import saman.zamani.persiandate.PersianDateFormat
 
 class LoginActivity : BaseLoginActivity<MainActivity>(
     R.layout.activity_login,
@@ -28,4 +32,10 @@ class LoginActivity : BaseLoginActivity<MainActivity>(
                 ),
                 LocationManager(applicationContext)
             ) {}) {})
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val currentDateTime = PersianDateFormat("l d/m/Y H:i").format(PersianDate(System.currentTimeMillis()))
+logE("اطلاعات وارد شده نامعتبر است.\n$currentDateTime")
+    }
 }

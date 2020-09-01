@@ -9,6 +9,11 @@ import kotlinx.coroutines.Deferred
 import okio.IOException
 import org.json.JSONObject
 import retrofit2.HttpException
+import saman.zamani.persiandate.PersianDate
+import saman.zamani.persiandate.PersianDateFormat
+
+
+
 
 
 open class BaseRestApiImpl(tokenUrl: String, debuggable: Boolean) : BaseRestApi {
@@ -24,6 +29,8 @@ open class BaseRestApiImpl(tokenUrl: String, debuggable: Boolean) : BaseRestApi 
         }
     }
 
+
+
     override suspend fun getTokenWithRefreshTokenAsync(refreshToken: String): Result<TokenRes> {
         return checkResponseError {
             tokenApi.getTokenWithRefreshTokenAsync(refreshToken)
@@ -32,6 +39,8 @@ open class BaseRestApiImpl(tokenUrl: String, debuggable: Boolean) : BaseRestApi 
 
 
     protected suspend fun <T : Any> checkResponseError(service: suspend () -> Deferred<T>): Result<T> {
+        val currentDateTime = PersianDateFormat("l d/m/Y H:i").format(PersianDate(System.currentTimeMillis()))
+
         return try {
             Result.Success(service().await())
         } catch (e: HttpException) {
@@ -41,13 +50,13 @@ open class BaseRestApiImpl(tokenUrl: String, debuggable: Boolean) : BaseRestApi 
             when (httpError) {
 
                 HttpErrorCode.HTTP_UNAUTHORIZED -> Result.Error(
-                    "اطلاعات وارد شده نامعتبر است.",
+                    "اطلاعات وارد شده نامعتبر است.\n$currentDateTime",
                     ErrorCode.UNAUTHORIZED
                 )
                 HttpErrorCode.EC_ERROR -> e.getErrorMessage()
                 else -> {
                     Result.Error(
-                        "HTTP-${httpError.code}:[ ${httpError.message} ]",
+                        "HTTP-${httpError.code}:[ ${httpError.message} ]\n$currentDateTime",
                         ErrorCode.SERVER_ERROR
                     )
                 }
@@ -56,10 +65,13 @@ open class BaseRestApiImpl(tokenUrl: String, debuggable: Boolean) : BaseRestApi 
             e.printStackTrace()
             when (e) {
                 is IOException -> {
-                    Result.Error("خطا در برقراری ارتباط با اینترنت", ErrorCode.NETWORK_ERROR)
+                    Result.Error("خطا در برقراری ارتباط با اینترنت\n$currentDateTime", ErrorCode.NETWORK_ERROR)
                 }
                 else -> {
-                    Result.Error(e.message?:e.localizedMessage?:e.cause.toString(), ErrorCode.UNKNOWN)
+                    Result.Error(
+                        "${e.message ?: e.localizedMessage ?: e.cause.toString()}\n$currentDateTime",
+                        ErrorCode.UNKNOWN
+                    )
                 }
             }
         }

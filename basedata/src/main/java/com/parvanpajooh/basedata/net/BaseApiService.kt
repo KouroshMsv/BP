@@ -15,10 +15,10 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
-open class BaseApiService(private val url: String, private val debuggable: Boolean, isHttps: Boolean, private val connectTimeout: Long = 5, private val readWriteTimeout: Long = 60, private val jsonConfiguration: JsonConfiguration = JsonConfiguration(ignoreUnknownKeys = true)) {
+open class BaseApiService(private val url: String, private val debuggable: Boolean, isHttps: Boolean, private val connectTimeout: Long = 5, private val readWriteTimeout: Long = 60, private val jsonSerializer: Json = Json { ignoreUnknownKeys = true}) {
     private val contentType = "application/json".toMediaType()
     val retrofit: Retrofit
-        get() = Retrofit.Builder().baseUrl(url).client(client).addConverterFactory(Json(jsonConfiguration).asConverterFactory(contentType)).addCallAdapterFactory(CoroutineCallAdapterFactory()).build()
+        get() = Retrofit.Builder().baseUrl(url).client(client).addConverterFactory(jsonSerializer.asConverterFactory(contentType)).addCallAdapterFactory(CoroutineCallAdapterFactory()).build()
 
     protected val okHttpClientBuilder: OkHttpClient.Builder
         get() {

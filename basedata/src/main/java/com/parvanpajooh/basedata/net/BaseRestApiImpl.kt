@@ -39,7 +39,7 @@ open class BaseRestApiImpl(tokenUrl: String, debuggable: Boolean) : BaseRestApi 
 
 
     protected suspend fun <T : Any> checkResponseError(service: suspend () -> Deferred<T>): Result<T> {
-        val currentDateTime = PersianDateFormat("l d/m/Y H:i").format(PersianDate(System.currentTimeMillis()))
+        val currentDateTime = PersianDateFormat("l Y/m/d H:i").format(PersianDate(System.currentTimeMillis()))
 
         return try {
             Result.Success(service().await())

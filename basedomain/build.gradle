@@ -1,7 +1,9 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+plugins {
+    id 'com.android.library'
+    id 'com.github.dcendents.android-maven'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+}
 group = 'com.github.KouroshMsv'
 android {
     compileSdkVersion compileSdk
@@ -37,10 +39,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}"
-    implementation 'androidx.core:core-ktx:1.3.0'
+    implementation 'androidx.core:core-ktx:1.3.2'
     testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation "com.github.kouroshmsv.baseandroid:basedomain:${baseAndroid}"
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation "com.orhanobut:hawk:2.0.1"

@@ -146,7 +146,7 @@ abstract class BaseLoginActivity<T : Any>(
     private fun showNetworkError() {
         val dialog = NetworkErrorDialog()
         dialog.showCancel = false
-        dialog.onRetryClickListener = View.OnClickListener {
+        dialog.setOnRetryClickListener {
             initialize()
             dialog.dismiss()
         }

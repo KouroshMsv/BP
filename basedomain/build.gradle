@@ -46,6 +46,7 @@ dependencies {
     implementation "com.github.kouroshmsv.baseandroid:basedomain:${baseAndroid}"
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation "com.orhanobut:hawk:2.0.1"
+    implementation "org.koin:koin-core:$koin_version"
 
 }
 

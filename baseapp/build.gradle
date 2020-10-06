@@ -79,6 +79,7 @@ dependencies {
     implementation "com.github.kouroshmsv.baseandroid:accountmanager:${baseAndroid}"
     implementation "com.github.kouroshmsv.baseandroid:basedomain:${baseAndroid}"
     implementation "com.github.kouroshmsv:metamorphosis:1.0.0"
+    implementation "org.koin:koin-core:$koin_version"
 
     implementation 'androidx.biometric:biometric:1.0.1'
 

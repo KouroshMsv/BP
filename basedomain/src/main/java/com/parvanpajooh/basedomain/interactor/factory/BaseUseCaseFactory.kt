@@ -1,10 +1,9 @@
 package com.parvanpajooh.basedomain.interactor.factory
 
-import com.parvanpajooh.basedomain.interactor.usecase.*
-import com.parvanpajooh.basedomain.repository.BaseRepository
+import com.parvanpajooh.basedomain.interactor.usecase.AbstractInitializeUC
+import com.parvanpajooh.basedomain.interactor.usecase.AbstractLoginUC
 
-open class BaseUseCaseFactory(private val repository: BaseRepository) {
-    fun initialize() = InitializeUC(repository)
-    fun login() = LoginUC(repository)
-    fun logout() = LogoutUC(repository)
+abstract class BaseUseCaseFactory {
+    abstract val initialize: AbstractInitializeUC
+    abstract val login: AbstractLoginUC
 }

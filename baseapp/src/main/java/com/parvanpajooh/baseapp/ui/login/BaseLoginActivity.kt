@@ -26,6 +26,7 @@ import dev.kourosh.baseapp.hideKeyboard
 import dev.kourosh.baseapp.numP2E
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.Executor
 
 abstract class BaseLoginActivity<T : Any>(
@@ -123,7 +124,7 @@ abstract class BaseLoginActivity<T : Any>(
             else -> {
                 loading = true
                 launchIO {
-                    uc.login().execute(
+                    uc.login.execute(
                         LoginReq(
                             username.text!!.toString().numP2E(),
                             password.text!!.toString().numP2E()
@@ -156,8 +157,8 @@ abstract class BaseLoginActivity<T : Any>(
     private fun initialize() {
         lifecycleScope.launch(Dispatchers.Main) {
             loading = true
-            launchIO {
-                uc.initialize().execute().parseOnMain({
+            withContext(Dispatchers.IO) {
+                uc.initialize.execute().parseOnMain({
                     loading = false
                     startMainActivity()
                 }, { message, errorCode ->

@@ -15,7 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import com.parvanpajooh.baseapp.infrastructure.BaseActivity
 import com.parvanpajooh.baseapp.ui.CheckTimeDialog
 import com.parvanpajooh.baseapp.utils.PermissionRequest
-import com.parvanpajooh.basedomain.interactor.factory.BaseUseCaseFactory
+import com.parvanpajooh.basedomain.interactor.factory.BaseUseCaseI
 import com.parvanpajooh.basedomain.models.request.LoginReq
 import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
@@ -109,7 +109,7 @@ abstract class BaseLoginActivity<T : Any>(
         }
     }
 
-    abstract val uc: BaseUseCaseFactory
+    abstract val uc: BaseUseCaseI
     private fun login() {
         hideKeyboard(this)
         when {

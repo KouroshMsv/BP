@@ -2,9 +2,9 @@ package com.parvanpajooh.baseparvan
 
 import android.os.Bundle
 import com.parvanpajooh.baseapp.ui.login.BaseLoginActivity
-import com.parvanpajooh.basedomain.interactor.factory.BaseUseCaseFactory
-import com.parvanpajooh.basedomain.interactor.usecase.AbstractInitializeUC
-import com.parvanpajooh.basedomain.interactor.usecase.AbstractLoginUC
+import com.parvanpajooh.basedomain.interactor.factory.BaseUseCaseI
+import com.parvanpajooh.basedomain.interactor.usecase.InitializeUCI
+import com.parvanpajooh.basedomain.interactor.usecase.LoginUCI
 import dev.kourosh.basedomain.logE
 import saman.zamani.persiandate.PersianDate
 import saman.zamani.persiandate.PersianDateFormat
@@ -20,10 +20,10 @@ class LoginActivity : BaseLoginActivity<MainActivity>(
     listOf()
 ) {
 
-    override val uc: BaseUseCaseFactory = object : BaseUseCaseFactory() {
-        override val initialize: AbstractInitializeUC
+    override val uc: BaseUseCaseI = object : BaseUseCaseI() {
+        override val initialize: InitializeUCI
             get() = TODO("Not yet implemented")
-        override val login: AbstractLoginUC
+        override val login: LoginUCI
             get() = TODO("Not yet implemented")
     }
 

@@ -132,7 +132,7 @@ abstract class BaseLoginActivity<T : Any>(
                     )
                         .parseOnMain({
                             initialize()
-                        }, { message, errorCode ->
+                        }, { message, _ ->
                             loading = false
                             showSnackBar(message, MessageType.ERROR)
                         })
@@ -161,7 +161,7 @@ abstract class BaseLoginActivity<T : Any>(
                 uc.initialize.execute().parseOnMain({
                     loading = false
                     startMainActivity()
-                }, { message, errorCode ->
+                }, { _, _ ->
                     loading = false
                     showNetworkError()
                 })

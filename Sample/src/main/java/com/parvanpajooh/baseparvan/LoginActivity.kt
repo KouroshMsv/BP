@@ -20,12 +20,7 @@ class LoginActivity : BaseLoginActivity<MainActivity>(
     listOf()
 ) {
 
-    override val uc: BaseUseCaseI = object : BaseUseCaseI() {
-        override val initialize: InitializeUCI
-            get() = TODO("Not yet implemented")
-        override val login: LoginUCI
-            get() = TODO("Not yet implemented")
-    }
+    override val uc: BaseUseCaseI = TODO("Not yet implemented")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -2,9 +2,7 @@ package com.parvanpajooh.baseparvan
 
 import android.os.Bundle
 import com.parvanpajooh.baseapp.ui.login.BaseLoginActivity
-import com.parvanpajooh.basedomain.interactor.factory.BaseUseCaseI
-import com.parvanpajooh.basedomain.interactor.usecase.InitializeUCI
-import com.parvanpajooh.basedomain.interactor.usecase.LoginUCI
+import com.parvanpajooh.basedomain.interactor.factory.UseCaseListI
 import dev.kourosh.basedomain.logE
 import saman.zamani.persiandate.PersianDate
 import saman.zamani.persiandate.PersianDateFormat
@@ -20,7 +18,7 @@ class LoginActivity : BaseLoginActivity<MainActivity>(
     listOf()
 ) {
 
-    override val uc: BaseUseCaseI = TODO("Not yet implemented")
+    override val uc: UseCaseListI = TODO("Not yet implemented")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

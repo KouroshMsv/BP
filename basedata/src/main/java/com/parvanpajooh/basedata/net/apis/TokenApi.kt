@@ -16,12 +16,12 @@ open interface TokenApi {
 	@POST("/uaa/oauth/token")
 	@Headers("Authorization: Basic YW5kcm9pZDphbmRyb2lkY2xpZW50c2VjcmV0")
 	fun getTokenWithAccountAsync(
-			@Field("username") username: String, @Field("password") password: String, @Field("grant_type") grantType: String = "password"): Deferred<TokenRes>
+			@Field("username") username: String, @Field("password") password: String, @Field("grant_type") grantType: String = "password"): TokenRes
 
 	@FormUrlEncoded
 	@POST("/uaa/oauth/token")
 	@Headers("Authorization: Basic YW5kcm9pZDphbmRyb2lkY2xpZW50c2VjcmV0")
 	fun getTokenWithRefreshTokenAsync(
-			@Field("refresh_token") refreshToken: String, @Field("grant_type") grantType: String = "refresh_token"): Deferred<TokenRes>
+			@Field("refresh_token") refreshToken: String, @Field("grant_type") grantType: String = "refresh_token"): TokenRes
 
 }

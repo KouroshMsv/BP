@@ -6,10 +6,10 @@ import android.content.ContentProviderClient
 import android.content.Context
 import android.content.SyncResult
 import android.os.Bundle
-import com.parvanpajooh.basedomain.interactor.factory.BaseUseCaseI
+import com.parvanpajooh.basedomain.interactor.factory.UseCaseListI
 import dev.kourosh.basedomain.logI
 
-open class BaseSyncAdapter(context: Context, autoInitialize: Boolean, private val uc: BaseUseCaseI) : AbstractThreadedSyncAdapter(context, autoInitialize) {
+open class BaseSyncAdapter(context: Context, autoInitialize: Boolean) : AbstractThreadedSyncAdapter(context, autoInitialize) {
     override fun onPerformSync(account: Account, extras: Bundle, authority: String, provider: ContentProviderClient, syncResult: SyncResult) {
         logI("onPerformSync for account[${account.name}] ,\nextras: [$extras],\nauthority: [$authority],\nprovider: [$provider]\n syncResult: [$syncResult]")
     }

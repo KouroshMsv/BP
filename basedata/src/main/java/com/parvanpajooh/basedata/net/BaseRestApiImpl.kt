@@ -38,11 +38,11 @@ open class BaseRestApiImpl(tokenUrl: String, debuggable: Boolean) : BaseRestApi 
     }
 
 
-    protected suspend fun <T : Any> checkResponseError(service: suspend () -> Deferred<T>): Result<T> {
+    protected suspend fun <T : Any> checkResponseError(service: suspend () -> T): Result<T> {
         val currentDateTime = PersianDateFormat("l Y/m/d H:i").format(PersianDate(System.currentTimeMillis()))
 
         return try {
-            Result.Success(service().await())
+            Result.Success(service())
         } catch (e: HttpException) {
 
             val httpError = HttpErrorCode.values().single { it.code == e.code() }

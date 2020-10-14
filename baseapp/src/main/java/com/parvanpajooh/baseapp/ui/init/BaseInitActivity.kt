@@ -29,22 +29,22 @@ import java.io.File
 
 
 abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
-    updateUrl: String,
-    private val apkName: String,
-    private val versionCode: Int,
-    private val mainActivityClass: Class<MAIN>,
-    private val loginActivityClass: Class<LOGIN>,
-    requiredPermissions: List<PermissionRequest>,
-    private val backgroundColorId: Int = R.color.colorPrimaryDark,
-    @ColorRes private val textColorId: Int = R.color.white
+        updateUrl: String,
+        private val apkName: String,
+        private val versionCode: Int,
+        private val mainActivityClass: Class<MAIN>,
+        private val loginActivityClass: Class<LOGIN>,
+        requiredPermissions: List<PermissionRequest>,
+        private val backgroundColorId: Int = R.color.colorPrimaryDark,
+        @ColorRes private val textColorId: Int = R.color.white
 ) : BaseActivity(R.layout.activity_init, requiredPermissions) {
     private val loggedIn: Boolean by lazy {
         PrefHelper.get(
-            BasePrefKey.INITIALIZED.name,
-            false
+                BasePrefKey.INITIALIZED.name,
+                false
         ) && PrefHelper.get<Boolean?>(BasePrefKey.LOGGED_IN.name) == true
     }
-    private val metamorphosis = Metamorphosis(Builder(this, updateUrl))
+    private val metamorphosis by lazy { Metamorphosis(Builder(this, updateUrl)) }
     private val json = Json
 
     init {
@@ -107,9 +107,9 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
             if (updaterRes != null) {
                 metamorphosis.builder.apkName = "${apkName}_${updaterRes.latestVersion}.apk"
                 metamorphosis.builder.notificationConfig.title =
-                    "${apkName}_${updaterRes.latestVersion}.apk"
+                        "${apkName}_${updaterRes.latestVersion}.apk"
                 metamorphosis.builder.notificationConfig.notificationVisibility =
-                    DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
+                        DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
                 val lastApk = File("${metamorphosis.builder.dir}/${metamorphosis.builder.apkName}")
                 if (lastApk.exists() && updaterRes.latestVersionCode > versionCode) {
                     updateNewVersion(updaterRes, lastApk)
@@ -149,8 +149,8 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
             }
         } else {
             val dialog = TwoStateMessageDialog.newInstance(
-                if (apk.exists()) "نسخه جدید اپلیکیشن دانلود شده است.\nبرای نصب نسخه جدید روی دکمه نصب کلیک کنید." else "نسخه جدید اپلیکیشن آماده دانلود است.\nبرای دریافت نسخه جدید روی دکمه دریافت کلیک کنید.",
-                if (apk.exists()) "نصب" else "دریافت", "فعلا نه", false
+                    if (apk.exists()) "نسخه جدید اپلیکیشن دانلود شده است.\nبرای نصب نسخه جدید روی دکمه نصب کلیک کنید." else "نسخه جدید اپلیکیشن آماده دانلود است.\nبرای دریافت نسخه جدید روی دکمه دریافت کلیک کنید.",
+                    if (apk.exists()) "نصب" else "دریافت", "فعلا نه", false
             )
             dialog.negativeButtonClickListener {
                 nextActivity()

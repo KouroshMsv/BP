@@ -47,7 +47,12 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
     private val metamorphosis by lazy { Metamorphosis(Builder(this, updateUrl)) }
     private val json = Json
 
-    init {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initActivityTxtUpdating.setTextColor(ContextCompat.getColor(this, textColorId))
+        initActivityTxtAppName.setTextColor(ContextCompat.getColor(this, textColorId))
+        initActivityRoot.setBackgroundColor(ContextCompat.getColor(this, backgroundColorId))
+
 
         metamorphosis.downloadListener = object : OnDownloadListener {
             override fun onFailed(message: String, code: Int?) {
@@ -68,14 +73,6 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
                 progress.progress = it
             }
         }
-
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initActivityTxtUpdating.setTextColor(ContextCompat.getColor(this, textColorId))
-        initActivityTxtAppName.setTextColor(ContextCompat.getColor(this, textColorId))
-        initActivityRoot.setBackgroundColor(ContextCompat.getColor(this, backgroundColorId))
     }
 
     private fun changeProgressVisibility(visible: Boolean) {

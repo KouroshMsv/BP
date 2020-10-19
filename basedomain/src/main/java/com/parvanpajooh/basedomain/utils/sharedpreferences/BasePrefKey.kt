@@ -9,6 +9,7 @@ enum class BasePrefKey {
     ACCOUNT_TYPE ,
     INTERNET_CHECK_URL ,
     SERVER_CHECK_URL ,
+    VERSION_NAME ,
 
 
 

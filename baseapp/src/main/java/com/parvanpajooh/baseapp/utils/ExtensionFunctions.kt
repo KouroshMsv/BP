@@ -9,9 +9,9 @@ import com.parvanpajooh.baseapp.enums.NetworkStatus
 import com.parvanpajooh.baseapp.ui.TwoStateMessageDialog
 import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
-import com.parvanpajooh.basedomain.utils.username
 import dev.kourosh.accountmanager.accountmanager.AuthenticationCRUD
 import dev.kourosh.basedomain.launchIO
+import dev.kourosh.basedomain.logE
 import kotlinx.coroutines.CompletableDeferred
 import java.net.HttpURLConnection
 import java.net.URL
@@ -60,14 +60,38 @@ suspend fun checkGoogleServer(googleUrl: URL = internetUrl): NetworkStatus {
 }
 
 fun startSync(accountHelper: AuthenticationCRUD, bundle: Bundle = Bundle()) {
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
-        ContentResolver.requestSync(
-            accountHelper.getAccount(username),
-            PrefHelper.get(BasePrefKey.AUTHORITY.name),
-            bundle
-        )
+    val username = PrefHelper.get<String?>(BasePrefKey.USERNAME.name, null)
+    if (username != null) {
+        val account = accountHelper.getAccount(username)
+        if (account != null) {
+            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
+            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
+            ContentResolver.requestSync(
+                accountHelper.getAccount(username),
+                PrefHelper.get(BasePrefKey.AUTHORITY.name),
+                bundle
+            )
+        } else
+            logE("addPeriodicSync -> Account is null")
+    } else {
+        logE("addPeriodicSync -> username is null")
+    }
+}
 
+
+fun addPeriodicSync(accountHelper: AuthenticationCRUD, interval: Long, bundle: Bundle = Bundle()) {
+    val username = PrefHelper.get<String?>(BasePrefKey.USERNAME.name, null)
+    if (username != null) {
+        val account = accountHelper.getAccount(username)
+        if (account != null) {
+            ContentResolver.setIsSyncable(account, PrefHelper.get(BasePrefKey.AUTHORITY.name), 1);
+            ContentResolver.setSyncAutomatically(account, PrefHelper.get(BasePrefKey.AUTHORITY.name), true);
+            ContentResolver.addPeriodicSync(account, PrefHelper.get(BasePrefKey.AUTHORITY.name), bundle, interval)
+        } else
+            logE("addPeriodicSync -> Account is null")
+    } else {
+        logE("addPeriodicSync -> username is null")
+    }
 }
 
 internal val batchPermissionCode = 999

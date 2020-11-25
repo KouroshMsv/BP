@@ -80,6 +80,7 @@ dependencies {
     implementation "com.github.kouroshmsv.baseandroid:basedomain:${baseAndroid}"
     implementation "com.github.kouroshmsv:metamorphosis:1.1.0"
     implementation "org.koin:koin-core:$koin_version"
+    implementation 'com.github.samanzamani.persiandate:PersianDate:0.8'
 
     implementation 'androidx.biometric:biometric:1.0.1'
 

@@ -48,8 +48,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines}"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutines}"
-    implementation "androidx.lifecycle:lifecycle-livedata:${liveData}"
-    implementation "androidx.lifecycle:lifecycle-livedata-core:${liveData}"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:${liveData}"
+    implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:${liveData}"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0"
     implementation 'com.github.samanzamani.persiandate:PersianDate:0.8'
 

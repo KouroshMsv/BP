@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Rect
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore.Images
@@ -34,6 +35,7 @@ import saman.zamani.persiandate.PersianDate
 import saman.zamani.persiandate.PersianDateFormat
 import java.io.File
 import java.io.FileOutputStream
+import java.util.*
 
 
 abstract class BaseMainActivity(
@@ -70,6 +72,8 @@ abstract class BaseMainActivity(
             append(username)
             append("\n")
             append(PersianDateFormat("l d/m/Y H:i").format(PersianDate(System.currentTimeMillis())))
+            append("\n")
+            append("${Build.MANUFACTURER.capitalize(Locale.ENGLISH)} ${Build.MODEL}")
         }
         launchIO {
             delay(150)

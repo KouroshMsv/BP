@@ -26,6 +26,8 @@ import com.parvanpajooh.baseapp.infrastructure.BaseActivity
 import com.parvanpajooh.baseapp.models.eventbus.TitleEvent
 import com.parvanpajooh.baseapp.ui.CheckTimeDialog
 import com.parvanpajooh.baseapp.utils.PermissionRequest
+import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
+import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
 import com.parvanpajooh.basedomain.utils.username
 import dev.kourosh.baseapp.*
 import kotlinx.coroutines.delay
@@ -59,6 +61,7 @@ abstract class BaseMainActivity(
         txtScreenShotDetails = findViewById(txtScreenShotDetailsId)
         txtScreenShotDetails.gone()
         initNavController()
+        PrefHelper.put(BasePrefKey.FIRST_RUNNING.name, false)
     }
 
 

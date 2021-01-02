@@ -10,6 +10,7 @@ enum class BasePrefKey {
     INTERNET_CHECK_URL ,
     SERVER_CHECK_URL ,
     VERSION_NAME ,
+    FIRST_RUNNING ,
 
 
 

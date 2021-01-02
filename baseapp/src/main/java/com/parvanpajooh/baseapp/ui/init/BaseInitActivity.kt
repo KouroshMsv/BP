@@ -56,6 +56,7 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
     override fun onCreate(savedInstanceState: Bundle?) {
         PrefHelper.put(BasePrefKey.VERSION_NAME.name, packageManager.getPackageInfo(applicationContext.packageName, 0).versionName)
         super.onCreate(savedInstanceState)
+        PrefHelper.put(BasePrefKey.FIRST_RUNNING.name, false)
         initActivityTxtUpdating.setTextColor(ContextCompat.getColor(this, textColorId))
         initActivityTxtAppName.setTextColor(ContextCompat.getColor(this, textColorId))
         initActivityRoot.setBackgroundColor(ContextCompat.getColor(this, backgroundColorId))

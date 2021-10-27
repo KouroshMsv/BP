@@ -5,10 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TokenRes(
-        @SerialName("access_token") val accessToken: String = "",
-        @SerialName("token_type") val tokenType: String = "",
-        @SerialName("refresh_token") val refreshToken: String = "",
-        @SerialName("expires_in") val expiresIn: Long = 0,
-        @SerialName("scope") val scope: String = "",
-        @SerialName("jti") val jti: String = ""
+    @SerialName("access_token") val accessToken: String = "",
+    @SerialName("token_type") val tokenType: String = "",
+    @SerialName("refresh_token") val refreshToken: String = "",
+    @SerialName("expires_in") val expiresIn: Long = 0,
+    @SerialName("scope") val scope: String = "",
+    @SerialName("jti") val jti: String = ""
 )

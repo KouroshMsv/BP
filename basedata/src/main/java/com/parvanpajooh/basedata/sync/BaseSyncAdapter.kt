@@ -6,7 +6,6 @@ import android.content.ContentProviderClient
 import android.content.Context
 import android.content.SyncResult
 import android.os.Bundle
-import com.parvanpajooh.basedomain.interactor.factory.UseCaseListI
 import dev.kourosh.basedomain.logI
 
 open class BaseSyncAdapter(context: Context, autoInitialize: Boolean) : AbstractThreadedSyncAdapter(context, autoInitialize) {

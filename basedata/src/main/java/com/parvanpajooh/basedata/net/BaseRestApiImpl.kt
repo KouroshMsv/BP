@@ -5,15 +5,11 @@ import com.parvanpajooh.basedata.net.models.TokenRes
 import dev.kourosh.basedomain.ErrorCode
 import dev.kourosh.basedomain.Result
 import dev.kourosh.basedomain.logW
-import kotlinx.coroutines.Deferred
 import okio.IOException
 import org.json.JSONObject
 import retrofit2.HttpException
 import saman.zamani.persiandate.PersianDate
 import saman.zamani.persiandate.PersianDateFormat
-
-
-
 
 
 open class BaseRestApiImpl(tokenUrl: String, debuggable: Boolean) : BaseRestApi {
@@ -28,7 +24,6 @@ open class BaseRestApiImpl(tokenUrl: String, debuggable: Boolean) : BaseRestApi 
             tokenApi.getTokenWithAccountAsync(username, password)
         }
     }
-
 
 
     override suspend fun getTokenWithRefreshTokenAsync(refreshToken: String): Result<TokenRes> {

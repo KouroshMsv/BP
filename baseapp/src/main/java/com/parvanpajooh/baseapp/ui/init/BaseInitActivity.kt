@@ -76,7 +76,7 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
                 metamorphosis.installAPK(file)
             }
         }
-        val progress=findViewById<ProgressBar>(R.id.progress)
+        val progress = findViewById<ProgressBar>(R.id.progress)
         metamorphosis.setOnDownloadingListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 progress.setProgress(it, true)

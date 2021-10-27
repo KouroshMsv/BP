@@ -56,9 +56,9 @@ class TwoStateMessageDialog private constructor() : BaseDialog(R.layout.dialog_t
 
 
     override fun initView(v: View) {
-       val  txtMessage=v.findViewById<AppCompatTextView>(R.id.txtMessage)
-       val  btnPositive=v.findViewById<MaterialButton>(R.id.btnPositive)
-       val  btnNegative=v.findViewById<MaterialButton>(R.id.btnNegative)
+        val txtMessage = v.findViewById<AppCompatTextView>(R.id.txtMessage)
+        val btnPositive = v.findViewById<MaterialButton>(R.id.btnPositive)
+        val btnNegative = v.findViewById<MaterialButton>(R.id.btnNegative)
         requireArguments().run {
             isCancelable = getBoolean("cancellable")
             txtMessage.text = getString("message")

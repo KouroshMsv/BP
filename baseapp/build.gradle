@@ -2,8 +2,7 @@ plugins {
     id 'com.android.library'
     id 'com.github.dcendents.android-maven'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.10'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.5.31'
 }
 group = 'com.github.KouroshMsv'
 
@@ -39,21 +38,17 @@ android {
     }
 }
 
-androidExtensions {
-    experimental = true
-}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "androidx.appcompat:appcompat:${appcompat}"
-    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'org.greenrobot:eventbus:3.2.0'
     implementation 'com.fede987:status-bar-alert:1.0.2'
-    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0"
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0'
 
-    implementation "androidx.lifecycle:lifecycle-extensions:${liveData}"
-    implementation "androidx.lifecycle:lifecycle-livedata-core:${liveData}"
+    implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:${liveData}"
     implementation "androidx.lifecycle:lifecycle-common-java8:${liveData}"
 
     implementation "androidx.navigation:navigation-fragment-ktx:${nav_version}"
@@ -64,7 +59,7 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-location:17.1.0'
 
-    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'com.google.android.material:material:1.4.0'
     implementation 'io.github.inflationx:calligraphy3:3.1.1'
     implementation 'io.github.inflationx:viewpump:2.0.3'
 
@@ -79,9 +74,8 @@ dependencies {
     implementation "com.github.kouroshmsv.baseandroid:accountmanager:${baseAndroid}"
     implementation "com.github.kouroshmsv.baseandroid:basedomain:${baseAndroid}"
     implementation "com.github.kouroshmsv:metamorphosis:1.1.0"
-    implementation "org.koin:koin-core:$koin_version"
     implementation 'com.github.samanzamani.persiandate:PersianDate:0.8'
 
-    implementation 'androidx.biometric:biometric:1.0.1'
+    implementation 'androidx.biometric:biometric:1.1.0'
 
 }

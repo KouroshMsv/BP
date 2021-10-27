@@ -1,10 +1,11 @@
 package com.parvanpajooh.baseapp.ui
 
 import android.view.View
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
+import com.google.android.material.button.MaterialButton
 import com.parvanpajooh.baseapp.R
 import com.parvanpajooh.baseapp.infrastructure.BaseDialog
-import kotlinx.android.synthetic.main.dialog_two_state_message.*
 
 
 class TwoStateMessageDialog private constructor() : BaseDialog(R.layout.dialog_two_state_message) {
@@ -55,7 +56,10 @@ class TwoStateMessageDialog private constructor() : BaseDialog(R.layout.dialog_t
 
 
     override fun initView(v: View) {
-        arguments!!.run {
+       val  txtMessage=v.findViewById<AppCompatTextView>(R.id.txtMessage)
+       val  btnPositive=v.findViewById<MaterialButton>(R.id.btnPositive)
+       val  btnNegative=v.findViewById<MaterialButton>(R.id.btnNegative)
+        requireArguments().run {
             isCancelable = getBoolean("cancellable")
             txtMessage.text = getString("message")
             btnPositive.text = getString("positiveButtonText")

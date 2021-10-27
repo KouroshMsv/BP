@@ -76,7 +76,7 @@ abstract class BaseMainActivity(
             append("\n")
             append(PersianDateFormat("l d/m/Y H:i").format(PersianDate(System.currentTimeMillis())))
             append("\n")
-            append("${Build.MANUFACTURER.capitalize(Locale.ENGLISH)} ${Build.MODEL}")
+            append("${Build.MANUFACTURER.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ENGLISH) else it.toString() }} ${Build.MODEL}")
         }
         launchIO {
             delay(150)

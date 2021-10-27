@@ -5,7 +5,11 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import androidx.annotation.ColorRes
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.parvanpajooh.baseapp.R
 import com.parvanpajooh.baseapp.infrastructure.BaseActivity
@@ -20,7 +24,6 @@ import dev.kourosh.metamorphosis.Builder
 import dev.kourosh.metamorphosis.Metamorphosis
 import dev.kourosh.metamorphosis.OnCheckVersionListener
 import dev.kourosh.metamorphosis.OnDownloadListener
-import kotlinx.android.synthetic.main.activity_init.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -56,9 +59,9 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
     override fun onCreate(savedInstanceState: Bundle?) {
         PrefHelper.put(BasePrefKey.VERSION_NAME.name, packageManager.getPackageInfo(applicationContext.packageName, 0).versionName)
         super.onCreate(savedInstanceState)
-        initActivityTxtUpdating.setTextColor(ContextCompat.getColor(this, textColorId))
-        initActivityTxtAppName.setTextColor(ContextCompat.getColor(this, textColorId))
-        initActivityRoot.setBackgroundColor(ContextCompat.getColor(this, backgroundColorId))
+        findViewById<AppCompatTextView>(R.id.initActivityTxtUpdating).setTextColor(ContextCompat.getColor(this, textColorId))
+        findViewById<AppCompatTextView>(R.id.initActivityTxtAppName).setTextColor(ContextCompat.getColor(this, textColorId))
+        findViewById<ConstraintLayout>(R.id.initActivityRoot).setBackgroundColor(ContextCompat.getColor(this, backgroundColorId))
 
 
         metamorphosis.downloadListener = object : OnDownloadListener {
@@ -73,6 +76,7 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
                 metamorphosis.installAPK(file)
             }
         }
+        val progress=findViewById<ProgressBar>(R.id.progress)
         metamorphosis.setOnDownloadingListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 progress.setProgress(it, true)
@@ -84,7 +88,7 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
 
     private fun changeProgressVisibility(visible: Boolean) {
         GlobalScope.launch(Dispatchers.Main) {
-            lyrProgress.visibility = if (visible) View.VISIBLE else View.GONE
+            findViewById<LinearLayout>(R.id.lyrProgress).visibility = if (visible) View.VISIBLE else View.GONE
         }
     }
 

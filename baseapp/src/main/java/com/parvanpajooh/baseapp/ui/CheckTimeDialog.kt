@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import androidx.fragment.app.FragmentManager
+import com.google.android.material.button.MaterialButton
 import com.parvanpajooh.baseapp.R
 import com.parvanpajooh.baseapp.infrastructure.BaseDialog
-import kotlinx.android.synthetic.main.dialog_check_time.*
 
 class CheckTimeDialog : BaseDialog(R.layout.dialog_check_time) {
 
@@ -30,9 +30,8 @@ class CheckTimeDialog : BaseDialog(R.layout.dialog_check_time) {
     override fun initView(v: View) {
 
         isCancelable = false
-        btnTimeSetting.setOnClickListener {
+        v.findViewById<MaterialButton>(R.id.btnTimeSetting).setOnClickListener {
             startActivity(Intent(Settings.ACTION_DATE_SETTINGS))
-
         }
     }
 

@@ -44,17 +44,15 @@ dependencies {
     implementation ("androidx.core:core-ktx:1.7.0")
     implementation ("org.greenrobot:eventbus:$eventbus")
     implementation ("androidx.constraintlayout:constraintlayout:$constraintLayout")
-    implementation (project( ":baseapp"))
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines}")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutines}")
     implementation ("com.google.android.material:material:1.5.0")
+
+    implementation (project( ":baseapp"))
     implementation (project( ":basedomain"))
     implementation (project( ":basedata"))
     implementation (project( ":basedevice"))
 
-    implementation (project(":basedevice"))
-    implementation (project(":basedata"))
-    implementation (project(":basedomain"))
 
     implementation ("com.github.kouroshmsv.baseandroid:baseapp:${baseAndroid}")
     implementation ("com.github.kouroshmsv.baseandroid:accountmanager:${baseAndroid}")

@@ -19,6 +19,7 @@ val constraintLayout: String by project
 val baseAndroid: String by project
 val kotlinSerializer: String by project
 val eventbus: String by project
+val libVersion: String by project
 afterEvaluate {
     publishing {
         publications {
@@ -27,7 +28,7 @@ afterEvaluate {
                 from(components.getByName("release"))
                 groupId = "com.github.KouroshMsv"
                 artifactId = "basedomain"
-                version = "1.9.11"
+                version = libVersion
             }
         }
     }
@@ -47,8 +48,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
 }

@@ -13,11 +13,12 @@ afterEvaluate {
                 from(components.getByName("release"))
                 groupId = "com.github.KouroshMsv"
                 artifactId = "basedata"
-                version = "1.9.11"
+                version = libVersion
             }
         }
     }
 }
+val libVersion: String by project
 val kotlinVersion: String by project
 val minSdkVer: String by project
 val compileSdkVer: String by project
@@ -47,8 +48,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
 }

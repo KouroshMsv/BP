@@ -41,7 +41,7 @@ abstract class BaseDeviceModuleRepositoryImpl(private val authenticationCRUD: Au
     }
 
     override suspend fun getCurrentLocation(activity: Activity): Result<LocationRes> {
-        return locationManager.requestGPSSettings(activity).await()
+        return locationManager.requestGPSSettings(activity)
                 .map { LocationRes(it.latitude, it.longitude) }
 
 

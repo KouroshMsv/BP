@@ -84,8 +84,8 @@ fun addPeriodicSync(accountHelper: AuthenticationCRUD, interval: Long, bundle: B
     if (username != null) {
         val account = accountHelper.getAccount(username)
         if (account != null) {
-            ContentResolver.setIsSyncable(account, PrefHelper.get(BasePrefKey.AUTHORITY.name), 1);
-            ContentResolver.setSyncAutomatically(account, PrefHelper.get(BasePrefKey.AUTHORITY.name), true);
+            ContentResolver.setIsSyncable(account, PrefHelper.get(BasePrefKey.AUTHORITY.name), 1)
+            ContentResolver.setSyncAutomatically(account, PrefHelper.get(BasePrefKey.AUTHORITY.name), true)
             ContentResolver.addPeriodicSync(account, PrefHelper.get(BasePrefKey.AUTHORITY.name), bundle, interval)
         } else
             logE("addPeriodicSync -> Account is null")
@@ -94,7 +94,7 @@ fun addPeriodicSync(accountHelper: AuthenticationCRUD, interval: Long, bundle: B
     }
 }
 
-internal val batchPermissionCode = 999
+internal const val batchPermissionCode = 999
 fun AppCompatActivity.checkPermission(
     requiredPermissions: List<PermissionRequest>,
     batchCheck: Boolean

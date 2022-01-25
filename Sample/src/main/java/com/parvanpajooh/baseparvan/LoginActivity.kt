@@ -1,7 +1,6 @@
 package com.parvanpajooh.baseparvan
 
 import android.os.Bundle
-import android.widget.Toast
 import com.parvanpajooh.baseapp.ui.login.BaseLoginActivity
 import com.parvanpajooh.basedomain.interactor.factory.UseCaseListI
 import dev.kourosh.basedomain.logE

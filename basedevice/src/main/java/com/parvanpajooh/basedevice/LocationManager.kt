@@ -23,7 +23,7 @@ class LocationManager(context:  Context) {
     }
 
 
-    fun requestGPSSettings(activity: Activity) :Deferred<Result<LocationRes>>{
+    suspend fun requestGPSSettings(activity: Activity) : Result<LocationRes> {
         val deferred= CompletableDeferred<Result<LocationRes>>()
         val locationRequest = createLocationRequest()
         val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
@@ -44,7 +44,7 @@ class LocationManager(context:  Context) {
 
             }
         }
-        return deferred
+        return deferred.await()
     }
     fun requestGPSSettings(activity: Activity,onLocationCallback: LocationCallback) {
         val locationRequest = createLocationRequest()

@@ -41,7 +41,7 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
     @ColorRes private val textColorId: Int = R.color.white
 ) : BaseActivity(R.layout.activity_init, requiredPermissions) {
     private val versionCode by lazy {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             packageManager.getPackageInfo(applicationContext.packageName, 0).longVersionCode
         } else {
             packageManager.getPackageInfo(applicationContext.packageName, 0).versionCode.toLong()

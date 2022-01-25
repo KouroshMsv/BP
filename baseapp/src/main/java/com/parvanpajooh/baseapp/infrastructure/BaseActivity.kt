@@ -94,7 +94,7 @@ abstract class BaseActivity(
     }
 
     private fun showConnected() {
-        StatusBarAlert.hide(this, Runnable { })
+        StatusBarAlert.hide(this) { }
     }
 
     private fun statusIsHidden(): Boolean {

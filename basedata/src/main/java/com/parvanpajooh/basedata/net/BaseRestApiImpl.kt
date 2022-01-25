@@ -13,7 +13,7 @@ import saman.zamani.persiandate.PersianDateFormat
 
 
 open class BaseRestApiImpl(tokenUrl: String, debuggable: Boolean) : BaseRestApi {
-    val AUTHORIZATION = "Authorization"
+    protected val AUTHORIZATION = "Authorization"
     private val tokenApi = BaseApiService(tokenUrl, debuggable, true, 20).create<TokenApi>()
 
     override suspend fun getTokenWithAccountAsync(

@@ -62,7 +62,7 @@ dependencies {
     implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation ("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3")
+    implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.4")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines")
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:$liveData")

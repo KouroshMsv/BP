@@ -8,7 +8,6 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.fede987.statusbaralert.StatusBarAlert
-import com.fede987.statusbaralert.StatusBarAlertView
 import com.parvanpajooh.baseapp.R
 import com.parvanpajooh.baseapp.components.service.NetworkStatusService
 import com.parvanpajooh.baseapp.enums.NetworkStatus
@@ -38,7 +37,7 @@ abstract class BaseActivity(
 
     private lateinit var statusBarAlertView: StatusBarAlert.Builder
     private lateinit var notworkStatusIntent: Intent
-    lateinit var statusBarAlert: StatusBarAlertView
+    var statusBarAlert: StatusBarAlert?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +49,7 @@ abstract class BaseActivity(
         statusBarAlertView = StatusBarAlert.Builder(this)
             .autoHide(false)
             .showProgress(true)
-            .withAlertColor(R.color.colorPrimaryDark)
+            .alertColor(R.color.colorPrimaryDark)
         lifecycleScope.launch(Dispatchers.IO) {
             delay(200)
             val status = isOnline()
@@ -82,23 +81,23 @@ abstract class BaseActivity(
         try {
 
             if (!statusIsHidden()) {
-                statusBarAlert.hideIndeterminateProgress()
+                statusBarAlert?.hideProgress()
             }
 
-            statusBarAlert = statusBarAlertView.withText(message).build()!!
-            statusBarAlert.layoutDirection = View.LAYOUT_DIRECTION_RTL
-            statusBarAlert.showIndeterminateProgress()
+            statusBarAlert = statusBarAlertView.text(message).build()
+            statusBarAlert?.layoutDirection = View.LAYOUT_DIRECTION_RTL
+            statusBarAlert?.show()
         } catch (e: Exception) {
             logE(e)
         }
     }
 
     private fun showConnected() {
-        StatusBarAlert.hide(this) { }
+        statusBarAlert?.hide {  }
     }
 
     private fun statusIsHidden(): Boolean {
-        return StatusBarAlert.allAlerts[this.componentName.className].isNullOrEmpty()
+        return !(statusBarAlert?.isShown?:false)
     }
 
 

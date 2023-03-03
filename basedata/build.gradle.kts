@@ -68,7 +68,7 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:$liveData")
     implementation ("androidx.lifecycle:lifecycle-livedata-core-ktx:$liveData")
     implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializer")
-    implementation ("com.github.samanzamani.persiandate:PersianDate:0.8")
+    implementation ("com.github.samanzamani:PersianDate:1.6.1")
 
     implementation (project(":basedomain"))
 

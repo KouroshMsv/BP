@@ -65,7 +65,7 @@ dependencies {
     implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation ("androidx.appcompat:appcompat:${appcompat}")
     implementation ("org.greenrobot:eventbus:$eventbus")
-    implementation ("com.fede987:status-bar-alert:1.0.2")
+    implementation("com.github.fede87:StatusBarAlert:2.0.0")
     implementation ("androidx.core:core-ktx:1.7.0")
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
     implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializer")
@@ -96,7 +96,7 @@ dependencies {
     implementation ("com.github.kouroshmsv.baseandroid:accountmanager:${baseAndroid}")
     implementation ("com.github.kouroshmsv.baseandroid:basedomain:${baseAndroid}")
     implementation ("com.github.kouroshmsv:metamorphosis:1.1.0")
-    implementation ("com.github.samanzamani.persiandate:PersianDate:0.8")
+    implementation ("com.github.samanzamani:PersianDate:1.6.1")
 
     implementation ("androidx.biometric:biometric:1.1.0")
 

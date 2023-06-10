@@ -2,7 +2,7 @@ plugins {
     id("com.android.library")
     id("maven-publish")
     kotlin("android")
-    kotlin("plugin.serialization") version "1.6.10"
+    kotlin("plugin.serialization") version "1.8.22"
 }
 group = "com.github.KouroshMsv"
 
@@ -54,13 +54,14 @@ android {
     kotlinOptions{
         jvmTarget="11"
     }
+    namespace = "com.parvanpajooh.basedomain"
 
 }
 
 dependencies {
     implementation((fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar")))))
     implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
-    implementation ("androidx.core:core-ktx:1.7.0")
+    implementation ("androidx.core:core-ktx:1.10.1")
     implementation ("com.github.kouroshmsv.baseandroid:basedomain:${baseAndroid}")
     implementation ("org.greenrobot:eventbus:$eventbus")
     implementation ("com.orhanobut:hawk:2.0.1")

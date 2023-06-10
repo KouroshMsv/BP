@@ -40,14 +40,17 @@ android {
     compileSdk = compileSdkVer.toInt()
     buildToolsVersion = buildToolsVer
     defaultConfig {
-        minSdk=minSdkVer.toInt()
-        targetSdk=targetSdkVer.toInt()
+        minSdk = minSdkVer.toInt()
+        targetSdk = targetSdkVer.toInt()
     }
 
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -55,49 +58,50 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    kotlinOptions{
-        jvmTarget="11"
+    kotlinOptions {
+        jvmTarget = "11"
     }
+    namespace = "com.parvanpajooh.baseapp"
 }
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
-    implementation ("androidx.appcompat:appcompat:${appcompat}")
-    implementation ("org.greenrobot:eventbus:$eventbus")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+    implementation("androidx.appcompat:appcompat:${appcompat}")
+    implementation("org.greenrobot:eventbus:$eventbus")
     implementation("com.github.fede87:StatusBarAlert:2.0.0")
-    implementation ("androidx.core:core-ktx:1.7.0")
-    implementation ("com.facebook.shimmer:shimmer:0.5.0")
-    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializer")
+    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializer")
 
-    implementation ("androidx.lifecycle:lifecycle-livedata-core-ktx:${liveData}")
-    implementation ("androidx.lifecycle:lifecycle-common-java8:${liveData}")
+    implementation("androidx.lifecycle:lifecycle-livedata-core-ktx:${liveData}")
+    implementation("androidx.lifecycle:lifecycle-common-java8:${liveData}")
 
-    implementation ("androidx.navigation:navigation-fragment-ktx:${navigationVer}")
-    implementation ("androidx.navigation:navigation-ui-ktx:${navigationVer}")
+    implementation("androidx.navigation:navigation-fragment-ktx:${navigationVer}")
+    implementation("androidx.navigation:navigation-ui-ktx:${navigationVer}")
 
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines}")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutines}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutines}")
 
-    implementation ("com.google.android.gms:play-services-location:17.1.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
-    implementation ("com.google.android.material:material:1.5.0")
-    implementation ("io.github.inflationx:calligraphy3:3.1.1")
-    implementation ("io.github.inflationx:viewpump:2.0.3")
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("io.github.inflationx:calligraphy3:3.1.1")
+    implementation("io.github.inflationx:viewpump:2.0.3")
 
-    implementation ("androidx.constraintlayout:constraintlayout:${constraintLayout}")
+    implementation("androidx.constraintlayout:constraintlayout:${constraintLayout}")
 
 
-    implementation (project(":basedevice"))
-    implementation (project(":basedata"))
-    implementation (project(":basedomain"))
+    implementation(project(":basedevice"))
+    implementation(project(":basedata"))
+    implementation(project(":basedomain"))
 
-    implementation ("com.github.kouroshmsv.baseandroid:baseapp:${baseAndroid}")
-    implementation ("com.github.kouroshmsv.baseandroid:accountmanager:${baseAndroid}")
-    implementation ("com.github.kouroshmsv.baseandroid:basedomain:${baseAndroid}")
-    implementation ("com.github.kouroshmsv:metamorphosis:1.1.0")
-    implementation ("com.github.samanzamani:PersianDate:1.6.1")
+    implementation("com.github.kouroshmsv.baseandroid:baseapp:${baseAndroid}")
+    implementation("com.github.kouroshmsv.baseandroid:accountmanager:${baseAndroid}")
+    implementation("com.github.kouroshmsv.baseandroid:basedomain:${baseAndroid}")
+    implementation("com.github.kouroshmsv:metamorphosis:1.1.0")
+    implementation("com.github.samanzamani:PersianDate:1.6.1")
 
-    implementation ("androidx.biometric:biometric:1.1.0")
+    implementation("androidx.biometric:biometric:1.1.0")
 
 }

@@ -35,18 +35,19 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    namespace = "com.parvanpajooh.baseparvan"
 }
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     implementation ("androidx.appcompat:appcompat:${appcompat}")
-    implementation ("androidx.core:core-ktx:1.7.0")
+    implementation ("androidx.core:core-ktx:1.10.1")
     implementation ("org.greenrobot:eventbus:$eventbus")
     implementation ("androidx.constraintlayout:constraintlayout:$constraintLayout")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines}")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutines}")
-    implementation ("com.google.android.material:material:1.5.0")
+    implementation ("com.google.android.material:material:1.9.0")
 
     implementation (project( ":baseapp"))
     implementation (project( ":basedomain"))

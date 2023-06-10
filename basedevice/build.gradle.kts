@@ -2,7 +2,7 @@ plugins {
     id("com.android.library")
     id("maven-publish")
     kotlin("android")
-    kotlin("plugin.serialization") version "1.6.10"
+    kotlin("plugin.serialization") version "1.8.22"
 }
 group = "com.github.KouroshMsv"
 afterEvaluate {
@@ -55,17 +55,18 @@ android {
     kotlinOptions{
         jvmTarget="11"
     }
+    namespace = "com.parvanpajooh.basedevice"
 }
 
 dependencies {
     implementation((fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar")))))
-    implementation ("joda-time:joda-time:2.10.13")
+    implementation ("joda-time:joda-time:2.12.5")
     implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
 
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines}")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutines}")
-    implementation ("com.google.android.gms:play-services-location:17.1.0")
-    implementation ("androidx.core:core-ktx:1.7.0")
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
+    implementation ("androidx.core:core-ktx:1.10.1")
     implementation (project(":basedomain"))
     implementation ("com.github.kouroshmsv.baseandroid:basedomain:${baseAndroid}")
     implementation ("com.github.kouroshmsv.baseandroid:accountmanager:${baseAndroid}")

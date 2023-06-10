@@ -2,7 +2,7 @@ plugins {
     id("com.android.library")
     id("maven-publish")
     kotlin("android")
-    kotlin("plugin.serialization") version "1.6.10"
+    kotlin("plugin.serialization") version "1.8.22"
 }
 group = "com.github.KouroshMsv"
 afterEvaluate {
@@ -55,12 +55,13 @@ android {
     kotlinOptions{
         jvmTarget="11"
     }
+    namespace = "com.parvanpajooh.basedata"
 }
 
 dependencies {
     implementation((fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar")))))
     implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
-    implementation ("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
+    implementation ("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.4")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines")

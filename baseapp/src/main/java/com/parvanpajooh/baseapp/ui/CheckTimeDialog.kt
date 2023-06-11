@@ -12,13 +12,8 @@ import com.parvanpajooh.baseapp.infrastructure.BaseDialog
 class CheckTimeDialog : BaseDialog(R.layout.dialog_check_time) {
 
     companion object {
-        var instance: CheckTimeDialog? = null
-        var visible: Boolean = false
-
         fun newInstance(): CheckTimeDialog {
-            if (instance == null)
-                instance = CheckTimeDialog()
-            return instance!!
+            return CheckTimeDialog()
         }
     }
 
@@ -33,15 +28,5 @@ class CheckTimeDialog : BaseDialog(R.layout.dialog_check_time) {
         v.findViewById<MaterialButton>(R.id.btnTimeSetting).setOnClickListener {
             startActivity(Intent(Settings.ACTION_DATE_SETTINGS))
         }
-    }
-
-    override fun dismiss() {
-        super.dismiss()
-        visible = false
-    }
-
-    override fun show(manager: FragmentManager) {
-        super.show(manager)
-        visible = true
     }
 }

@@ -171,21 +171,19 @@ abstract class BaseMainActivity(
             }
         }
     }
+    var dialog: CheckTimeDialog? = null
 
     override fun onResume() {
         super.onResume()
 
         if (!Helpers.isTimeAutomatic(this)) {
-            if (!CheckTimeDialog.visible)
-                CheckTimeDialog.newInstance().show(supportFragmentManager)
-        } else {
-            try {
-                if (CheckTimeDialog.instance != null) {
-                    CheckTimeDialog.newInstance().dismiss()
-                }
-            } catch (e: Exception) {
-
+            if (dialog == null) {
+                dialog = CheckTimeDialog.newInstance()
+                dialog?.show(supportFragmentManager)
             }
+        } else {
+            dialog?.dismiss()
+            dialog = null
         }
     }
 }

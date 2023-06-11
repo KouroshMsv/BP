@@ -29,7 +29,6 @@ class TwoStateMessageDialog private constructor() : BaseDialog(R.layout.dialog_t
 
 
     companion object {
-        private var instance: TwoStateMessageDialog? = null
 
         fun newInstance(
             message: String,
@@ -37,20 +36,14 @@ class TwoStateMessageDialog private constructor() : BaseDialog(R.layout.dialog_t
             negativeButtonText: String = "خیر",
             cancellable: Boolean = true
         ): TwoStateMessageDialog {
-            if (instance == null) {
-                instance =
-                    TwoStateMessageDialog()
-            } else {
-                instance!!.dismiss()
-            }
-
-            instance!!.arguments = bundleOf(
+            val instance= TwoStateMessageDialog()
+            instance.arguments = bundleOf(
                 "cancellable" to cancellable,
                 "message" to message,
                 "negativeButtonText" to negativeButtonText,
                 "positiveButtonText" to positiveButtonText
             )
-            return instance!!
+            return instance
         }
     }
 
@@ -59,7 +52,7 @@ class TwoStateMessageDialog private constructor() : BaseDialog(R.layout.dialog_t
         val txtMessage = v.findViewById<AppCompatTextView>(R.id.txtMessage)
         val btnPositive = v.findViewById<MaterialButton>(R.id.btnPositive)
         val btnNegative = v.findViewById<MaterialButton>(R.id.btnNegative)
-        requireArguments().run {
+        arguments?.run {
             isCancelable = getBoolean("cancellable")
             txtMessage.text = getString("message")
             btnPositive.text = getString("positiveButtonText")

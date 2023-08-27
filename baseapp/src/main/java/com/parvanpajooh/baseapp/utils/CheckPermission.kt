@@ -66,6 +66,11 @@ enum class PermissionRequest(val permission: String, val requestCode: Int, val m
         104,
         "برای ذخیره فایل ها، برنامه نیاز به دسترسی به فایل ها دارد."
     ),
+    MANAGE_EXTERNAL_STORAGE(
+        Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+        105,
+        "برای ذخیره فایل ها، برنامه نیاز به دسترسی به فایل ها دارد."
+    ),
 }
 
 enum class PermissionResponse {

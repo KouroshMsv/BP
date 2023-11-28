@@ -58,6 +58,6 @@ dependencies {
     implementation ("com.github.kouroshmsv.baseandroid:baseapp:${baseAndroid}")
     implementation ("com.github.kouroshmsv.baseandroid:accountmanager:${baseAndroid}")
     implementation ("com.github.kouroshmsv.baseandroid:basedomain:${baseAndroid}")
-    implementation ("com.github.samanzamani:PersianDate:1.6.1")
+    implementation ("com.github.samanzamani:PersianDate:1.7.1")
 
 }

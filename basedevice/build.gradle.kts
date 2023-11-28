@@ -2,7 +2,7 @@ plugins {
     id("com.android.library")
     id("maven-publish")
     kotlin("android")
-    kotlin("plugin.serialization") version "1.8.22"
+    kotlin("plugin.serialization") version "1.9.21"
 }
 group = "com.github.KouroshMsv"
 afterEvaluate {
@@ -66,7 +66,7 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines}")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutines}")
     implementation ("com.google.android.gms:play-services-location:21.0.1")
-    implementation ("androidx.core:core-ktx:1.10.1")
+    implementation ("androidx.core:core-ktx:1.12.0")
     implementation (project(":basedomain"))
     implementation ("com.github.kouroshmsv.baseandroid:basedomain:${baseAndroid}")
     implementation ("com.github.kouroshmsv.baseandroid:accountmanager:${baseAndroid}")

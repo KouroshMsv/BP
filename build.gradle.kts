@@ -3,6 +3,10 @@
 buildscript {
     val kotlinVersion: String by project
     repositories {
+        maven {
+            url = uri("http://192.168.19.11:8081/repository/maven-group/")
+            isAllowInsecureProtocol = true
+        }
         google()
         mavenCentral()
         maven {
@@ -10,7 +14,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.4.2")
+        classpath("com.android.tools.build:gradle:8.1.4")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath("com.github.dcendents:android-maven-gradle-plugin:2.1")
     }
@@ -18,10 +22,13 @@ buildscript {
 
 allprojects {
     repositories {
+        maven {
+            url = uri("http://192.168.19.11:8081/repository/maven-group/")
+            isAllowInsecureProtocol = true
+        }
         google()
         mavenCentral()
         maven { url =uri("https://jitpack.io") }
-        jcenter()
     }
 }
 

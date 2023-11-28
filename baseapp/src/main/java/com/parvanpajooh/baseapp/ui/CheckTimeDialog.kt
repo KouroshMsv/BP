@@ -19,7 +19,7 @@ class CheckTimeDialog : BaseDialog(R.layout.dialog_check_time) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.FullScreenDialogStyle)
+        setStyle(STYLE_NORMAL, dev.kourosh.baseapp.R.style.FullScreenDialogStyle)
     }
 
     override fun initView(v: View) {

@@ -2,7 +2,7 @@ plugins {
     id("com.android.library")
     id("maven-publish")
     kotlin("android")
-    kotlin("plugin.serialization") version "1.8.22"
+    kotlin("plugin.serialization") version "1.9.21"
 }
 group = "com.github.KouroshMsv"
 afterEvaluate {
@@ -69,7 +69,7 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:$liveData")
     implementation ("androidx.lifecycle:lifecycle-livedata-core-ktx:$liveData")
     implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializer")
-    implementation ("com.github.samanzamani:PersianDate:1.6.1")
+    implementation ("com.github.samanzamani:PersianDate:1.7.1")
 
     implementation (project(":basedomain"))
 

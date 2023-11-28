@@ -2,7 +2,7 @@ plugins {
     id("com.android.library")
     id("maven-publish")
     kotlin("android")
-    kotlin("plugin.serialization") version "1.6.10"
+    kotlin("plugin.serialization") version "1.9.21"
 }
 group = "com.github.KouroshMsv"
 
@@ -70,7 +70,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:${appcompat}")
     implementation("org.greenrobot:eventbus:$eventbus")
     implementation("com.github.fede87:StatusBarAlert:2.0.0")
-    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("com.facebook.shimmer:shimmer:0.5.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializer")
 
@@ -85,7 +85,7 @@ dependencies {
 
     implementation("com.google.android.gms:play-services-location:21.0.1")
 
-    implementation("com.google.android.material:material:1.9.0")
+    implementation("com.google.android.material:material:1.10.0")
     implementation("io.github.inflationx:calligraphy3:3.1.1")
     implementation("io.github.inflationx:viewpump:2.0.3")
 
@@ -100,7 +100,7 @@ dependencies {
     implementation("com.github.kouroshmsv.baseandroid:accountmanager:${baseAndroid}")
     implementation("com.github.kouroshmsv.baseandroid:basedomain:${baseAndroid}")
     implementation("com.github.kouroshmsv:metamorphosis:1.1.0")
-    implementation("com.github.samanzamani:PersianDate:1.6.1")
+    implementation("com.github.samanzamani:PersianDate:1.7.1")
 
     implementation("androidx.biometric:biometric:1.1.0")
 

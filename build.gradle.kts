@@ -3,10 +3,6 @@
 buildscript {
     val kotlinVersion: String by project
     repositories {
-        maven {
-            url = uri("http://192.168.19.11:8081/repository/maven-group/")
-            isAllowInsecureProtocol = true
-        }
         google()
         mavenCentral()
         maven {
@@ -22,10 +18,6 @@ buildscript {
 
 allprojects {
     repositories {
-        maven {
-            url = uri("http://192.168.19.11:8081/repository/maven-group/")
-            isAllowInsecureProtocol = true
-        }
         google()
         mavenCentral()
         maven { url =uri("https://jitpack.io") }

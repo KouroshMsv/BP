@@ -36,6 +36,7 @@ afterEvaluate {
 android {
     compileSdk = compileSdkVer.toInt()
     buildToolsVersion = buildToolsVer
+
     defaultConfig {
         minSdk=minSdkVer.toInt()
         targetSdk=targetSdkVer.toInt()

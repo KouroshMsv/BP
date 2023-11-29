@@ -1,12 +1,10 @@
 package com.parvanpajooh.baseapp.ui.init
 
-import android.app.DownloadManager
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.widget.LinearLayout
-import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -23,17 +21,14 @@ import dev.kourosh.basedomain.logE
 import dev.kourosh.metamorphosis.Builder
 import dev.kourosh.metamorphosis.Metamorphosis
 import dev.kourosh.metamorphosis.OnCheckVersionListener
-import dev.kourosh.metamorphosis.OnDownloadListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
-import java.io.File
 
 
 abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
     updateUrl: String,
-    private val apkName: String,
     private val mainActivityClass: Class<MAIN>,
     private val loginActivityClass: Class<LOGIN>,
     requiredPermissions: List<PermissionRequest>,
@@ -57,39 +52,30 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
     private val json = Json
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        PrefHelper.put(BasePrefKey.VERSION_NAME.name, packageManager.getPackageInfo(applicationContext.packageName, 0).versionName)
+        PrefHelper.put(
+            BasePrefKey.VERSION_NAME.name,
+            packageManager.getPackageInfo(applicationContext.packageName, 0).versionName
+        )
         super.onCreate(savedInstanceState)
-        findViewById<AppCompatTextView>(R.id.initActivityTxtUpdating).setTextColor(ContextCompat.getColor(this, textColorId))
-        findViewById<AppCompatTextView>(R.id.initActivityTxtAppName).setTextColor(ContextCompat.getColor(this, textColorId))
-        findViewById<ConstraintLayout>(R.id.initActivityRoot).setBackgroundColor(ContextCompat.getColor(this, backgroundColorId))
+        findViewById<AppCompatTextView>(R.id.initActivityTxtUpdating).setTextColor(
+            ContextCompat.getColor(
+                this,
+                textColorId
+            )
+        )
+        findViewById<AppCompatTextView>(R.id.initActivityTxtAppName).setTextColor(
+            ContextCompat.getColor(
+                this,
+                textColorId
+            )
+        )
+        findViewById<ConstraintLayout>(R.id.initActivityRoot).setBackgroundColor(
+            ContextCompat.getColor(
+                this,
+                backgroundColorId
+            )
+        )
 
-
-        metamorphosis.downloadListener = object : OnDownloadListener {
-            override fun onFailed(message: String, code: Int?) {
-                changeProgressVisibility(false)
-                logD("message: $message ,code: $code")
-                nextActivity()
-            }
-
-            override fun onFinished(file: File) {
-                changeProgressVisibility(false)
-                metamorphosis.installAPK(file)
-            }
-        }
-        val progress = findViewById<ProgressBar>(R.id.progress)
-        metamorphosis.setOnDownloadingListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                progress.setProgress(it, true)
-            } else {
-                progress.progress = it
-            }
-        }
-    }
-
-    private fun changeProgressVisibility(visible: Boolean) {
-        GlobalScope.launch(Dispatchers.Main) {
-            findViewById<LinearLayout>(R.id.lyrProgress).visibility = if (visible) View.VISIBLE else View.GONE
-        }
     }
 
     private fun nextActivity() {
@@ -113,19 +99,10 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
         override fun onSucceed(data: String) {
             val updaterRes = parseJson(data)
             if (updaterRes != null) {
-                metamorphosis.builder.apkName = "${apkName}_${updaterRes.latestVersion}.apk"
-                metamorphosis.builder.notificationConfig.title =
-                    "${apkName}_${updaterRes.latestVersion}.apk"
-                metamorphosis.builder.notificationConfig.notificationVisibility =
-                    DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
-                val lastApk = File("${metamorphosis.builder.dir}/${metamorphosis.builder.apkName}")
-                if (lastApk.exists() && updaterRes.latestVersionCode > versionCode) {
-                    updateNewVersion(updaterRes, lastApk)
+                if (updaterRes.latestVersionCode > versionCode) {
+                    updateNewVersion(updaterRes)
                 } else {
-                    if (updaterRes.latestVersionCode > versionCode)
-                        updateNewVersion(updaterRes, lastApk)
-                    else
-                        nextActivity()
+                    nextActivity()
                 }
             } else {
                 nextActivity()
@@ -135,7 +112,7 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
 
     private fun parseJson(data: String): UpdateModel? {
         return try {
-            json.decodeFromString(UpdateModel.serializer(), data)
+            json.decodeFromString<UpdateModel>(data)
         } catch (e: Exception) {
             onParseJsonError(data, e)
             null
@@ -148,36 +125,37 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
     }
 
 
-    private fun updateNewVersion(updaterRes: UpdateModel, apk: File) {
+    private fun updateNewVersion(updaterRes: UpdateModel) {
         if (updaterRes.required) {
-            if (apk.exists()) {
-                metamorphosis.installAPK(apk)
-            } else {
-                startDownload(updaterRes.url)
-            }
+            startDownload(updaterRes.url)
         } else {
             val dialog = TwoStateMessageDialog.newInstance(
-                if (apk.exists()) "نسخه جدید اپلیکیشن دانلود شده است.\nبرای نصب نسخه جدید روی دکمه نصب کلیک کنید." else "نسخه جدید اپلیکیشن آماده دانلود است.\nبرای دریافت نسخه جدید روی دکمه دریافت کلیک کنید.",
-                if (apk.exists()) "نصب" else "دریافت", "فعلا نه", false
+                message = "نسخه جدید اپلیکیشن آماده دانلود است.\nبرای دریافت نسخه جدید روی دکمه دریافت کلیک کنید.",
+                positiveButtonText = "دریافت",
+                negativeButtonText = "فعلا نه",
+                cancellable = false
             )
             dialog.negativeButtonClickListener {
+                dialog.dismiss()
                 nextActivity()
             }
             dialog.positiveButtonClickListener {
                 dialog.dismiss()
-                if (apk.exists()) {
-                    metamorphosis.installAPK(apk)
-                } else {
-                    startDownload(updaterRes.url)
-                }
+                startDownload(updaterRes.url)
             }
             dialog.show(supportFragmentManager)
         }
     }
 
     private fun startDownload(url: String) {
-        changeProgressVisibility(true)
-        metamorphosis.startDownload(url)
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        try {
+            startActivity(browserIntent)
+        } catch (e: Exception) {
+            Toast.makeText(this, "No application can handle this request."
+                    + " Please install a webbrowser",  Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
     }
 
     override fun permissionChecked() {

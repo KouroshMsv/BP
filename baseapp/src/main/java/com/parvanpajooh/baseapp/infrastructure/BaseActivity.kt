@@ -37,7 +37,7 @@ abstract class BaseActivity(
 
     private lateinit var statusBarAlertView: StatusBarAlert.Builder
     private lateinit var notworkStatusIntent: Intent
-    var statusBarAlert: StatusBarAlert?=null
+    var statusBarAlert: StatusBarAlert? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,11 +93,11 @@ abstract class BaseActivity(
     }
 
     private fun showConnected() {
-        statusBarAlert?.hide {  }
+        statusBarAlert?.hide { }
     }
 
     private fun statusIsHidden(): Boolean {
-        return !(statusBarAlert?.isShown?:false)
+        return !(statusBarAlert?.isShown ?: false)
     }
 
 
@@ -131,9 +131,7 @@ abstract class BaseActivity(
             if (checkPermission(requiredPermissions, true)) {
                 permissionChecked()
             }
-        } else if (requiredPermissions.isNotEmpty() && requestCode in PermissionRequest.values()
-                .map { it.requestCode }
-        ) {
+        } else if (requiredPermissions.isNotEmpty()) {
             if (checkPermission(requiredPermissions, false)) {
                 permissionChecked()
             }

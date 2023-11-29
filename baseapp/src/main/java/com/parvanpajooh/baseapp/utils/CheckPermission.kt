@@ -44,33 +44,30 @@ fun Activity.requestPermission(request: List<PermissionRequest>, requestCode: In
         requestCode
     )
 }
+data class PermissionRequest(val permission: String, val requestCode: Int, val message: String){
+    companion object{
 
-enum class PermissionRequest(val permission: String, val requestCode: Int, val message: String) {
-    ACCESS_FINE_LOCATION(
-        Manifest.permission.ACCESS_FINE_LOCATION,
-        101,
-        "برای ثبت منطقه، برنامه نیاز به دسترسی به لوکیشن دارد."
-    ),
-    CAMERA(
-        Manifest.permission.CAMERA,
-        102,
-        "برای اسکن بارکد، برنامه نیاز به دسترسی به دوربین دارد."
-    ),
-    CALL_PHONE(
-        Manifest.permission.CALL_PHONE,
-        103,
-        "برای تماس مستقیم با مشتریان، برنامه نیاز به دسترسی به تماس ها دارد."
-    ),
-    WRITE_EXTERNAL_STORAGE(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        104,
-        "برای ذخیره فایل ها، برنامه نیاز به دسترسی به فایل ها دارد."
-    ),
-    MANAGE_EXTERNAL_STORAGE(
-        Manifest.permission.MANAGE_EXTERNAL_STORAGE,
-        105,
-        "برای ذخیره فایل ها، برنامه نیاز به دسترسی به فایل ها دارد."
-    ),
+        val location= PermissionRequest(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            101,
+            "برای ثبت منطقه، برنامه نیاز به دسترسی به لوکیشن دارد."
+        )
+        val camera= PermissionRequest(
+            Manifest.permission.CAMERA,
+            102,
+            "برای اسکن بارکد، برنامه نیاز به دسترسی به دوربین دارد."
+        )
+        val callPhone= PermissionRequest(
+            Manifest.permission.CALL_PHONE,
+            103,
+            "برای تماس مستقیم با مشتریان، برنامه نیاز به دسترسی به تماس ها دارد."
+        )
+        val writeExternalStorage= PermissionRequest(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            104,
+            "برای ذخیره فایل ها، برنامه نیاز به دسترسی به فایل ها دارد."
+        )
+    }
 }
 
 enum class PermissionResponse {

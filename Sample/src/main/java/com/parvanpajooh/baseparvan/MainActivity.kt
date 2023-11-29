@@ -9,9 +9,9 @@ import org.greenrobot.eventbus.EventBus
 
 class MainActivity : BaseActivity(
     R.layout.activity_main, listOf(
-        PermissionRequest.ACCESS_FINE_LOCATION,
-        PermissionRequest.CALL_PHONE,
-        PermissionRequest.CAMERA
+        PermissionRequest.location,
+        PermissionRequest.callPhone,
+        PermissionRequest.camera
     )
 ) {
     override fun permissionChecked() {

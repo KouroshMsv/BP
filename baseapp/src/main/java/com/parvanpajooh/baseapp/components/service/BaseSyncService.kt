@@ -4,21 +4,25 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.parvanpajooh.basedata.sync.BaseSyncAdapter
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 abstract class BaseSyncService : Service() {
 
-    private val sSyncAdapterLock = Any()
     private var syncAdapter: BaseSyncAdapter? = null
-
+    private val mutex = Mutex()
     override fun onCreate() {
-        synchronized(sSyncAdapterLock) {
-            if (syncAdapter == null) {
-                syncAdapter = syncAdapterInstance
+        runBlocking {
+            mutex.withLock {
+                if (syncAdapter == null) {
+                    syncAdapter = getSyncAdapterInstance()
+                }
             }
         }
     }
 
-    abstract val syncAdapterInstance: BaseSyncAdapter
+    abstract fun getSyncAdapterInstance(): BaseSyncAdapter
 
 
     override fun onBind(intent: Intent): IBinder? {

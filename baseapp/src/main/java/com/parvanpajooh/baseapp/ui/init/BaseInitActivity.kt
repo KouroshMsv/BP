@@ -16,6 +16,8 @@ import com.parvanpajooh.baseapp.ui.TwoStateMessageDialog
 import com.parvanpajooh.baseapp.utils.PermissionRequest
 import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
+import dev.kourosh.baseapp.launchMain
+import dev.kourosh.basedomain.globalScope
 import dev.kourosh.basedomain.logD
 import dev.kourosh.basedomain.logE
 import dev.kourosh.metamorphosis.Builder
@@ -79,15 +81,13 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
     }
 
     private fun nextActivity() {
-        runBlocking {
-            withContext(Dispatchers.Main) {
-                if (loggedIn) {
-                    startActivity(Intent(this@BaseInitActivity, mainActivityClass))
-                } else {
-                    startActivity(Intent(this@BaseInitActivity, loginActivityClass))
-                }
-                finish()
+        globalScope.launchMain {
+            if (loggedIn) {
+                startActivity(Intent(this@BaseInitActivity, mainActivityClass))
+            } else {
+                startActivity(Intent(this@BaseInitActivity, loginActivityClass))
             }
+            finish()
         }
     }
 

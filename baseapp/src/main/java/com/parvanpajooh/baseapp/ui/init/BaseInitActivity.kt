@@ -22,8 +22,8 @@ import dev.kourosh.metamorphosis.Builder
 import dev.kourosh.metamorphosis.Metamorphosis
 import dev.kourosh.metamorphosis.OnCheckVersionListener
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
 
@@ -79,14 +79,15 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
     }
 
     private fun nextActivity() {
-        GlobalScope.launch(Dispatchers.Main) {
-
-            if (loggedIn) {
-                startActivity(Intent(this@BaseInitActivity, mainActivityClass))
-            } else {
-                startActivity(Intent(this@BaseInitActivity, loginActivityClass))
+        runBlocking {
+            withContext(Dispatchers.Main) {
+                if (loggedIn) {
+                    startActivity(Intent(this@BaseInitActivity, mainActivityClass))
+                } else {
+                    startActivity(Intent(this@BaseInitActivity, loginActivityClass))
+                }
+                finish()
             }
-            finish()
         }
     }
 
@@ -152,8 +153,10 @@ abstract class BaseInitActivity<MAIN : Any, LOGIN : Any>(
         try {
             startActivity(browserIntent)
         } catch (e: Exception) {
-            Toast.makeText(this, "No application can handle this request."
-                    + " Please install a webbrowser",  Toast.LENGTH_LONG).show();
+            Toast.makeText(
+                this, "No application can handle this request."
+                        + " Please install a webbrowser", Toast.LENGTH_LONG
+            ).show();
             e.printStackTrace();
         }
     }

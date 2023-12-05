@@ -10,12 +10,14 @@ import com.parvanpajooh.baseapp.ui.TwoStateMessageDialog
 import com.parvanpajooh.basedomain.utils.sharedpreferences.BasePrefKey
 import com.parvanpajooh.basedomain.utils.sharedpreferences.PrefHelper
 import dev.kourosh.accountmanager.accountmanager.AuthenticationCRUD
-import dev.kourosh.basedomain.globalScope
 import dev.kourosh.basedomain.launchIO
 import dev.kourosh.basedomain.logE
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.asCoroutineDispatcher
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.concurrent.Executors
 
 private var connection: HttpURLConnection? = null
 
@@ -43,10 +45,11 @@ suspend fun isOnline(parvanUrl: URL = serverUrl): NetworkStatus {
     )
     return response.await()
 }
+private val checkNetworkCoroutineScope= CoroutineScope(Executors.newFixedThreadPool(1).asCoroutineDispatcher())
 
 suspend fun checkGoogleServer(googleUrl: URL = internetUrl): NetworkStatus {
     val response = CompletableDeferred<NetworkStatus>()
-    globalScope.launchIO {
+    checkNetworkCoroutineScope.launchIO {
         response.complete(
             try {
                 googleUrl.readText()
